@@ -9,7 +9,7 @@ The following definition is from Wikipedia.
 
 A simple TRIE structure is shown below:
 
-<div align=center><img src="https://github.com/sbchengyiwei/sbchengyiwei.github.io/blob/main/images/1621092353806.png" width="350" height="200" /></div>
+<div align=center><img src="https://github.com/sbchengyiwei/sbchengyiwei.github.io/blob/main/images/1621092353806.png" width="350" height="300" /></div>
 
 
 ### 1.2 Advantage
@@ -228,7 +228,7 @@ class Solution {
 ### 3.2 LeetCode 692 Top K Frequent Words (MIDDLE)
 
 Solution1 : HashMap + PriorityQueue
-注意` compareTo` 和`- `相比是`一样`的顺序！！！
+Notice ： ` compareTo` has the same order with `- `！！！
 
 ```java
 class Solution {
@@ -374,7 +374,8 @@ class Solution {
 
 This picture will better describe this process:
 
-![](https://sbchengyiwei.github.io//post-images/1621131472057.jpg)
+<div align=center><img src="https://github.com/sbchengyiwei/sbchengyiwei.github.io/blob/main/images/1621131472057.jpg" width="100" height="300" /></div>
+
 
 Solution2: Trie + Greedy Algorithm (from the highest bit)
 Search the best xor for each num
