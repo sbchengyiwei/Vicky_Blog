@@ -9,7 +9,7 @@ The following definition is from Wikipedia.
 
 A simple TRIE structure is shown below:
 
-<div align=center><img src="https://github.com/sbchengyiwei/sbchengyiwei.github.io/blob/main/images/1621092353806.png" width="350" height="300" /></div>
+<div align=center><img src="https://github.com/sbchengyiwei/Vicky_Blog/blob/main/images/1621092353806.png" width="350" height="300" /></div>
 
 
 ### 1.2 Advantage
@@ -374,7 +374,7 @@ class Solution {
 
 This picture will better describe this process:
 
-<div align=center><img src="https://github.com/sbchengyiwei/sbchengyiwei.github.io/blob/main/images/1621131472057.jpg" width="300" height="360" /></div>
+<div align=center><img src="https://github.com/sbchengyiwei/Vicky_Blog/blob/main/images/1621131472057.jpg" width="300" height="360" /></div>
 
 
 Solution2: Trie + Greedy Algorithm (from the highest bit)
