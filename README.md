@@ -18,6 +18,6 @@ Hi, My name is Yiwei Cheng, you can call me Vicky. I am a 21Fall student to NEU 
 
 [Select Question](https://osjobs.net/topk/%E8%85%BE%E8%AE%AF/)
 
-### 2.1 TCP/IP
+### 2.1 Java
 ### 2.2 DataBase
-### 2.3 Java basics
+### 2.3 TCP/IP
