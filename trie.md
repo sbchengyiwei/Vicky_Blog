@@ -1,12 +1,5 @@
----
-title: 'LeetCode -- Trie'
-date: 2021-05-15 23:43:16
-tags: [LeetCode]
-published: true
-hideInList: false
-feature: /post-images/trie.png
-isTop: false
----
+# LeetCode -- Trie
+
 ## 1 Principle
 
 ### 1.1 What is a trie tree
