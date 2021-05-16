@@ -9,7 +9,7 @@ The following definition is from Wikipedia.
 
 A simple TRIE structure is shown below:
 
-<div align=center><img src="https://github.com/sbchengyiwei/sbchengyiwei.github.io/blob/main/images/1621092353806.png" width="300" height="450" /></div>
+<div align=center><img src="https://github.com/sbchengyiwei/sbchengyiwei.github.io/blob/main/images/1621092353806.png" width="350" height="200" /></div>
 
 
 ### 1.2 Advantage
