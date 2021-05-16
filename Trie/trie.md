@@ -374,7 +374,7 @@ class Solution {
 
 This picture will better describe this process:
 
-<div align=center><img src="https://github.com/sbchengyiwei/sbchengyiwei.github.io/blob/main/images/1621131472057.jpg" width="200" height="250" /></div>
+<div align=center><img src="https://github.com/sbchengyiwei/sbchengyiwei.github.io/blob/main/images/1621131472057.jpg" width="300" height="360" /></div>
 
 
 Solution2: Trie + Greedy Algorithm (from the highest bit)
@@ -494,4 +494,5 @@ class Solution {
 ```
 
 This process is like this :
-<div align=center><img src="https://trello-attachments.s3.amazonaws.com/6072d0d2385f2e81619166e2/609f7fbc3bc1aa3466a68704/a4e60417069785c03a7b80d08691b7a7/Screen_Shot_2021-05-15_at_3.13.15_PM.png" width="300" height="230" /></div>
+
+<div align=center><img src="https://trello-attachments.s3.amazonaws.com/6072d0d2385f2e81619166e2/609f7fbc3bc1aa3466a68704/a4e60417069785c03a7b80d08691b7a7/Screen_Shot_2021-05-15_at_3.13.15_PM.png" width="500" height="360" /></div>
