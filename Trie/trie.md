@@ -9,7 +9,7 @@ The following definition is from Wikipedia.
 
 A simple TRIE structure is shown below:
 
-![image](https://github.com/sbchengyiwei/sbchengyiwei.github.io/blob/main/images/1621092353806.png)
+![image](https://github.com/sbchengyiwei/sbchengyiwei.github.io/blob/main/images/1621092353806.png =100x100)
 
 ### 1.2 Advantage
 1. The efficiency of insertion and query is very high, both are O(m), where m is the length of the string to be inserted/queried.
