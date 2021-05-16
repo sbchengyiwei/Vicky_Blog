@@ -6,7 +6,7 @@ Hi, My name is Yiwei Cheng, you can call me Vicky. I am a 21Fall student to NEU 
 
 ### 1.1 Data Structure
 
-[1. Trie](https://github.com/sbchengyiwei/sbchengyiwei.github.io/blob/main/Trie/trie.md)
+[1. Trie](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Trie/trie.md)
 
 
 
