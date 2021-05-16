@@ -10,8 +10,12 @@
 
 ### 1.2 Algorithm
 
-## 2 Note [Select Question](https://osjobs.net/topk/%E8%85%BE%E8%AE%AF/)
+---
 
-### TCP/IP
-### DataBase
-### Java basics
+## 2 Note 
+
+[Select Question](https://osjobs.net/topk/%E8%85%BE%E8%AE%AF/)
+
+### 2.1 TCP/IP
+### 2.2 DataBase
+### 2.3 Java basics
