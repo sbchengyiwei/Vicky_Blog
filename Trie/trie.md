@@ -11,8 +11,14 @@ A simple TRIE structure is shown below:
 
 <div align=center><img src="https://github.com/sbchengyiwei/Vicky_Blog/blob/main/images/1621092353806.png" width="350" height="300" /></div>
 
+### 1.2 When can we use it
 
-### 1.2 Advantage
+1. If we have a dictionary, and our massion is to find the word in other struture or we just need to find the longest word, it's a good try to store the words in dictionary to a trie.
+2. If the data we are given has many overlapping part (like same word or binary numbers), we can also store them to trie.
+
+
+
+### 1.3 Advantage
 1. The efficiency of insertion and query is very high, both are O(m), where m is the length of the string to be inserted/queried.
 
 2. Different keywords in the Trie tree will not conflict.
