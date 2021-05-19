@@ -436,6 +436,11 @@ class Solution {
 }
 ```
 
+This process is like this :
+
+<div align=center><img src="https://trello-attachments.s3.amazonaws.com/6072d0d2385f2e81619166e2/609f7fbc3bc1aa3466a68704/a4e60417069785c03a7b80d08691b7a7/Screen_Shot_2021-05-15_at_3.13.15_PM.png" width="500" height="360" /></div>
+
+
 ### 3.4 LeetCode 212 Word Search II (HARD)
 
 Trie + DFS
@@ -498,7 +503,3 @@ class Solution {
     }
 }
 ```
-
-This process is like this :
-
-<div align=center><img src="https://trello-attachments.s3.amazonaws.com/6072d0d2385f2e81619166e2/609f7fbc3bc1aa3466a68704/a4e60417069785c03a7b80d08691b7a7/Screen_Shot_2021-05-15_at_3.13.15_PM.png" width="500" height="360" /></div>
