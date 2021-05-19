@@ -1,22 +1,22 @@
 ## Content
 - [1 Principle](#1-principle)
   * [1.1 What is a simply linked list](#11-what-is-a-simply-linked-list)
-  * [1.2 Why Linked List?](#12-why-linked-list-)
-  * [1.3 Representation:](#13-representation-)
+  * [1.2 Why Linked List](#12-why-linked-list-)
+  * [1.3 Representation](#13-representation-)
 - [2 Build and Basic Operation](#2-build-and-basic-operation)
   * [2.1 design/ get / add / delete](#21-design--get---add---delete)
   * [2.2 reverse](#22-reverse)
   * [2.3 findMiddle](#23-findmiddle)
   * [2.4 isCycle](#24-iscycle)
   * [2.5 merge](#25-merge)
-  * [2.6 isPalindrome : reverse  +  findMiddle](#26-ispalindrome---reverse-----findmiddle)
+  * [2.6 isPalindrome](#26-ispalindrome---reverse-----findmiddle)
   * [2.7 sort](#27-sort)
     + [2.7.1 Merge Sort : findMiddle + merge](#271-merge-sort---findmiddle---merge)
     + [2.7.2 Insertion Sort](#272-insertion-sort)
   * [2.8 rotate](#28-rotate)
 - [3 Advance Operation](#3-advance-operation)
-        * [Middle](#middle)
-        * [Hard](#hard)
+  * [Middle](#middle)
+  * [Hard](#hard)
 
 ## 1 Principle
 
