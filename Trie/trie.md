@@ -9,10 +9,16 @@ The following definition is from Wikipedia.
 
 A simple TRIE structure is shown below:
 
-<div align=center><img src="https://github.com/sbchengyiwei/sbchengyiwei.github.io/blob/main/images/1621092353806.png" width="350" height="300" /></div>
+<div align=center><img src="https://github.com/sbchengyiwei/Vicky_Blog/blob/main/images/1621092353806.png" width="350" height="300" /></div>
+
+### 1.2 When can we use it
+
+1. If we have a dictionary, and our massion is to find the word in other struture or we just need to find the longest word, it's a good try to store the words in dictionary to a trie.
+2. If the data we are given has many overlapping part (like same word or binary numbers), we can also store them to trie.
 
 
-### 1.2 Advantage
+
+### 1.3 Advantage
 1. The efficiency of insertion and query is very high, both are O(m), where m is the length of the string to be inserted/queried.
 
 2. Different keywords in the Trie tree will not conflict.
@@ -374,7 +380,7 @@ class Solution {
 
 This picture will better describe this process:
 
-<div align=center><img src="https://github.com/sbchengyiwei/sbchengyiwei.github.io/blob/main/images/1621131472057.jpg" width="300" height="360" /></div>
+<div align=center><img src="https://github.com/sbchengyiwei/Vicky_Blog/blob/main/images/1621131472057.jpg" width="300" height="360" /></div>
 
 
 Solution2: Trie + Greedy Algorithm (from the highest bit)
@@ -429,6 +435,11 @@ class Solution {
     }
 }
 ```
+
+This process is like this :
+
+<div align=center><img src="https://trello-attachments.s3.amazonaws.com/6072d0d2385f2e81619166e2/609f7fbc3bc1aa3466a68704/a4e60417069785c03a7b80d08691b7a7/Screen_Shot_2021-05-15_at_3.13.15_PM.png" width="500" height="360" /></div>
+
 
 ### 3.4 LeetCode 212 Word Search II (HARD)
 
@@ -492,7 +503,3 @@ class Solution {
     }
 }
 ```
-
-This process is like this :
-
-<div align=center><img src="https://trello-attachments.s3.amazonaws.com/6072d0d2385f2e81619166e2/609f7fbc3bc1aa3466a68704/a4e60417069785c03a7b80d08691b7a7/Screen_Shot_2021-05-15_at_3.13.15_PM.png" width="500" height="360" /></div>
