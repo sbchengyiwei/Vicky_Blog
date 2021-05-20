@@ -19,8 +19,9 @@
     + [2.7.2 Insertion Sort](#272-insertion-sort)
   * [2.8 rotate](#28-rotate)
 - [3 Advance Operation](#3-advance-operation)
-  * [Middle](#middle)
-  * [Hard](#hard)
+  - [Easy](#easy)
+  - [Middle](#middle)
+  - [Hard](#hard)
 
 ## 1 Principle
 
