@@ -176,7 +176,7 @@ There are 3 situations：
 ```
 
 ​	**3)** ***Node to be deleted has two children:*** Find inorder successor of the node. Copy contents of the inorder successor to the node and delete the inorder successor. Note that inorder predecessor can also be used. 
- 
+
 
 ```
               50                            60
@@ -296,7 +296,7 @@ There are 3 situations：
 
 ###### Middle
 
-- [98. Validate Binary Search Tree](https://leetcode-cn.com/problems/validate-binary-search-tree/) (doubly preoder)
+- [98. Validate Binary Search Tree](https://leetcode-cn.com/problems/validate-binary-search-tree/) (double preoder)
 
   > Tips: We use `root.val` to update the values of `min` and `max` from top to bottom,  then we can just determine whether it is valid (go left to update min, go right to update max).
 
@@ -322,7 +322,7 @@ There are 3 situations：
 
   
 
-- [96. Unique Binary Search Trees](https://leetcode-cn.com/problems/unique-binary-search-trees/) ()
+- [96. Unique Binary Search Trees](https://leetcode-cn.com/problems/unique-binary-search-trees/) (dp)
 
   ```java
   //dp
@@ -348,7 +348,7 @@ There are 3 situations：
 
   
 
-- [95. Unique Binary Search Trees II](https://leetcode-cn.com/problems/unique-binary-search-trees-ii/)
+- [95. Unique Binary Search Trees II](https://leetcode-cn.com/problems/unique-binary-search-trees-ii/) (backtracking)
 
   > [Backtracking]() : talking in other chapter
 
@@ -388,7 +388,7 @@ There are 3 situations：
 
   
 
-- [173. Binary Search Tree Iterator](https://leetcode-cn.com/problems/binary-search-tree-iterator/)
+- [173. Binary Search Tree Iterator](https://leetcode-cn.com/problems/binary-search-tree-iterator/) (inorder)
 
   ```java
   // Use queue instead of res list. (List can also be used with index.)
@@ -418,7 +418,7 @@ There are 3 situations：
 
   
 
-- [230. Kth Smallest Element in a BST](https://leetcode-cn.com/problems/kth-smallest-element-in-a-bst/)
+- [230. Kth Smallest Element in a BST](https://leetcode-cn.com/problems/kth-smallest-element-in-a-bst/) (inorder)
 
   > Tips : Global variable 
   >
@@ -450,7 +450,7 @@ There are 3 situations：
 
 ###### Hard
 
-- [99. Recover Binary Search Tree](https://leetcode-cn.com/problems/recover-binary-search-tree/)
+- [99. Recover Binary Search Tree](https://leetcode-cn.com/problems/recover-binary-search-tree/) (inorder)
 
   > Tips: Regard the traversal of tree as a traversal of an appointed order array, then use two pointers to compare each value.
   >
