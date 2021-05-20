@@ -4,6 +4,17 @@
 
 
 
+  * [1 Principle](#1-principle)
+    + [1.1 What is a singly linked list](#11-what-is-a-singly-linked-list)
+    + [1.2 Pros and Use cases:](#12-pros-and-use-cases-)
+  * [2 Build and Basic Operation](#2-build-and-basic-operation)
+    + [2.1 Build](#21-build)
+    + [2.2 Search / Insert / Delete](#22-search---insert---delete)
+  * [3 Other Operations](#3-other-operations)
+	  + [Easy](#easy)
+	  + [Middle](#middle)
+	  + [Hard](#hard)
+
 ## 1 Principle
 
 ### 1.1 What is a singly linked list
