@@ -593,9 +593,87 @@ class Solution {
   }
   ```
 
-  
+
+
 
 ## 3 Advance Operation
+
+###### Easy
+
+- [19. Remove Nth Node From End of List](https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/) : delete + two pointers (fast and slow)
+
+  ```java
+  // one pass solution : two pointers
+  class Solution {
+      public ListNode removeNthFromEnd(ListNode head, int n) {
+          ListNode dummy = new ListNode(0);
+          dummy.next = head;
+          ListNode fast = dummy;
+          ListNode slow = dummy;
+          for (int i = 0; i <= n; i++) {
+              fast = fast.next;
+          }
+          while (fast != null) {
+              fast = fast.next;
+              slow = slow.next;
+          }
+          slow.next = slow.next.next;
+          return dummy.next;
+      }
+  }
+  ```
+
+- [160. Intersection of Two Linked Lists](https://leetcode.com/problems/intersection-of-two-linked-lists/)
+
+  ```java
+   /*
+   41845n561845
+   561845n41845
+   */
+  public class Solution {
+      public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+          if (headA == null || headB == null) return null;
+          ListNode cur1 = headA;
+          ListNode cur2 = headB;
+          while (cur1 != cur2 ) { //Here cur != cur2 means not pointing to the same node instead of comparing value!!!
+              if(cur1 == null) cur1=headB;
+              else cur1=cur1.next;
+              if(cur2==null) cur2=headA;
+              else cur2=cur2.next;
+          }
+          return cur1;  
+      }
+  }
+  ```
+
+  ![i](https://assets.leetcode.com/uploads/2021/03/05/160_statement.png)
+
+- [138. Copy List with Random Pointer](https://leetcode-cn.com/problems/copy-list-with-random-pointer/)
+
+  >  Deep copy
+
+  ```java
+  class Solution {
+      public Node copyRandomList(Node head) {
+          Node cur = head;
+          HashMap<Node, Node> map = new HashMap<>();
+          while (cur != null) {
+              map.put(cur, new Node(cur.val));
+              cur = cur.next;
+          }
+          cur = head;
+          while (cur != null) {
+              map.get(cur).next = map.get(cur.next);
+              map.get(cur).random = map.get(cur.random);
+              cur = cur.next;
+          }
+          return map.get(head);
+      }
+  }
+  ```
+
+  
+
 
 ###### Middle
 
@@ -646,29 +724,6 @@ class Solution {
   ​									![reorder](https://assets.leetcode.com/uploads/2021/03/04/reorder1linked-list.jpg)
 
   
-
-- [19. Remove Nth Node From End of List](https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/) : delete + two pointers (fast and slow)
-
-  ```java
-  // one pass solution : two pointers
-  class Solution {
-      public ListNode removeNthFromEnd(ListNode head, int n) {
-          ListNode dummy = new ListNode(0);
-          dummy.next = head;
-          ListNode fast = dummy;
-          ListNode slow = dummy;
-          for (int i = 0; i <= n; i++) {
-              fast = fast.next;
-          }
-          while (fast != null) {
-              fast = fast.next;
-              slow = slow.next;
-          }
-          slow.next = slow.next.next;
-          return dummy.next;
-      }
-  }
-  ```
 
 - [86. Partition List](https://leetcode-cn.com/problems/partition-list/)
 
@@ -742,30 +797,6 @@ class Solution {
   ```
 
   Another solution is like insertion sort list, get the smaller node and put it in front of dummy then reverse the former part~ 
-
-- [138. Copy List with Random Pointer](https://leetcode-cn.com/problems/copy-list-with-random-pointer/)
-
-- > Deep copy
-
-  ```java
-  class Solution {
-      public Node copyRandomList(Node head) {
-          Node cur = head;
-          HashMap<Node, Node> map = new HashMap<>();
-          while (cur != null) {
-              map.put(cur, new Node(cur.val));
-              cur = cur.next;
-          }
-          cur = head;
-          while (cur != null) {
-              map.get(cur).next = map.get(cur.next);
-              map.get(cur).random = map.get(cur.random);
-              cur = cur.next;
-          }
-          return map.get(head);
-      }
-  }
-  ```
 
   
 
