@@ -20,7 +20,7 @@ Hi, My name is Yiwei Cheng, you can call me Vicky. I am a 21Fall student to NEU 
 ### 1.1 Data Structure
 
 - [1. Trie](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Trie/trie.md)
-- [2. Simply Linked List](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/simply%20linked%20list/simply%20linked%20list.md)
+- [2. Singly Linked List](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/singly%20linked%20list/singly%20linked%20list.md)
 
 
 ### 1.2 Algorithm
