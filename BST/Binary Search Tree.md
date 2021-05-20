@@ -254,11 +254,11 @@ There are 3 situations：
 
 
 
-## 3 Other Operations
+## 3 Other Operations (Traversal Way)
 
 ###### Easy
 
-- [235. Lowest Common Ancestor of a Binary Search Tree](https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/)
+- [235. Lowest Common Ancestor of a Binary Search Tree](https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/) (preoder)
 
   > The [definition of LCA on Wikipedia](https://en.wikipedia.org/wiki/Lowest_common_ancestor): “The lowest common ancestor is defined between two nodes `p` and `q` as the lowest node in `T` that has both `p` and `q` as descendants (where we allow **a node to be a descendant of itself**).”
 
@@ -296,7 +296,7 @@ There are 3 situations：
 
 ###### Middle
 
-- [98. Validate Binary Search Tree](https://leetcode-cn.com/problems/validate-binary-search-tree/)
+- [98. Validate Binary Search Tree](https://leetcode-cn.com/problems/validate-binary-search-tree/) (doubly preoder)
 
   > Tips: We use `root.val` to update the values of `min` and `max` from top to bottom,  then we can just determine whether it is valid (go left to update min, go right to update max).
 
@@ -322,7 +322,7 @@ There are 3 situations：
 
   
 
-- [96. Unique Binary Search Trees](https://leetcode-cn.com/problems/unique-binary-search-trees/)
+- [96. Unique Binary Search Trees](https://leetcode-cn.com/problems/unique-binary-search-trees/) ()
 
   ```java
   //dp
