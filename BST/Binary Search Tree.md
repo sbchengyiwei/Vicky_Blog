@@ -18,7 +18,7 @@
 
 ## 1 Principle
 
-### 1.1 What is a singly linked list
+### 1.1 What is a Binary Search Tree
 
 The following definition is from Wikipedia:
 
