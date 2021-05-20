@@ -745,6 +745,8 @@ class Solution {
 
 - [138. Copy List with Random Pointer](https://leetcode-cn.com/problems/copy-list-with-random-pointer/)
 
+- > Deep copy
+
   ```java
   class Solution {
       public Node copyRandomList(Node head) {
@@ -769,6 +771,8 @@ class Solution {
 
 - [24. Swap Nodes in Pairs](https://leetcode-cn.com/problems/swap-nodes-in-pairs/)
 
+- > Classic reverse question --- use recursion
+
   ```java
   class Solution {
       public ListNode swapPairs(ListNode head) {
@@ -786,6 +790,8 @@ class Solution {
   
 
 - [328. Odd Even Linked List](https://leetcode-cn.com/problems/odd-even-linked-list/)
+
+  > Classic question
 
   ```java
   public class Solution {
@@ -808,28 +814,31 @@ class Solution {
 
 - [109. Convert Sorted List to Binary Search Tree](https://leetcode-cn.com/problems/convert-sorted-list-to-binary-search-tree/)
 
+- > Same as 108. Convert Sorted Array to Binary Search Tree
+
   ```java
   class Solution {
       public TreeNode sortedListToBST(ListNode head) {
-          if(head == null) return null;
-          if(head.next == null) return new TreeNode(head.val);
-          
+          if (head == null) return null;
+          return helper(head, null);
+      }
+      private TreeNode helper(ListNode head, ListNode tail) {
+          if (head == tail) return null;
+          ListNode slow = getMiddle(head, tail);
+          TreeNode node = new TreeNode(slow.val);
+          node.left = helper(head, slow);
+          node.right = helper(slow.next, tail);
+          return node;
+      }
+      private ListNode getMiddle(ListNode head, ListNode tail) {
           ListNode fast = head;
           ListNode slow = head;
-          ListNode prev = slow;
-          while(fast != null && fast.next != null){
-              prev = slow;
-              slow = slow.next;
+          while (fast.next != tail && fast.next.next != tail ) {
               fast = fast.next.next;
+              slow = slow.next;
           }
-          
-          prev.next = null;
-          TreeNode root = new TreeNode(slow.val);
-          root.left = sortedListToBST(head);
-          root.right = sortedListToBST(slow.next);
-          
-          return root;
-      }
+          return slow;
+      }  
   }
   ```
 
@@ -837,41 +846,39 @@ class Solution {
 
 - [430. Flatten a Multilevel Doubly Linked List](https://leetcode-cn.com/problems/flatten-a-multilevel-doubly-linked-list/)
 
+  > Realization problem 
+
   ```java
+  /*
+  // Definition for a Node.
+  class Node {
+      public int val;
+      public Node prev;
+      public Node next;
+      public Node child;
+  };
+  */
   class Solution {
       public Node flatten(Node head) {
-          if(head == null) return head;
-          if(head.child != null) {
-  		  // flattening child node
-              Node newList = flatten(head.child);
-              head.child = null;
-  			// copying head.next
-              Node headNext = head.next;
-  			//linking head and flatten child
-              head.next = newList;
-              newList.prev = head;
-  			// traversing flatten child for last node
-              while(newList.next != null) {
-                  newList = newList.next; 
+          Node node = head;
+          while (node != null) {
+              if (node.child != null) {
+                  Node right = node.next;// save right to a node
+                  // call recursively for flatten child
+                  node.next = flatten(node.child);
+                  node.next.prev = node;  
+                	node.child = null;  // remember to set node.child = null
+                  while (node.next != null) {
+                      node = node.next;  // go to the last node of the left part
+                  }
+                  if (right != null) {  // then connect left part with right part
+                      node.next = right;
+                      right.prev = node;
+                  }
               }
-              if(headNext == null) return head;
-  			// linking flatten child last node and headNext
-              newList.next = headNext;
-              headNext.prev = newList;
-  			// flattening headNext
-              headNext.next = flatten(headNext.next);
-              if(headNext.next != null) {
-                  headNext.next.prev= headNext;
-              }
-  			// returing head;
-              return head;
-          } else {
-              head.next = flatten(head.next);
-              if(head.next != null) {
-                  head.next.prev= head;
-              }
-              return head;
+              node = node.next;
           }
+          return head;
       }
   }
   /*
@@ -883,18 +890,6 @@ class Solution {
                     11--12--NULL
   
   Output ->   1 -> 2 -> 3 -> 7 -> 8 -> 11 -> 12 -> 9 -> 10 -> 4 -> 5 -> 6
-  
-  Algo :
-  step 1 : check head.child != null
-     - step 1.1 : call recursively for flatten child
-     - step 1.2 : copy head.next in headNext
-     - step 1.3 : link head and flatten child
-     - step 1.4 : set head.child = null
-     - step 1.5 : flatten headNext
-     - step 1.6: link flatten child last node and flatten headNext;
-     - step 1.7 return head;
-  step 2: check if head.child == null
-     - step 2.1 : flatten head.next;
      */
   ```
 
@@ -902,35 +897,61 @@ class Solution {
 
 - [725. Split Linked List in Parts](https://leetcode-cn.com/problems/split-linked-list-in-parts/)
 
+  > Realization problem 
+
   ```java
   class Solution {
       public ListNode[] splitListToParts(ListNode root, int k) {
-          ListNode cur = root;
-          int N = 0;
-          while (cur != null) {
-              cur = cur.next;
-              N++;
+          ListNode[] res = new ListNode[k];
+          if (root == null || k == 0) {
+              return res;
           }
-  
-          int width = N / k, rem = N % k;
-  
-          ListNode[] ans = new ListNode[k];
-          cur = root;
-          for (int i = 0; i < k; ++i) {
-              ListNode head = cur;
-              for (int j = 0; j < width + (i < rem ? 1 : 0) - 1; ++j) {
-                  if (cur != null) cur = cur.next;
+          
+          int length = getLength(root);
+          int part = length / k;
+          int remainder = length % k;
+          
+          int[] nums = new int[k];
+          for (int i = 0; i < nums.length; i++) {
+              nums[i] = part;
+              if (remainder > 0) {
+                  nums[i]++;
+                  remainder--;
               }
-              if (cur != null) {
-                  ListNode prev = cur;
-                  cur = cur.next;
-                  prev.next = null;
-              }
-              ans[i] = head;
           }
-          return ans;
+          
+          for (int i = 0; i < k; i++) {
+              if (root == null) {  
+                  break;  
+              }
+              res[i] = root;
+              int count = 1;
+              while (count < nums[i]) {
+                  root = root.next;
+                  count++;
+              }
+              ListNode next = root.next;
+              root.next = null;
+              root = next;
+          }
+          return res;
+      }
+      
+      private int getLength(ListNode head) {
+          int len = 0;
+          while(head != null) {
+              head = head.next;
+              len++;
+          }
+          return len;
       }
   }
+      
+  /*About the result in example1: [1, 2, 3], k = 5
+                                  Output: [[1],[2],[3],[],[]]
+     We don't need to realize the [], just do nothing --- break;
+     res[i] = null in nature.
+                                  */
   ```
 
   
@@ -938,6 +959,8 @@ class Solution {
 ###### Hard
 
 - [25. Reverse Nodes in k-Group](https://leetcode-cn.com/problems/reverse-nodes-in-k-group/)
+
+  > Same as 24. Swap Nodes in Pairs  --- use recursion
 
   ```java
   class Solution {
