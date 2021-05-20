@@ -1,6 +1,6 @@
 # Binary Search Tree
 
-## Content
+## Contents
 
 
 
