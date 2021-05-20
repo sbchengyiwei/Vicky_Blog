@@ -21,9 +21,9 @@
 
 The following definition is from Wikipedia:
 
->Defination: In [computer science](https://en.wikipedia.org/wiki/Computer_science), a **binary search tree** (**BST**), also called an **ordered** or **sorted binary tree**, is a [rooted](https://en.wikipedia.org/wiki/Rooted_tree) [binary tree](https://en.wikipedia.org/wiki/Binary_tree) whose internal nodes each store a key greater than all the keys in the node's left subtree and less than those in its right subtree. A binary tree is a type of [data structure](https://en.wikipedia.org/wiki/Data_structure) for storing data such as numbers in an organized way.
+>Definition: In [computer science](https://en.wikipedia.org/wiki/Computer_science), a **binary search tree** (**BST**), also called an **ordered** or **sorted binary tree**, is a [rooted](https://en.wikipedia.org/wiki/Rooted_tree) [binary tree](https://en.wikipedia.org/wiki/Binary_tree) whose internal nodes each store a key greater than all the keys in the node's left subtree and less than those in its right subtree. A binary tree is a type of [data structure](https://en.wikipedia.org/wiki/Data_structure) for storing data such as numbers in an organized way.
 
-This picture better show the BST structure:
+This picture better shows the BST structure:
 
 ![i](https://media.geeksforgeeks.org/wp-content/uploads/BSTSearch.png)
 
@@ -98,7 +98,7 @@ This picture better show the BST structure:
 
 ### 2.2 Search / Insert / Delete
 
-**Searching a key** 
+#### 2.2.1 Searching a key
 
 1. Start from the root. 
 2. Compare the searching element with root, if less than root, then recurse for left, else recurse for right. 
@@ -118,8 +118,9 @@ This picture better show the BST structure:
   }
   ```
 
-**Insertion of a key** 
-	A new key is always inserted at the leaf. We start searching a key from the root until we hit a leaf node. Once a leaf node is found, the new node is added as a child of the leaf node. 
+#### 2.2.2 Insertion of a key
+
+​	A new key is always inserted at the leaf. We start searching a key from the root until we hit a leaf node. Once a leaf node is found, the new node is added as a child of the leaf node. 
 
 ```
          100                               100
@@ -155,7 +156,7 @@ This picture better show the BST structure:
 
   
 
-**Deleting a key**
+#### 2.2.3 Deleting a key
 
 There are 3 situations：
 
@@ -254,7 +255,9 @@ There are 3 situations：
 
   
 
-**Time Complexity:** The worst case time complexity of Search / Insertion / Delete operation is O(h) where h is the height of the Binary Search Tree. In worst case, we may have to travel from the root to the deepest leaf node. The height of a skewed tree may become n and the time complexity of the operations may become O(n).
+#### 2.2.4 Time Complexity
+
+​	The worst case time complexity of Search / Insertion / Delete operation is O(h) where h is the height of the Binary Search Tree. In worst case, we may have to travel from the root to the deepest leaf node. The height of a skewed tree may become n and the time complexity of the operations may become O(n).
 
 
 
@@ -270,6 +273,7 @@ There are 3 situations：
   // Same as 236 but much easier since it is a BST question.
   // Recursion
   class Solution {
+    //time : O(h) space : O(h)
       public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {  
           if(root.val < p.val && root.val < q.val) return lowestCommonAncestor(root.right, p, q)
           if(root.val > p.val && root.val > q.val) return lowestCommonAncestor(root.left, p, q);
@@ -280,6 +284,7 @@ There are 3 situations：
   
   // Iteration
   class Solution {
+     //time : O(h) space : O(1)
       public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
           TreeNode ancestor = root;
           while (true) {
@@ -295,7 +300,7 @@ There are 3 situations：
       }
   }
   ```
-
+  
   
 
 ###### Middle
@@ -307,6 +312,7 @@ There are 3 situations：
   ```java
   //Preorder 
   class Solution {
+     //time : O(n) space : O(h)
       public boolean isValidBST(TreeNode root) { 
          // edge case
           if (root == null) return true;
@@ -331,6 +337,7 @@ There are 3 situations：
   ```java
   //dp
   class Solution {
+     //time : O(n^2) space : O(1)
       public int numTrees(int n) {
           int[] res = new int[n+1];  // usually we need another [0] to calculate the polynomial
           res[0] = 1;
@@ -397,6 +404,7 @@ There are 3 situations：
   ```java
   // Use queue instead of res list. (List can also be used with index.)
   class BSTIterator {
+      //time : O(n) space : O(n)
       Queue<Integer> queue = new LinkedList<>();
       public BSTIterator(TreeNode root) {
           inorderTraversal(root);
@@ -432,6 +440,7 @@ There are 3 situations：
 
   ```java
   class Solution {
+      //time : O(n) space : O(n)
       int res;
       int count;
       public int kthSmallest(TreeNode root, int k) {
@@ -449,20 +458,20 @@ There are 3 situations：
   }
   ​```
   ```
-
+  
   
 
 ###### Hard
 
 - [99. Recover Binary Search Tree](https://leetcode-cn.com/problems/recover-binary-search-tree/) (inorder)
 
-  > Tips: Regard the traversal of tree as a traversal of an appointed order array, then use two pointers to compare each value.
+  > Tips: Regard the traversal of the tree as a traversal of an appointed order array, then use two pointers to compare each value.
   >
   > Same as 114, use two pointers to restructure the tree with space O(1).
 
   ```java
   /*
-  This question has two conditons:
+  This question has two conditions:
   1  [5]  3  4  [2]  6
   pre.val > root.val (cur.val) Judge twice
   first = pre
@@ -475,6 +484,7 @@ There are 3 situations：
   */
   
   class Solution {
+    //time : O(n) space : O(1)
       TreeNode first;
       TreeNode second;
       TreeNode pre;
@@ -499,6 +509,6 @@ There are 3 situations：
   }
   
   ```
-
+  
   
 
