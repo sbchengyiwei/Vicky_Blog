@@ -22,7 +22,7 @@ This picture better show the BST structure:
 - The right subtree of a node contains only nodes with keys greater than the node’s key.
 - The left and right subtree each must also be a binary search tree.
 
-### 1.2 Pros and Use case: 
+### 1.2 Pros and Use cases: 
 
 - The order of nodes in a BST means that each comparison skips about half of the remaining tree, so the whole lookup takes [time proportional to](https://en.wikipedia.org/wiki/Time_complexity) the [binary logarithm](https://en.wikipedia.org/wiki/Binary_logarithm) of the number of items stored in the tree. This is much better than the [linear time](https://en.wikipedia.org/wiki/Linear_time) required to find items by key in an (unsorted) array. (But slower than the corresponding operations on [hash tables](https://en.wikipedia.org/wiki/Hash_table).)
 
@@ -91,17 +91,17 @@ This picture better show the BST structure:
 
 - 700 二叉搜索树中的搜索
 
-```java
-// A utility function to search a given key in BST
-class Solution {
-  public TreeNode searchBST(TreeNode root, int val) {
-    // Base Cases: root is null or key is present at root
-    if (root == null || val == root.val) return root;
-    // Key is greater or smaller than root's key
-    return val < root.val ? searchBST(root.left, val) : searchBST(root.right, val); 
+  ```java
+  // A utility function to search a given key in BST
+  class Solution {
+    public TreeNode searchBST(TreeNode root, int val) {
+      // Base Cases: root is null or key is present at root
+      if (root == null || val == root.val) return root;
+      // Key is greater or smaller than root's key
+      return val < root.val ? searchBST(root.left, val) : searchBST(root.right, val); 
+    }
   }
-}
-```
+  ```
 
 **Insertion of a key** 
 	A new key is always inserted at the leaf. We start searching a key from the root until we hit a leaf node. Once a leaf node is found, the new node is added as a child of the leaf node. 
@@ -118,25 +118,27 @@ class Solution {
 
 - [701. Insert into a Binary Search Tree](https://leetcode.com/problems/insert-into-a-binary-search-tree/)
 
-```java
-class Solution {
-    public TreeNode insertIntoBST(TreeNode root, int val) {
-        // edge case
-        if (root == null) return new TreeNode(val);
-        TreeNode node = search(root, val);
-        if (node.val > val) node.left = new TreeNode(val);
-        if (node.val < val) node.right = new TreeNode(val);
-        return root;
- 
-    }
-    public TreeNode search(TreeNode root, int val) {
-        //base case
-        if (root.left == null && root.val > val) return root;
-        if (root.right == null && root.val < val) return root;
-        return val < root.val ? search(root.left, val) : search(root.right, val);
-    }
-}
-```
+  ```java
+  class Solution {
+      public TreeNode insertIntoBST(TreeNode root, int val) {
+          // edge case
+          if (root == null) return new TreeNode(val);
+          TreeNode node = search(root, val);
+          if (node.val > val) node.left = new TreeNode(val);
+          if (node.val < val) node.right = new TreeNode(val);
+          return root;
+   
+      }
+      public TreeNode search(TreeNode root, int val) {
+          //base case
+          if (root.left == null && root.val > val) return root;
+          if (root.right == null && root.val < val) return root;
+          return val < root.val ? search(root.left, val) : search(root.right, val);
+      }
+  }
+  ```
+
+  
 
 **Deleting a key**
 
@@ -225,17 +227,17 @@ There are 3 situations：
   
   ```
 
-  Ps:  What is what is successor and processor in BST inorder traverse?
+- Ps:  What is what is successor and processor in BST inorder traverse?
 
   - successor : In Binary Tree, Inorder **successor** of a **node** is the next **node** in Inorder traversal of the Binary Tree. In Binary Search Tree, Inorder **successor** of an input **node** can also be defined as the **node** with the smallest key greater than the key of the input **node**.
 
+    ![s](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/images/Screen%20Shot%202021-05-20%20at%204.07.27%20PM.png)
+
   - predecessor:  In Binary Tree, Inorder **predecessor** of a **node** is the last **node** in Inorder traversal of the Binary Tree. In Binary Search Tree, Inorder **predecessor** of an input **node** can also be defined as the **node** with the largest key smaller than the key of the input **node**.
 
-    
+    ![p](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/images/Screen%20Shot%202021-05-20%20at%204.07.32%20PM.png)
 
-  ![i](https://trello-attachments.s3.amazonaws.com/6072d0d2385f2e81619166e2/60a1f1a4e4677279638b4c62/8339f466bd76d991109fc88aa9a672cc/Screen_Shot_2021-05-17_at_3.03.50_PM.png)
-
-
+  
 
 **Time Complexity:** The worst case time complexity of Search / Insertion / Delete operation is O(h) where h is the height of the Binary Search Tree. In worst case, we may have to travel from the root to the deepest leaf node. The height of a skewed tree may become n and the time complexity of the operations may become O(n).
 
