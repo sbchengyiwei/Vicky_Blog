@@ -243,9 +243,7 @@ There are 3 situations：
 
 
 
-
-
-### 3 Other Operations
+## 3 Other Operations
 
 ###### Easy
 
