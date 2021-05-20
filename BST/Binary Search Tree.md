@@ -36,8 +36,12 @@ This picture better show the BST structure:
 ### 1.2 Pros and Use cases: 
 
 - The order of nodes in a BST means that each comparison skips about half of the remaining tree, so the whole lookup takes [time proportional to](https://en.wikipedia.org/wiki/Time_complexity) the [binary logarithm](https://en.wikipedia.org/wiki/Binary_logarithm) of the number of items stored in the tree. This is much better than the [linear time](https://en.wikipedia.org/wiki/Linear_time) required to find items by key in an (unsorted) array. (But slower than the corresponding operations on [hash tables](https://en.wikipedia.org/wiki/Hash_table).)
-
 - Binary search trees allow [binary search](https://en.wikipedia.org/wiki/Binary_search_algorithm) for fast lookup, addition and removal of data items, and can be used to implement [dynamic sets](https://en.wikipedia.org/wiki/Set_(abstract_data_type)) and [lookup tables](https://en.wikipedia.org/wiki/Lookup_table). 
+
+### 1.3 Traversal Way:
+
+- If we want to print the BST in ascending order or find the Kth Largest node in BST, we must use inorder way to traverse;
+- If we want to determine whether the tree is valid or find a given node, we can just use (doubly) preorder.
 
 ## 2 Build and Basic Operation 
 
@@ -258,7 +262,7 @@ There are 3 situations：
 
 ###### Easy
 
-- [235. Lowest Common Ancestor of a Binary Search Tree](https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/) (preoder)
+- [235. Lowest Common Ancestor of a Binary Search Tree](https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/) 
 
   > The [definition of LCA on Wikipedia](https://en.wikipedia.org/wiki/Lowest_common_ancestor): “The lowest common ancestor is defined between two nodes `p` and `q` as the lowest node in `T` that has both `p` and `q` as descendants (where we allow **a node to be a descendant of itself**).”
 
@@ -296,7 +300,7 @@ There are 3 situations：
 
 ###### Middle
 
-- [98. Validate Binary Search Tree](https://leetcode-cn.com/problems/validate-binary-search-tree/) (double preoder)
+- [98. Validate Binary Search Tree](https://leetcode-cn.com/problems/validate-binary-search-tree/) (doubly preoder)
 
   > Tips: We use `root.val` to update the values of `min` and `max` from top to bottom,  then we can just determine whether it is valid (go left to update min, go right to update max).
 
@@ -322,7 +326,7 @@ There are 3 situations：
 
   
 
-- [96. Unique Binary Search Trees](https://leetcode-cn.com/problems/unique-binary-search-trees/) (dp)
+- [96. Unique Binary Search Trees](https://leetcode-cn.com/problems/unique-binary-search-trees/) 
 
   ```java
   //dp
@@ -348,7 +352,7 @@ There are 3 situations：
 
   
 
-- [95. Unique Binary Search Trees II](https://leetcode-cn.com/problems/unique-binary-search-trees-ii/) (backtracking)
+- [95. Unique Binary Search Trees II](https://leetcode-cn.com/problems/unique-binary-search-trees-ii/) 
 
   > [Backtracking]() : talking in other chapter
 
