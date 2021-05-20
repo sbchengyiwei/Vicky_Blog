@@ -166,7 +166,7 @@ class LinkedList {
 
 - [237. Delete Node in a Linked List](https://leetcode-cn.com/problems/delete-node-in-a-linked-list/)
 
-  - Trick: It is guaranteed that the node to be deleted is not a tail node in the list.
+  - Tips: It is guaranteed that the node to be deleted is not a tail node in the list.
 
   ```java
   class Solution {

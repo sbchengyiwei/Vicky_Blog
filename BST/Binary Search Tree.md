@@ -89,7 +89,7 @@ This picture better show the BST structure:
 2. Compare the searching element with root, if less than root, then recurse for left, else recurse for right. 
 3. If the element to search is found anywhere, return true, else return false. 
 
-- 700 二叉搜索树中的搜索
+- [700. Search in a Binary Search Tree](https://leetcode.com/problems/search-in-a-binary-search-tree/)
 
   ```java
   // A utility function to search a given key in BST
@@ -243,19 +243,249 @@ There are 3 situations：
 
 
 
-### 2.3 Traverse
 
-###### 简单
 
-- [145. 二叉树的后序遍历](https://leetcode-cn.com/problems/binary-tree-postorder-traversal/)
-- [94. 二叉树的中序遍历](https://leetcode-cn.com/problems/binary-tree-inorder-traversal/)
+### 3 Other Operations
 
-###### 中等
+###### Easy
 
-- [105. 从前序与中序遍历序列构造二叉树](https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/)
-- [102. 二叉树的层序遍历](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)
-- [103. 二叉树的锯齿形层序遍历](https://leetcode-cn.com/problems/binary-tree-zigzag-level-order-traversal/)
-- [107. 二叉树的层序遍历 II](https://leetcode-cn.com/problems/binary-tree-level-order-traversal-ii/)
-- [106. 从中序与后序遍历序列构造二叉树](https://leetcode-cn.com/problems/construct-binary-tree-from-inorder-and-postorder-traversal/)
-- [144. 二叉树的前序遍历](https://leetcode-cn.com/problems/binary-tree-preorder-traversal/)
+- [235. Lowest Common Ancestor of a Binary Search Tree](https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/)
+
+  > The [definition of LCA on Wikipedia](https://en.wikipedia.org/wiki/Lowest_common_ancestor): “The lowest common ancestor is defined between two nodes `p` and `q` as the lowest node in `T` that has both `p` and `q` as descendants (where we allow **a node to be a descendant of itself**).”
+
+  ```java
+  // Same as 236 but much easier since it is a BST question.
+  // Recursion
+  class Solution {
+      public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {  
+          if(root.val < p.val && root.val < q.val) return lowestCommonAncestor(root.right, p, q)
+          if(root.val > p.val && root.val > q.val) return lowestCommonAncestor(root.left, p, q);
+          return root;
+        
+      }
+  }
+  
+  // Iteration
+  class Solution {
+      public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+          TreeNode ancestor = root;
+          while (true) {
+              if (p.val < ancestor.val && q.val < ancestor.val) {
+                  ancestor = ancestor.left;
+              } else if (p.val > ancestor.val && q.val > ancestor.val) {
+                  ancestor = ancestor.right;
+              } else {
+                  break;
+              }
+          }
+          return ancestor;
+      }
+  }
+  ```
+
+  
+
+###### Middle
+
+- [98. Validate Binary Search Tree](https://leetcode-cn.com/problems/validate-binary-search-tree/)
+
+  > Tips: We use `root.val` to update the values of `min` and `max` from top to bottom,  then we can just determine whether it is valid (go left to update min, go right to update max).
+
+  ```java
+  //Preorder 
+  class Solution {
+      public boolean isValidBST(TreeNode root) { 
+         // edge case
+          if (root == null) return true;
+          return helper(root, null, null);
+      }
+      
+      private boolean helper(TreeNode root, Integer min, Integer max) {
+         // base case
+          if (root == null) return true;
+          // Judging conditions : notice that '=' is also false!!
+          if (max != null && root.val >= max) return false;
+          if (min != null && root.val <= min) return false;
+          return (helper(root.left,min,root.val) && helper(root.right,root.val,max)); 
+      }
+  }
+  ```
+
+  
+
+- [96. Unique Binary Search Trees](https://leetcode-cn.com/problems/unique-binary-search-trees/)
+
+  ```java
+  //dp
+  class Solution {
+      public int numTrees(int n) {
+          int[] res = new int[n+1];  // usually we need another [0] to calculate the polynomial
+          res[0] = 1;
+     
+          //res[1] = res[0]*res[0]
+          //res[2] = res[0]*res[1] + res[1]*res[0]
+          //res[3] = res[0]*res[2] + res[1]*res[1] + res[2]*res[0] 
+          //res[n] = res[0]*res[n-1] +  res[1]*res[n-2] + .... +  res[n-1]*res[0]
+          for (int i = 1; i <= n; i++) {
+              for (int j = 0; j < i; j++) {
+                  res[i] += res[j] * res[i - j -1];
+              }
+          }
+          return res[n];
+      }
+  }
+  
+  ```
+
+  
+
+- [95. Unique Binary Search Trees II](https://leetcode-cn.com/problems/unique-binary-search-trees-ii/)
+
+  > [Backtracking]() : talking in other chapter
+
+  ```java
+  class Solution {
+      public List<TreeNode> generateTrees(int n) {
+          List<TreeNode> res = constructTrees(1, n);
+          return res;   
+      }
+      public List<TreeNode> constructTrees(int start, int end){
+          List<TreeNode> list = new ArrayList<>();
+          //  if start > end   then subtree will be empty so returning NULL in the list
+          if (start > end) { 
+              list.add(null); 
+          } 
+      
+          // iterate all values from start to end for constructing left and right subtree using recursion
+          for (int i = start; i <= end; i++) { 
+              List<TreeNode> leftSubtree  = constructTrees(start, i - 1); // constructing left subtree 
+              List<TreeNode> rightSubtree = constructTrees(i + 1, end); // constructing right subtree
+              // now loop through all left and right subtrees and connecting them to ith root
+              for (TreeNode left : leftSubtree) { 
+                  for (TreeNode right : rightSubtree) { 
+                      TreeNode node = new TreeNode(i);        // making value i as root 
+                      node.left = left;                       // connect left subtree 
+                      node.right = right;                     // connect right subtree 
+                      list.add(node);                         // add this tree to list 
+                  } 
+              } 
+          } 
+          return list; 
+      }
+  }
+  ```
+
+  ![img](https://assets.leetcode.com/uploads/2021/01/18/uniquebstn3.jpg)
+
+  
+
+- [173. Binary Search Tree Iterator](https://leetcode-cn.com/problems/binary-search-tree-iterator/)
+
+  ```java
+  // Use queue instead of res list. (List can also be used with index.)
+  class BSTIterator {
+      Queue<Integer> queue = new LinkedList<>();
+      public BSTIterator(TreeNode root) {
+          inorderTraversal(root);
+      } 
+      // equal to the helper()
+      private void inorderTraversal(TreeNode root) {
+          if (root == null) {
+              return;
+          }
+          inorderTraversal(root.left);
+          queue.offer(root.val);
+          inorderTraversal(root.right);
+      }
+      public int next() {
+          return queue.poll();
+      }
+      public boolean hasNext() {
+          return !queue.isEmpty();
+      }  
+  }
+  
+  ```
+
+  
+
+- [230. Kth Smallest Element in a BST](https://leetcode-cn.com/problems/kth-smallest-element-in-a-bst/)
+
+  > Tips : Global variable 
+  >
+  > 1. If the helper has a void return but you want to send the result, just add a global variable --- int res;
+  >
+  > 2. If count changes every recursion and is not a value that needs to be backtracked, just add a global variable --- int count;
+
+  ```java
+  class Solution {
+      int res;
+      int count;
+      public int kthSmallest(TreeNode root, int k) {
+          count = k;
+          helper(root);
+          return res;  
+      }
+      private void helper(TreeNode root) {
+          if (root == null) return;
+          helper(root.left);
+          count--;
+          if (count == 0) res = root.val;
+          helper(root.right);
+      }
+  }
+  ​```
+  ```
+
+  
+
+###### Hard
+
+- [99. Recover Binary Search Tree](https://leetcode-cn.com/problems/recover-binary-search-tree/)
+
+  > Tips: Regard the traversal of tree as a traversal of an appointed order array, then use two pointers to compare each value.
+  >
+  > Same as 114, use two pointers to restructure the tree with space O(1).
+
+  ```java
+  /*
+  This question has two conditons:
+  1  [5]  3  4  [2]  6
+  pre.val > root.val (cur.val) Judge twice
+  first = pre
+  second = root
+  ----
+  1 2 3 4 [6] [5]
+  pre.val > root.val (cur.val) Judge once
+  first = pre
+  second = root
+  */
+  
+  class Solution {
+      TreeNode first;
+      TreeNode second;
+      TreeNode pre;
+      public void recoverTree(TreeNode root) {
+          if (root == null) return;
+          helper(root);
+          int temp = first.val;
+          first.val = second.val;
+          second.val = temp;
+      }
+      
+      private void helper(TreeNode root) {
+          if (root == null) return;
+          helper(root.left);
+          if (pre != null && pre.val >= root.val) {
+              if (first == null)  first = pre;
+              second = root; 
+          }
+          pre = root;
+          helper(root.right);
+      }
+  }
+  
+  ```
+
+  
 
