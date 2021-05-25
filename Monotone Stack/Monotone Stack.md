@@ -21,7 +21,7 @@ Stack we all know that it has the characteristic of First-in-Last-out, and Monot
 
 - **Use cases:** 
 
-  - Monotonic stack is often used to deal with a typical problem called **Next Greater Element**.
+  - Monotonic stack is often used to deal with a typical problem called **Next Greater Element**.(Find the first value on the left(right) that is greater(smaller) than the element.)
   - How to **get the greatest(smallest) array(string)** by the given conditions (remaining size k/ no duplicate).
   - **Farest Greater Element** (leetcode 1124). 
 
