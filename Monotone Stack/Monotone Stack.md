@@ -1,6 +1,15 @@
 ## Contents
 
-
+- [1 What is Monotone Stack？](#1-what-is-monotone-stack-)
+- [2 Monotone Stack Template](#2-monotone-stack-template)
+  * [2.1 Next Greater Element](#21-next-greater-element)
+  * [2.2 Smallest String of size k](#22-smallest-string-of-size-k)
+  * [2.3 Farest Greater Element](#23-farest-greater-element)
+- [3 Uses of the templates](#3-uses-of-the-templates)
+  * [3.1 Next Greater Element](#31-next-greater-element)
+  * [3.2 Smallest String of size k](#32-smallest-string-of-size-k)
+  * [3.3 Farest Greater Element](#33-farest-greater-element)
+  * [3.4 Combine with remove duplicate](#34-combine-with-remove-duplicate)
 
 ## 1 What is Monotone Stack？
 
