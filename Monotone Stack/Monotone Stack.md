@@ -18,9 +18,9 @@ Stack we all know that it has the characteristic of First-in-Last-out, and Monot
 
   
 
-  *PS: Next Greater Element problems are like how you find the next higher people after you (↓). Either the height or the seat number can be push into Monotonic Stack.* *(Picture from https://haogroot.com/2020/09/01/monotonic-stack-leetcode/#more-108)*
+  ​	*PS: Next Greater Element problems are like how you find the next higher people after you (↓). Either the height or the seat number can be push into Monotonic Stack.* *(Picture from https://haogroot.com/2020/09/01/monotonic-stack-leetcode/#more-108)*
 
-  ![img](https://haogroot.com/wp-content/uploads/2020/08/AED2DDB5-15FD-4440-9430-FDC1A9439E86-1024x628.jpeg)
+  ​					![img](https://haogroot.com/wp-content/uploads/2020/08/AED2DDB5-15FD-4440-9430-FDC1A9439E86-1024x628.jpeg)
 
   
 
