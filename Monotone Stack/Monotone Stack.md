@@ -439,7 +439,7 @@ public int farestGreaterElement(int[] hours) {
           for (int i = 0; i < hours.length; i++) {
               sum += hours[i] > 8 ? 1 : -1;
             	//Two Situations: > 0 | <=0
-  						//> 0 
+            	//> 0 
               if (sum > 0) res = i + 1;
               else {
                   map.putIfAbsent(sum, i); // Only add the first(make the period longest)
