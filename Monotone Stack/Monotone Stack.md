@@ -387,7 +387,7 @@ public int farestGreaterElement(int[] hours) {
   
   ```
 
-  - [a good explain](https://www.bilibili.com/video/BV1yK4y1K7eC)
+  - [a good explanation](https://www.bilibili.com/video/BV1yK4y1K7eC)
 
 
 
@@ -453,7 +453,7 @@ public int farestGreaterElement(int[] hours) {
   
   ```
 
-  - [a good explain](https://www.bilibili.com/video/BV1Wt411G7vN?from=search&seid=8416005481709189881)
+  - [a good explanation](https://www.bilibili.com/video/BV1Wt411G7vN?from=search&seid=8416005481709189881)
 
   
 
@@ -499,6 +499,6 @@ public int farestGreaterElement(int[] hours) {
   }
   ```
 
-  - [a good explain](https://leetcode-cn.com/problems/remove-duplicate-letters/solution/you-qian-ru-shen-dan-diao-zhan-si-lu-qu-chu-zhong-/)
+  - [a good explanation](https://leetcode-cn.com/problems/remove-duplicate-letters/solution/you-qian-ru-shen-dan-diao-zhan-si-lu-qu-chu-zhong-/)
 
   
