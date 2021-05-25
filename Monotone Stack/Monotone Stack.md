@@ -17,17 +17,17 @@ Stack we all know that it has the characteristic of First-in-Last-out, and Monot
 
 - Every time a new element is added to the stack, the elements in the stack remain Monotonic (it can be monotonically increasing or monotonically decreasing). 
 
-- **Advantages**: Time complexity is linear, since each elements only be put in one time, once out of the stack, it will not be put in again. 
+- **Advantages**: Time complexity is linear, since each element only be put in one time, once out of the stack, it will not be put in again. 
 
 - **Use cases:** 
 
-  - Monotonic stack often be used to deal with a typical problem called **Next Greater Element**.
+  - Monotonic stack is often used to deal with a typical problem called **Next Greater Element**.
   - How to **get the greatest(smallest) array(string)** by the given conditions (remaining size k/ no duplicate).
   - **Farest Greater Element** (leetcode 1124). 
 
   
 
-  ​	 *PS: Next Greater Element problems are like how you find the next higher people after you (↓). Either the      height or the seat number can be push into Monotonic Stack.* *(Picture from https://haogroot.com/2020/09/01/monotonic-stack-leetcode/#more-108)*		![img](https://haogroot.com/wp-content/uploads/2020/08/AED2DDB5-15FD-4440-9430-FDC1A9439E86-1024x628.jpeg)
+  ​	 *PS: Next Greater Element problems are like how you find the next higher people after you (↓). Either the      height or the seat number can be pushed into Monotonic Stack.* *(Picture from https://haogroot.com/2020/09/01/monotonic-stack-leetcode/#more-108)*		![img](https://haogroot.com/wp-content/uploads/2020/08/AED2DDB5-15FD-4440-9430-FDC1A9439E86-1024x628.jpeg)
 
   
 
@@ -35,7 +35,7 @@ Stack we all know that it has the characteristic of First-in-Last-out, and Monot
 
 ### 2.1 Next Greater Element
 
-Q: Given a array nums[], find the next element of each number in this array.
+Q: Given an array nums[], find the next element of each number in this array.
 
 ```java
 public int[] nextGreaterElement(int[] nums) {
@@ -62,7 +62,7 @@ public int[] nextGreaterElement(int[] nums) {
 
 ### 2.2 Smallest String of size k
 
-Q: Given a array nums[], cut the size to k, find the Smallest String remaining.
+Q: Given an array nums[], cut the size to k, find the Smallest String remaining.
 
 ```java
 public String getMinString(String num, int k) {
@@ -71,8 +71,8 @@ public String getMinString(String num, int k) {
        // if there are enough elements left to delete and the next element is smaller, pop the larger one. (345 <-3   343 is smaller than 345)
         while (stack.size() + num.length() - i  > k  && !stack.empty() && stack.peek() > num.charAt(i)) 
             stack.pop();
-       // only add when the size if smaller than k (1234567 size 4, only add the first 4 elements)
-        //Or if the size is smaller than k, elements are add even we don't pop the larger elements. (9876543 size 4, 6543 all add to the stack)
+       // only add when the size is smaller than k (1234567 size 4, only add the first 4 elements)
+        //Or if the size is smaller than k, elements are added even we don't pop the larger elements. (9876543 size 4, 6543 all add to the stack)
         if (stack.size() < k) 
             stack.push(num.charAt(i));  
     }
@@ -92,7 +92,7 @@ public String getMinString(String num, int k) {
 
 ### 2.3 Farest Greater Element
 
-Q: Given a array nums[], find the Farest Distance between a number and its Greater Element in this array.
+Q: Given an array nums[], find the Farest Distance between a number and its Greater Element in this array.
 
 ```java
 public int farestGreaterElement(int[] hours) {
@@ -103,7 +103,7 @@ public int farestGreaterElement(int[] hours) {
             stack.push(i);
         }
     }
-    //Find the longest upward slope(connect two points, if the slope is positive, then its a upward slope)
+    //Find the longest upward slope(connect two points, if the slope is positive, then it's an upward slope)
     int res = 0;
     for(int i=len;i>0;i--){
         while(!stack.isEmpty() && tired[i] > tired[stack.peek()]){
@@ -192,7 +192,7 @@ public int farestGreaterElement(int[] hours) {
 - [42. Trapping Rain Water](https://leetcode.com/problems/trapping-rain-water/)
 
   ```java
-  // Cannikin Law : the lowest block quantify the capacity of the bucket.
+  // Cannikin Law : the lowest block quantifies the capacity of the bucket.
   class Solution {
       //Time : O(n) Space : O(n)
       public int trap(int[] height) {
@@ -204,9 +204,9 @@ public int farestGreaterElement(int[] hours) {
               //Once the length on the right is higher than the left, it means that water can be stored
               while (!stack.isEmpty() && height[i] > height[stack.peek()]) {
                   int bottom = stack.pop();//pop out the height of the bottom of the bucket
-                  if (stack.isEmpty()) break; // no left block to save water...
+                  if (stack.isEmpty()) break; // no left block to save rwater...
                   int dis = i - stack.peek() - 1; // bottom diameter
-                  //height[stack.peek()] is the left side height, minimal bucket height determine how much wate can be trapped
+                  //height[stack.peek()] is the left side height, minimal bucket height determine how much water can be trapped
                   int h = Math.min(height[i], height[stack.peek()]) - height[bottom]; 
                   res += h * dis;
               } 
@@ -412,7 +412,7 @@ public int farestGreaterElement(int[] hours) {
                   stack.push(i);
               }
           }
-          //3.Find the longest upward slope(connect two points, if the slope is positive, then its a upward slope)
+          //3.Find the longest upward slope(connect two points, if the slope is positive, then its an upward slope)
           int res = 0;
           for(int i=len;i>0;i--){
               while(!stack.isEmpty() && tired[i] > tired[stack.peek()]){
@@ -467,7 +467,7 @@ public int farestGreaterElement(int[] hours) {
            //time : O(n)  space : O(n) / O(1) : since there only 256 characters
           
         	Stack<Character> stack = new Stack<>();
-          //indicates the whether characters already in stack
+          //indicates whether characters already in stack
           boolean[] inStack = new boolean[256];
         
           // indicates the times that each character in string appears
@@ -481,7 +481,7 @@ public int farestGreaterElement(int[] hours) {
               count[c]--;
               if (inStack[c]) continue; // already in stack, don't push(pop is only executed by the following smaller characters) (acdc acbc)
               while (!stack.isEmpty() && stk.peek() > c) {
-                  // If there are same characters afterwards, pop can be executed
+                  // If there are same characters afterward, pop can be executed
                   if (count[stack.peek()] != 0) {
                      inStack[stack.pop()] = false;
                   } else break; // can not pop, still on the top of stack --> infinite loop
