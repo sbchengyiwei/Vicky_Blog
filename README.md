@@ -35,4 +35,4 @@ Hi, My name is Yiwei Cheng, you can call me Vicky. I am a 21Fall student to NEU 
 
 ### 2.1 Java
 ### 2.2 DataBase
-### 2.3 TCP/IP
+### 2.3 TCP/IP.
