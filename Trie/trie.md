@@ -1,4 +1,17 @@
-# LeetCode -- Trie
+## Content
+
+- [1 Principle](#1-principle)
+  * [1.1 What is a trie tree](#11-what-is-a-trie-tree)
+  * [1.2 Use cases](#12-use-cases)
+  * [1.3 Advantage](#13-advantage)
+- [2 Build and Basic Operation](#2-build-and-basic-operation)
+  * [2.1 add() & contains() & starWith() & search()](#21-add-----contains-----starwith-----search--)
+  * [2.2 LeetCode 208 Implement Trie (Prefix Tree)](#22-leetcode-208-implement-trie--prefix-tree-)
+- [3 Application](#3-application)
+  * [3.1 Longest Word in Dictionary (EASY)](#31-leetcode-720-longest-word-in-dictionary--easy-)
+  * [3.2 Top K Frequent Words (MIDDLE)](#32-leetcode-692-top-k-frequent-words--middle-)
+  * [3.3 Maximum XOR of Two Numbers in an Array (MIDDLE)](#33-leetcode-421-maximum-xor-of-two-numbers-in-an-array--middle-)
+  * [3.4 Word Search II (HARD)](#34-leetcode-212-word-search-ii--hard-)
 
 ## 1 Principle
 
