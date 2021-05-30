@@ -127,31 +127,37 @@ class Solution {
 
 ```java
 class UnionFind {
-    private int[] root;
+    private int[] id;
+  	private int[] sz;
+  
     private int count;
     
     public UnionFind(char[][] grid) {
         int row = grid.length;
         int col = grid[0].length;
         count = row * col;
-        root = new int[row * col];
+        id = new int[row * col];
+      	sz = new int[row * col]; //weighted quick-union
         for (int i = 0; i < row * col; i++) {
-            root[i] = i;
+            id[i] = i;
+          	sz[i] = 1;  
         }
     }
     
     public int find(int x) {
-        if (x == root[x]) {
-            return x;
+        while (x != id[x]) {
+          	id[x] = id[id[x]]; // compress path
+            x = id[x];
         }
-        return find(root[x]);
+        return x;
     }
     
     public void union(int x, int y) {
         int rootX = find(x);
         int rootY = find(y);
         if (rootX != rootY) {
-            root[rootX] = rootY;
+            if (sz[rootX] > sz[rootY]) {id[rootY] = rootX; sz[rootX] += sz[rootY];}
+          	else {id[rootX] = rootY; sz[rootY] += sz[rootX];}
             count--;
         }
     }
@@ -187,10 +193,8 @@ class Solution {
                 }
             }
         }
-        return uf.getCount() - waters;
-    }
-    
- 
+        return uf.getCount() - waters; // components minus 0(waters)
+    } 
 }
 ```
 
