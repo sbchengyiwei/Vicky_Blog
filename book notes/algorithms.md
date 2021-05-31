@@ -92,7 +92,7 @@
 
 ### 2-5 Union-Find Applications 
 
-​	Percolation (use a head root and bottom root to reduce the time complexity)
+Percolation (use a head root and bottom root to reduce the time complexity)
 
 ##### 3-1 Analysis of Algorithms Introduction 
 
