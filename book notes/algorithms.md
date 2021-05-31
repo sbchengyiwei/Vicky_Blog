@@ -304,8 +304,10 @@ Above expression is negative when σ < τ, i.e., counterclockwise
 
 ### 6-1 Mergesort
 
-```java
+[source code](https://algs4.cs.princeton.edu/22mergesort/Merge.java.html)
 
+```java
+// ! time : O(nlogn) = log1 + log2 +...+logn = log(n!) = nlogn
 public static int[] indexSort(Comparable[] a) {
     int n = a.length;
     int[] index = new int[n];
@@ -347,6 +349,167 @@ private static void merge(Comparable[] a, int[] index, int[] aux, int lo, int mi
 
 ##### 6-2 Bottom-up Mergesort 
 
-### 6-3 Sorting Complexity 
+##### 6-3 Sorting Complexity 
 
-### 6-4 Comparators
+##### 6-4 Comparators
+
+##### 6 - 5 - Stability
+
+### 7 - 1 - Quicksort
+
+[source code](https://algs4.cs.princeton.edu/23quicksort/Quick.java.html)
+
+```java
+public static void sort(Comparable[] a) {
+  StdRandom.shuffle(a);
+  sort(a, 0, a.length - 1);
+}
+
+// quicksort the subarray from a[lo] to a[hi]
+private static void sort(Comparable[] a, int lo, int hi) { 
+  if (hi <= lo) return;
+  int j = partition(a, lo, hi);
+  sort(a, lo, j-1);
+  sort(a, j+1, hi);
+}
+
+// and return the index j.
+private static int partition(Comparable[] a, int lo, int hi) {
+  int i = lo;
+  int j = hi + 1;
+  Comparable v = a[lo];
+  while (i <= j) {
+    if (nums[i] > pivot && nums[j] < pivot) {
+      exch(a, i, j);
+    }
+    if (nums[i] <= pivot) l++;  // increasing order
+    if (nums[r] >= pivot) r--;
+  }
+  // put partitioning item v at a[j]
+  exch(a, lo, j);
+  // now, a[lo .. j-1] <= a[j] <= a[j+1 .. hi]
+  return j;
+}
+
+```
+
+### 7 - 2 - Selection
+
+```java
+public static Comparable select(Comparable[] a, int k) {
+  if (k < 0 || k >= a.length) {
+    throw new IllegalArgumentException("index is not between 0 and " + a.length + ": " + k);
+  }
+  StdRandom.shuffle(a);
+  int lo = 0, hi = a.length - 1;
+  while (hi > lo) {
+    int i = partition(a, lo, hi);  // previous chapter
+    if      (i > k) hi = i - 1;
+    else if (i < k) lo = i + 1;
+    else return a[i];
+  }
+  return a[lo];
+}
+
+private static int partition(Comparable[] a, int lo, int hi) {
+  int i = lo;
+  int j = hi + 1;
+  Comparable v = a[lo];
+  while (i <= j) {
+    if (nums[i] > pivot && nums[j] < pivot) {
+      exch(a, i, j);
+    }
+    if (nums[i] <= pivot) l++;  // increasing order
+    if (nums[r] >= pivot) r--;
+  }
+  // put partitioning item v at a[j]
+  exch(a, lo, j);
+  // now, a[lo .. j-1] <= a[j] <= a[j+1 .. hi]
+  return j;
+}
+```
+
+
+
+### 7 - 3 - Duplicate Keys 
+
+ ```java
+ // if there are many duplicate KEYs
+ public static void sort(Comparable[] a) {
+ 	StdRandom.shuffle(a);  //
+ 	sort(a, 0, a.length - 1);
+ }
+ 
+ // quicksort the subarray a[lo .. hi] using 3-way partitioning
+ private static void sort(Comparable[] a, int lo, int hi) { 
+   if (hi <= lo) return;
+   int lt = lo, gt = hi;
+   Comparable v = a[lo];
+   int i = lo + 1;
+   while (i <= gt) {
+     int cmp = a[i].compareTo(v);
+     if      (cmp < 0) exch(a, lt++, i++);
+     else if (cmp > 0) exch(a, i, gt--);
+     else              i++;
+   }
+ 
+   // a[lo..lt-1] < v = a[lt..gt] < a[gt+1..hi]. 
+   sort(a, lo, lt-1);
+   sort(a, gt+1, hi);
+ }	
+ ```
+
+
+
+7 - 4 - System Sorts 
+
+8 - 1 - APIs and Elementary Implementations
+
+8 - 2 - Binary Heaps
+
+8 - 3 - Heapsort8 - 4 - Event-Driven Simulation 
+
+9 - 1 - Symbol Table API 
+
+9 - 2 - Elementary Implementations
+
+9 - 3 - Ordered Operations 
+
+9 - 4 - Binary Search Trees
+
+9 - 5 - Ordered Operations in BSTs 
+
+9 - 6 - Deletion in BSTs
+
+10 - 1 - 2-3 Search Trees 
+
+10 - 2 - Red-Black BSTs 
+
+10 - 3 - B-Trees 
+
+11 - 1 - 1d Range Search 
+
+11 - 2 - Line Segment Intersection 
+
+11 - 3 - Kd-Trees 
+
+11 - 4 - Interval Search Trees 
+
+11 - 5 - Rectangle Intersection 
+
+12 - 1 - Hash Functions 
+
+12 - 2 - Separate Chaining 
+
+12 - 3 - Linear Probing
+
+12 - 4 - Hash Table Context 
+
+12 - 5 - Symbol Table Applications Sets 
+
+12 - 6 - Symbol Table Applications Dictionary Clients 
+
+12 - 7 - Symbol Table Applications Indexing Clients 
+
+12 - 8 - Symbol Table Applications Sparse Vectors 
+
