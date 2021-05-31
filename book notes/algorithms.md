@@ -461,55 +461,70 @@ private static int partition(Comparable[] a, int lo, int hi) {
 
 
 
-7 - 4 - System Sorts 
+### 7 - 4 - System Sorts 
 
-8 - 1 - APIs and Elementary Implementations
+Use quicksort for primitive elements, use mergesort for object (more space)
 
-8 - 2 - Binary Heaps
+![](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/images/Screen%20Shot%202021-05-31%20at%2011.50.26%20AM.png)
 
-8 - 3 - Heapsort8 - 4 - Event-Driven Simulation 
+##### 8 - 1 - APIs and Elementary Implementations
 
-9 - 1 - Symbol Table API 
+### 8 - 2 - Binary Heaps
 
-9 - 2 - Elementary Implementations
+**Binary heap properties:**
 
-9 - 3 - Ordered Operations 
+- Largest key is a[1], which is root of binary tree.
 
-9 - 4 - Binary Search Trees
+- Can use array indices to move through tree.
 
-9 - 5 - Ordered Operations in BSTs 
+- Parent of node at k is at k/2.
 
-9 - 6 - Deletion in BSTs
+- Children of node at k are at 2k and 2k+1.
 
-10 - 1 - 2-3 Search Trees 
+### 8 - 3 - Heapsort
 
-10 - 2 - Red-Black BSTs 
+##### 8 - 4 - Event-Driven Simulation 
 
-10 - 3 - B-Trees 
+##### 9 - 1 - Symbol Table API 
 
-11 - 1 - 1d Range Search 
+##### 9 - 2 - Elementary Implementations
 
-11 - 2 - Line Segment Intersection 
+##### 9 - 3 - Ordered Operations 
 
-11 - 3 - Kd-Trees 
+##### 9 - 4 - Binary Search Trees
 
-11 - 4 - Interval Search Trees 
+##### 9 - 5 - Ordered Operations in BSTs 
 
-11 - 5 - Rectangle Intersection 
+##### 9 - 6 - Deletion in BSTs
 
-12 - 1 - Hash Functions 
+##### 10 - 1 - 2-3 Search Trees 
 
-12 - 2 - Separate Chaining 
+##### 10 - 2 - Red-Black BSTs 
 
-12 - 3 - Linear Probing
+##### 10 - 3 - B-Trees 
 
-12 - 4 - Hash Table Context 
+##### 11 - 1 - 1d Range Search 
 
-12 - 5 - Symbol Table Applications Sets 
+##### 11 - 2 - Line Segment Intersection 
 
-12 - 6 - Symbol Table Applications Dictionary Clients 
+##### 11 - 3 - Kd-Trees 
 
-12 - 7 - Symbol Table Applications Indexing Clients 
+##### 11 - 4 - Interval Search Trees 
 
-12 - 8 - Symbol Table Applications Sparse Vectors 
+##### 11 - 5 - Rectangle Intersection 
 
+##### 12 - 1 - Hash Functions 
+
+##### 12 - 2 - Separate Chaining 
+
+##### 12 - 3 - Linear Probing
+
+##### 12 - 4 - Hash Table Context 
+
+##### 12 - 5 - Symbol Table Applications Sets 
+
+##### 12 - 6 - Symbol Table Applications Dictionary Clients 
+
+##### 12 - 7 - Symbol Table Applications Indexing Clients 
+
+##### 12 - 8 - Symbol Table Applications Sparse Vectors 
