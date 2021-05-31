@@ -481,11 +481,45 @@ Use quicksort for primitive elements, use mergesort for object (more space)
 
 ### 8 - 3 - Heapsort
 
+[source code](https://algs4.cs.princeton.edu/24pq/Heap.java.html)
 
+```java
+//Heapsort has two phases
+
+public static void sort(Comparable[] pq) {
+  int n = pq.length;
+
+  // heapify phase
+  for (int k = n/2; k >= 1; k--)
+    sink(pq, k, n);
+
+  // sortdown phase
+  int k = n;
+  while (k > 1) {
+    exch(pq, 1, k--);
+    sink(pq, 1, k);
+  }
+}
+
+   
+private static void sink(Comparable[] pq, int k, int n) {
+  while (2*k <= n) {
+    int j = 2*k;
+    if (j < n && less(pq, j, j+1)) j++;
+    if (!less(pq, k, j)) break;
+    exch(pq, k, j);
+    k = j;
+  }
+}
+```
+
+Two Phases of heapsort：
+
+![Trace of heapsort](https://algs4.cs.princeton.edu/24pq/images/heapsort-trace.png)
 
 **summery:**
 
-
+![](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/images/Screen%20Shot%202021-05-31%20at%202.30.04%20PM.png)
 
 ##### 8 - 4 - Event-Driven Simulation 
 
