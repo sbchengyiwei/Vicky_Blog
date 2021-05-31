@@ -305,7 +305,3 @@ class Graph
 - [1319. 连通网络的操作次数](https://leetcode-cn.com/problems/number-of-operations-to-make-network-connected/)
 - [684. 冗余连接](https://leetcode-cn.com/problems/redundant-connection/)
 
-try
-
-![](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/images/ezgif.com-gif-maker.gif)
-
