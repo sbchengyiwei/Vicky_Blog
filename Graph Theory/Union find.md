@@ -307,4 +307,5 @@ class Graph
 
 try
 
-![]()
+![](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/images/ezgif.com-gif-maker.gif)
+
