@@ -465,8 +465,6 @@ private static int partition(Comparable[] a, int lo, int hi) {
 
 Use quicksort for primitive elements, use mergesort for object (more space)
 
-![](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/images/Screen%20Shot%202021-05-31%20at%2011.50.26%20AM.png)
-
 ##### 8 - 1 - APIs and Elementary Implementations
 
 ### 8 - 2 - Binary Heaps
@@ -482,6 +480,12 @@ Use quicksort for primitive elements, use mergesort for object (more space)
 - Children of node at k are at 2k and 2k+1.
 
 ### 8 - 3 - Heapsort
+
+
+
+**summery:**
+
+
 
 ##### 8 - 4 - Event-Driven Simulation 
 
