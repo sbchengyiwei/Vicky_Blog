@@ -27,7 +27,7 @@ Hi, My name is Yiwei Cheng, you can call me Vicky. I am a 21Fall student to NEU 
 
 ### 1.2 Algorithm
 
-- [1. Graph Theory](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Graph%20Theory/Graph%20Theory.md)
+- [1. BFS]()
 
 ## 2 Book
 
