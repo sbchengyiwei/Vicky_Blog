@@ -16,7 +16,7 @@ Hi, My name is Yiwei Cheng, you can call me Vicky. I am a 21Fall student to NEU 
 ### 1.2 Algorithm
 
 - [1. BFS]()
-- [2. Union Find]()
+- [2. Union Find](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Graph%20Theory/Union%20find.md)
 ## 2 Book
 
 - [1. Cracking the Coding Interview](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/book%20notes/Cracking%20the%20Coding%20Interview%20189%20Programming%20Questions%20and%20Solutions.pdf)   [ |  book note]()
