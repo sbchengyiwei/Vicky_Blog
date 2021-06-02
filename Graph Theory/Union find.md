@@ -502,4 +502,10 @@ path compression               N            <5     <5
 
   ![image.png](https://pic.leetcode-cn.com/1609861184-fXdaCo-image.png)
 
+**Find(a):**
 
+![img](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/images/1609861645-DbxMDs-image.png)
+
+**Caculate the weight when compressing the paths:**
+
+![image.png](https://pic.leetcode-cn.com/1609862151-XZgKGY-image.png)
