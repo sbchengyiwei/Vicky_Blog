@@ -11,9 +11,9 @@
 
 ## 1 Definations
 
-> What is graph : Similar to the concept of LinkedList, the data in memory is not necessarily continuous, which is composed of the reference of each node. There are three ways to construct a graph : **Adajcentcy list / Edge list / Adajcentcy matrix.**
+> What is a graph: Similar to the concept of LinkedList, the data in memory is not necessarily continuous, which is composed of the reference of each node. There are three ways to construct a graph: **Adajcentcy list / Edge list / Adajcentcy matrix.**
 >
-> A [*disjoint-set data structure*](http://en.wikipedia.org/wiki/Disjoint-set_data_structure) is a data structure that keeps track of a set of elements partitioned into a number of disjoint (non-overlapping) subsets. A [*union-find algorithm*](http://en.wikipedia.org/wiki/Disjoint-set_data_structure) is an algorithm that performs two useful operations on such a data structure:
+> A [*disjoint-set data structure*](http://en.wikipedia.org/wiki/Disjoint-set_data_structure) is a data structure that keeps track of a set of elements partitioned into several disjoint (non-overlapping) subsets. A [*union-find algorithm*](http://en.wikipedia.org/wiki/Disjoint-set_data_structure) is an algorithm that performs two useful operations on such a data structure:
 > ***Find:*** Determine which subset a particular element is in. This can be used for determining if two elements are in the same subset.
 > ***Union:*** Join two subsets into a single subset.
 
@@ -57,7 +57,7 @@ path compression               N            <5     <5
 
 - **Weighted quick-union with path compression.**
 
-  > There are a number of easy ways to improve the weighted quick-union algorithm further. Ideally, we would like every node to link directly to the root of its tree, but we do not want to pay the price of changing a large number of links. We can approach the ideal simply by making all the nodes that we do examine directly link to the root.
+  > There are many easy ways to improve the weighted quick-union algorithm further. Ideally, we would like every node to link directly to the root of its tree, but we do not want to pay the price of changing a large number of links. We can approach the ideal simply by making all the nodes that we do examine directly link to the root.
 
   ```java
   class WeightedQuickUnionPathCompressionUF {
@@ -109,7 +109,7 @@ path compression               N            <5     <5
 
 ### 3-1 Check cycle
 
-> Check whether a given (undirected) graph contains a cycle or not : Union nodes by edges, if we find two nodes already connected without the given edge, then there is a cycle in this graph.
+> Check whether a given (undirected) graph contains a cycle or not: Union nodes by edges, if we find two nodes already connected without the given edge, then there is a cycle in this graph.
 
 - [684. Redundant Connection](https://leetcode.com/problems/redundant-connection/)
 
@@ -137,7 +137,7 @@ path compression               N            <5     <5
 
 ### 3-2 Get the number of components
 
-> Just union all the nodes according to the question, then use count() fuction in UnionFind to return the number of components.
+> Just union all the nodes according to the question, then use count() function in UnionFind to return the number of components.
 
 - [200. Number of Islands](https://leetcode.com/problems/number-of-islands/)
 
@@ -230,7 +230,7 @@ path compression               N            <5     <5
 
 ### 3-3 Check connectivity
 
-> Keep track of connectivity of each element in a particular subset or connectivity of subsets with each other. / Do operation to the connected or not connected set. / Connect sets and return .
+> Keep track of connectivity of each element in a particular subset or connectivity of subsets with each other. / Do operation to the connected or not connected set. / Connect sets and return.
 
 - [721. Accounts Merge](https://leetcode.com/problems/accounts-merge/)
 
@@ -296,7 +296,7 @@ path compression               N            <5     <5
           int row = board.length;
           int col = board[0].length;
           
-          // Using a virtual node, the parent nodes of O on the boundary are all this virtual node (Decrease time complexity! Same as the percolation.)
+          // Using a virtual node, the parent nodes of O on the boundary are all these virtual node (Decrease time complexity! Same as the percolation.)
           UnionFind uf = new UnionFind(rows * cols + 1);
           int dummyNode = rows * cols;
   
@@ -335,10 +335,10 @@ path compression               N            <5     <5
   
 - [1631. Path With Minimum Effort](https://leetcode.com/problems/path-with-minimum-effort/)
 
-  > 1. Construct the graph by a edge list; 
+  > 1. Construct the graph by an edge list; 
   >
   > 2. Sorts the edge list by its len(the absolute value of the difference between two nodes);
-  > 3. Traverse the edge list and union the nodes, when the top left node and the bottom right node are connected for the first time, output the current len (which is the maxinum len).
+  > 3. Traverse the edge list and union the nodes, when the top-left node and the bottom right node are connected for the first time, output the current len (which is the maximum len).
 
   ```java
   //Union find Solution in java
@@ -395,9 +395,9 @@ path compression               N            <5     <5
 
 
 
-## 4 Advanced: Add weighted edges to Unionfind
+## 4 Advanced: Add weighted edges to Union find
 
-> If each edge has a weight, we mush recalculate the weight when we compress the path.
+> If each edge has a weight, we must recalculate the weight when we compress the path.
 
 - [399. Evaluate Division](https://leetcode.com/problems/evaluate-division/)
 
@@ -498,6 +498,6 @@ path compression               N            <5     <5
 
     ![img](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/images/1609861645-DbxMDs-image.png)
 
-  **Caculate the weight when compressing the paths:**
+  **Calculate the weight when compressing the paths:**
 
     ![image.png](https://pic.leetcode-cn.com/1609862151-XZgKGY-image.png)
