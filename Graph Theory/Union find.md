@@ -4,16 +4,17 @@
 
 ## Content
 
-- [1 Definations](#1-definations)
+- [Definations](#1-definations)
 
-- [2 Implementations](#2-implementations)
+- [Implementations](#2-implementations)
 
-- [3 Use cases](#3-use-cases)
-  * [3-1 Check cycle](#3-1-check-cycle)
-  * [3-2 Get the number of components](#3-2-get-the-number-of-components)
-  * [3-3 Check connectivity](#3-3-check-connectivity)
+- [Use cases](#3-use-cases)
   
-- [4 Advanced: Add weighed edges to Unionfind](#4-advanced--add-weighed-edges-to-unionfind)
+  * [Check cycle](#3-1-check-cycle)
+  * [Get the number of components](#3-2-get-the-number-of-components)
+  * [Check connectivity](#3-3-check-connectivity)
+  
+- [Advanced: Add weighed edges to Unionfind](#4-advanced--add-weighed-edges-to-unionfind)
 
   
 
@@ -117,9 +118,9 @@ path compression               N            <5     <5
 
 ### 3-1 Check cycle
 
-> Check whether a given (undirected) graph contains a cycle or not.
+> Check whether a given (undirected) graph contains a cycle or not : Union nodes by edges, if we find two nodes already connected without the given edge, then there is a cycle in this graph.
 
-- [684. Redundant Connection](https://leetcode-cn.com/problems/redundant-connection/)
+- [684. Redundant Connection](https://leetcode.com/problems/redundant-connection/)
 
   ```java
   //Union find Solution in java
@@ -130,10 +131,10 @@ path compression               N            <5     <5
   class Solution {
       //time: O(2n*α);  space: O(2n).
       public int[] findRedundantConnection(int[][] edges) {
-         if (edges == null || edges.length == 0) return 0;
+         if (edges == null || edges.length == 0) return new int[0];
           UnionFind uf = new UnionFind(edges.length * 2);
           for (int[] edge : edges) {
-              if (uf.connected(edge[0],edge[1])) {return edge;} // if already connected, this edge is a Redundant Connection, this graph has at least one cycle.
+              if (uf.connected(edge[0],edge[1])) {return edge;} // If already connected, this edge is a Redundant Connection, this graph has at least one cycle.
               else {uf.union(edge[0], edge[1]);} 
           }
           return new int[]{-1, -1};
@@ -144,6 +145,8 @@ path compression               N            <5     <5
 
 
 ### 3-2 Get the number of components
+
+> Just union all the nodes according to the question, then use count() fuction in UnionFind to return the number of components.
 
 - [200. Number of Islands](https://leetcode.com/problems/number-of-islands/)
 
@@ -185,7 +188,7 @@ path compression               N            <5     <5
 
 
 
-- [547. 省份数量](https://leetcode-cn.com/problems/number-of-provinces/)
+- [547.  Number of Provinces](https://leetcode.com/problems/number-of-provinces/)
 
   ```java
   //Union find Solution in java
@@ -208,7 +211,9 @@ path compression               N            <5     <5
   }
   ```
 
-- [1319. 连通网络的操作次数](https://leetcode-cn.com/problems/number-of-operations-to-make-network-connected/)
+- [1319.  Number of Operations to Make Network Connected](https://leetcode.com/problems/number-of-operations-to-make-network-connected/)
+
+  > The number of edges to move is the number of components - 1.
 
   ```java
    //Union find Solution in java
@@ -218,7 +223,6 @@ path compression               N            <5     <5
   
   class Solution {
     //time: O(2n*α);  space: O(2n).
-    //The number of edges to move is the number of components - 1
       public int makeConnected(int n, int[][] connections) {
           if (connections.length < n - 1) return -1; // If the number connections is larger than (the number of computers - 1), all computers can not be connected together.
           UnionFind uf = new UnionFind(n);
@@ -237,8 +241,10 @@ path compression               N            <5     <5
 
 > Keep track of connectivity of each element in a particular subset or connectivity of subsets with each other. / Do operation to the connected or not connected set. / Connect sets and return .
 
-- [721. 账户合并](https://leetcode-cn.com/problems/accounts-merge/)
+- [721. Accounts Merge](https://leetcode.com/problems/accounts-merge/)
 
+  > Create an id for each email, map all emails with ids and names.
+  
   ```java
   //Union find Solution in java
   class UnionFind {
@@ -246,6 +252,7 @@ path compression               N            <5     <5
   }
   
   class Solution {
+      //time: O(n*m*α);  space: O(n*m).
       public List<List<String>> accountsMerge(List<List<String>> accounts) {
           //time: O(m*n*α);  space: O(m*n).
         	if (accounts == null) return new ArrayList<>();
@@ -255,7 +262,6 @@ path compression               N            <5     <5
           
           int id = 0;
           UnionFind uf = new UnionFind(10000); // 1000 * 10 
-        
           for (List<String> account : accounts) {
               String name = account.get(0);
               for (int i = 1; i < account.size(); i++) {
@@ -264,17 +270,16 @@ path compression               N            <5     <5
                   uf.union(emailToId.get(account.get(1)), emailToId.get(account.get(i)));
               }
           }
-          //each email has an id , if email is union then they have the same root! id
-          // each email has a name,  but we cannot determine whehter they are same person, name can repeat.
-          // but we must can arrange the same id's email a right name, don' worry.
-          Map<Integer, List<String>> res = new HashMap<>();
+        
+          Map<Integer, List<String>> res = new HashMap<>(); //eid -> list(emails of same person)
           for (String email : emailToId.keySet()) {
-              int eid = uf.find(emailToId.get(email));  // use root id!
-              res.computeIfAbsent(eid, k -> new ArrayList<>()).add(email);
+              int eid = uf.find(emailToId.get(email));  //Each email has an id , if two emails belong to the same person, then they are unioned, and they have the same *root* id (eid).
+              res.computeIfAbsent(eid, k -> new ArrayList<>()).add(email); 
+            	
           }
           for (List<String> component : res.values()) {
-              Collections.sort(component);
-              component.add(0, emailToName.get(component.get(0)));
+              Collections.sort(component);  
+              component.add(0, emailToName.get(component.get(0))); // add the person's name
           }
           return new ArrayList(res.values());   
           
@@ -284,7 +289,7 @@ path compression               N            <5     <5
   
   
   
-- [130. 被围绕的区域](https://leetcode-cn.com/problems/surrounded-regions/)
+- [130. Surrounded Regions](https://leetcode.com/problems/surrounded-regions/)
 
   ```java
   //Union find Solution in java
@@ -296,10 +301,11 @@ path compression               N            <5     <5
    	 //time: O(m*n*α);  space: O(m*n).
       int[][] dirs = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
       public void solve(char[][] board) {
+          if (board == null || board.length == 0 || board[0].length == 0) return;
           int row = board.length;
           int col = board[0].length;
           
-          // 用一个虚拟节点, 边界上的O 的父节点都是这个虚拟节点 (decrease time complexity! same as percolation)
+          // Using a virtual node, the parent nodes of O on the boundary are all this virtual node (Decrease time complexity! Same as the percolation.)
           UnionFind uf = new UnionFind(rows * cols + 1);
           int dummyNode = rows * cols;
   
@@ -322,7 +328,7 @@ path compression               N            <5     <5
           for (int i = 0; i < rows; i++) {
               for (int j = 0; j < cols; j++) {
                   if (uf.isConnected(node(i, j), dummyNode)) {
-                      // 和dummyNode 在一个连通区域的,那么就是O；
+                      // If it is connected with dummyNode, then it is O;
                       board[i][j] = 'O';
                   } else {
                       board[i][j] = 'X';
@@ -336,7 +342,12 @@ path compression               N            <5     <5
   
   
   
-- [1631. 最小体力消耗路径](https://leetcode-cn.com/problems/path-with-minimum-effort/)
+- [1631. Path With Minimum Effort](https://leetcode.com/problems/path-with-minimum-effort/)
+
+  > 1. Construct the graph by a edge list; 
+  >
+  > 2. Sorts the edge list by its len(the absolute value of the difference between two nodes);
+  > 3. Traverse the edge list and union the nodes, when the top left node and the bottom right node are connected for the first time, output the current len (which is the maxinum len).
 
   ```java
   //Union find Solution in java
@@ -344,32 +355,25 @@ path compression               N            <5     <5
   	// Same as WeightedQuickUnionPathCompressionUF class in [2-Implementations].
   }
   
-  // One edge is composed of edge=[x,y,d], where d is the absolute value of the difference between x and y
   class Edge {
       int x, y, len;
       public Edge(int x, int y, int len) {
           this.x = x;
           this.y = y;
-          this.len = len;
+          this.len = len; //the absolute value of the difference between x and y
       }
   }
   
-  // 2.根据边列表中的 各点差的绝对值 从小到大排序
-  
-  // 3.依次遍历edges， 并将各点进行连通， 当最左上与最左下 第一次连通时结束，并输出 所遍历过edges中的最大d
-  
   class Solution {
       //time: O(m*n*α);  space: O(m*n).
-      
       public int minimumEffortPath(int[][] heights) {
-      	// corner case...
+        	if (heights == null || heights.length == 0 || heights[0].length == 0) return 0;
           int row = heights.length, col = heights[0].length;
   
-          // 将所有的边存入list
+         // save all edges(the right and down sides of each node) into list
           List<Edge> list = new ArrayList<>();
           for (int i = 0; i < row; i++) {
               for (int j = 0; j < col; j++) {
-              	// 分别存一下向右走和向下走的边 就可以了！ 就能保证全部连通
                   if (j < col - 1) {
                       list.add(new Edge(i * col + j, i * col + j + 1, Math.abs(heights[i][j] - heights[i][j + 1])));
                   }
@@ -378,94 +382,71 @@ path compression               N            <5     <5
                   }
               }
           }
-          
           // Sort the edge list from small to large according to len
           Collections.sort(list, (e1, e2) -> (e1.len - e2.len));
           
           UnionFind uf = new UnionFind(row * col);
-          
           int start = 0, end = row * col - 1;
-          
           for (int i = 0; i < list.size(); i++) {
               Edge edge = list.get(i);
               uf.union(edge.x, edge.y);
-              // 发现起点终点连通了，则返回当前边的权
+              //When the top left node and the bottom right node are connected for the first time, output the current len (which is the maxinum len).
               if (uf.find(start) == uf.find(end)) {
                   return edge.len;
               }
           }
-          
-          // 这条语句走不到，因为答案一定存在
           return 0;
       }  
   
   }       
   ```
-  
+
 
 
 
 ## 4 Advanced: Add weighted edges to Unionfind
 
-- [399. 除法求值](https://leetcode-cn.com/problems/evaluate-division/)
+> If each edge has a weight, we mush recalculate the weight when we compress the path.
+
+- [399. Evaluate Division](https://leetcode.com/problems/evaluate-division/)
 
   ```java
-  // 并查集结构——底层通过数组实现
+  //Union find Solution in java
   class UnionFind {
-      // 指向父节点的id
-      private int[] id;
   
-      // 指向父节点的权值
-      private double[] weight;
+      private int[] id;
+      private double[] weight; // add weight to edge
   
       public UnionFind(int n) {
           id = new int[n];
+  
           weight = new double[n];
           for (int i = 0; i < n; i++) {
               id[i] = i;
-              id[i] = 1.0d;
+              weight[i] = 1.0d;
           }
       }
   
-      /**
-       * 结点合并
-       * @param x  未知结点id
-       * @param y
-       * @param value  两个结点连通的权值
-       */
       public void union(int x, int y, double value) {
-          // 首先获得两个结点的根节点的id
+  
           int rootX = find(x);
           int rootY = find(y);
-          if (rootX == rootY) {
-              // 本身就是连通分量
-              return;
-          }
-  
-          id[rootX] = rootY;
-          weight[rootX] = weight[y] * value / weight[x];
+          if (rootX != rootY) {
+             id[rootX] = rootY;
+             weight[rootX] = weight[y] * value / weight[x];
+          }  
       }
-  
-      /**
-       * 路径压缩 —— 递归实现
-       * @param x
-       * @return  根节点的id
-       */
+      
+      //Use recursion to find the root id.
       public int find(int x) {
           if (x != id[x]) {
               int origin = id[x];  
-              id[x] = find(id[x]);  // 递归调用找到最终根节点  不能用 while 必须用递归好好的一层一层找 * weight 
-              weight[x] *= weight[origin];  // post order 因为前面要用传上来的数
+              id[x] = find(id[x]); 
+              weight[x] *= weight[origin];  // post order: calculate the weight of bottom edges
           }
           return id[x];
       }
   
-      /**
-       * 并查集——查询方法
-       * @param x
-       * @param y
-       * @return
-       */
       public double isConnectedOrFraction(int x, int y) {
           int rootX = find(x);
           int rootY = find(y);
@@ -477,12 +458,13 @@ path compression               N            <5     <5
       }
   }
   
-  
   class Solution {
+      //time: O(2n*α);  space: O(2n).
       public double[] calcEquation(List<List<String>> equations, double[] values, List<List<String>> queries) {
-          //corner case
-          //union
-          Map<String, Integer> map = new HashMap<>();
+          if (queries == null) return new double[0];
+          Map<String, Integer> map = new HashMap<>(); // var -> id
+        
+        	// union
           int id = 0;
           UnionFind uf = new UnionFind(2 * equations.size());
           for (int i = 0; i < equations.size(); i++) {
@@ -502,9 +484,9 @@ path compression               N            <5     <5
               Integer id2 = map.get(queries.get(i).get(1));
   
               if (id1 == null || id2 == null) {
-                  res[i] = -1.0; // Return the answers to all queries. If a single answer cannot be determined, return -1.0.
+                  res[i] = -1.0; // invalid query
               }else {
-                  res[i] = uf.isConnectedOrFraction(id1, id2);
+                  res[i] = uf.isConnectedOrFraction(id1, id2); 
               }
           }
           return res;
@@ -512,6 +494,6 @@ path compression               N            <5     <5
   }
   ```
 
-  
+  ![img](https://pic.leetcode-cn.com/1609860627-dZoDYx-image.png)
 
 
