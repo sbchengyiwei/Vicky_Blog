@@ -487,16 +487,16 @@ path compression               N            <5     <5
 
   **Add weight to edges:**
 
-  ![img](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/images/1609860627-dZoDYx-image.png)
+    ![img](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/images/1609860627-dZoDYx-image.png)
 
   **Compress paths:**
+  
+    ![image.png](https://pic.leetcode-cn.com/1609861184-fXdaCo-image.png)
 
-  ![image.png](https://pic.leetcode-cn.com/1609861184-fXdaCo-image.png)
+  **Find(a):**
 
-**Find(a):**
+    ![img](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/images/1609861645-DbxMDs-image.png)
 
-![img](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/images/1609861645-DbxMDs-image.png)
+  **Caculate the weight when compressing the paths:**
 
-**Caculate the weight when compressing the paths:**
-
-![image.png](https://pic.leetcode-cn.com/1609862151-XZgKGY-image.png)
+    ![image.png](https://pic.leetcode-cn.com/1609862151-XZgKGY-image.png)
