@@ -494,6 +494,12 @@ path compression               N            <5     <5
   }
   ```
 
-  ![img](https://pic.leetcode-cn.com/1609860627-dZoDYx-image.png)
+  **Add weight to edges:**
+
+  ![img](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/images/1609860627-dZoDYx-image.png)
+
+  **Compress paths:**
+
+  ![image.png](https://pic.leetcode-cn.com/1609861184-fXdaCo-image.png)
 
 
