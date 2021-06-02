@@ -485,9 +485,10 @@ path compression               N            <5     <5
   }
   ```
 
-  **Add weight to edges:**
 
-    ![img](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/images/1609860627-dZoDYx-image.png)
+  **Add weight to edges:**
+  
+    ![img](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/images/a.png)
 
   **Compress paths:**
   
