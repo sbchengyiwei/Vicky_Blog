@@ -807,3 +807,56 @@ class Solution {
 
 - [684. 冗余连接](https://leetcode-cn.com/problems/redundant-connection/)
 
+```java
+class UnionFind {
+    int count;
+    int[] id;
+    int[] sz; 
+    public UnionFind(int n) {
+        count = n;
+        id = new int[n];
+        sz = new int[n];
+      //! initialize the id[] by i and sz[] by 1
+        for (int i = 0; i < n; i++) {
+            id[i] = i;
+            sz[i] = 1;
+        }
+    }
+    
+    public int find(int x) {
+        while (x != id[x]) {
+            id[x] = id[id[x]]; //compress path
+            x = id[x];
+        }
+        return x;
+    }
+    
+    public void union(int p, int q) {
+        int rootP = find(p);
+        int rootQ = find(q);
+
+        if (rootP != rootQ) {
+            if (sz[rootP] > sz[rootQ]) {id[rootQ] = rootP; sz[rootP]++;}
+            else {id[rootP] = rootQ; sz[rootQ]++;}  
+            count--;
+        }
+    }  
+    
+    public int count(){
+        return count;
+    }
+}
+
+class Solution {
+    public int makeConnected(int n, int[][] connections) {
+        if (connections.length < n - 1) return -1;
+        UnionFind uf = new UnionFind(n);
+        for (int[] connection : connections) {
+            uf.union(connection[0], connection[1]);
+        }
+        int count = uf.count();
+        return count - 1;
+    }
+}
+```
+
