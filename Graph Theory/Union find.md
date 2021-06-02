@@ -424,7 +424,7 @@ path compression               N            <5     <5
           int rootY = find(y);
           if (rootX != rootY) {
              id[rootX] = rootY;
-             weight[rootX] = weight[y] * value / weight[x];
+             weight[rootX] = weight[y] * value / weight[x]; // union(a, b) -> a = 2b
           }  
       }
       
@@ -433,7 +433,7 @@ path compression               N            <5     <5
           if (x != id[x]) {
               int origin = id[x];  
               id[x] = find(id[x]); 
-              weight[x] *= weight[origin];  // post order: calculate the weight of bottom edges
+              weight[x] *= weight[origin];  // post order: calculate the weight of bottom edges (a = 2b, b = 3c -> a = 6c)
           }
           return id[x];
       }
@@ -463,7 +463,7 @@ path compression               N            <5     <5
               String var2 = equations.get(i).get(1);
               map.putIfAbsent(var1, id++);
               map.putIfAbsent(var2, id++);
-              uf.union(map.get(var1), map.get(var2), values[i]);
+              uf.union(map.get(var1), map.get(var2), values[i]); 
           }
           
           // query
