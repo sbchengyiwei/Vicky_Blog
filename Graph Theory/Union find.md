@@ -221,83 +221,83 @@ class Graph
 
 - [200. Number of Islands](https://leetcode.com/problems/number-of-islands/)
 
-```java
-//Union find Solution in java
-class UnionFind {
-    int count; // number of components (island and water)
-    int[] id;
-    int[] sz;
-    
-    public UnionFind(char[][] grid) {
-        int row = grid.length;
-        int col = grid[0].length;
-        count = col * row;
-        id = new int[count];
-        sz = new int[count];
-      //! initialize the id[] by i and sz[] by 1
-        for (int i = 0; i < count; i++) {
-            id[i] = i;
-            sz[i] = 1;
-        }
-    }
-    
-    public int find(int x) {
-        while (x != id[x]) {
-            id[x] = id[id[x]]; //compress path
-            x = id[x];
-        }
-        return x;
-    }
-    
-    public void union(int p, int q) {
-        int rootP = find(p);
-        int rootQ = find(q);
+  ```java
+  //Union find Solution in java
+  class UnionFind {
+      int count; // number of components (island and water)
+      int[] id;
+      int[] sz;
+      
+      public UnionFind(char[][] grid) {
+          int row = grid.length;
+          int col = grid[0].length;
+          count = col * row;
+          id = new int[count];
+          sz = new int[count];
+        //! initialize the id[] by i and sz[] by 1
+          for (int i = 0; i < count; i++) {
+              id[i] = i;
+              sz[i] = 1;
+          }
+      }
+      
+      public int find(int x) {
+          while (x != id[x]) {
+              id[x] = id[id[x]]; //compress path
+              x = id[x];
+          }
+          return x;
+      }
+      
+      public void union(int p, int q) {
+          int rootP = find(p);
+          int rootQ = find(q);
+  
+          if (rootP != rootQ) {
+              if (sz[rootP] > sz[rootQ]) {id[rootQ] = rootP; sz[rootP]++;}
+              else {id[rootP] = rootQ; sz[rootQ]++;}
+              count -= 1;  
+             
+          }
+      }
+      
+      public int count() {
+          return count;
+      }
+  }
+  
+  class Solution {
+      //time: O(m*n*k)  space: O(m*n)
+    	//After the path compression, k is smaller than 5.
+      int[][] dirs = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+      
+      public int numIslands(char[][] grid) {
+          if (grid == null || grid.length == 0 || grid[0].length == 0) return 0;
+          int row = grid.length;
+          int col = grid[0].length;
+          int waters = 0;
+          UnionFind uf = new UnionFind(grid);
+          for (int i = 0; i < row; i++) {
+              for (int j = 0; j < col; j++) {
+                  if (grid[i][j] == '0') {
+                      waters++;
+                  } else {
+                      for (int[] dir : dirs) {
+                          int x = i + dir[0], y = j + dir[1];
+                          if (x >= 0 && y >= 0 && x < grid.length && y < grid[0].length && grid[x][y] == '1') {
+                              uf.union(i * col + j, x * col + y); // convert grid to array
+  
+                          }
+                      }
+                  }
+              }
+          }
+          return uf.count() - waters;
+      }
+  }
+  ```
 
-        if (rootP != rootQ) {
-            if (sz[rootP] > sz[rootQ]) {id[rootQ] = rootP; sz[rootP]++;}
-            else {id[rootP] = rootQ; sz[rootQ]++;}
-            count -= 1;  
-           
-        }
-    }
-    
-    public int count() {
-        return count;
-    }
-}
-
-class Solution {
-    //time: O(m*n*k)  space: O(m*n)
-  	//After the path compression, k is smaller than 5.
-    int[][] dirs = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
-    
-    public int numIslands(char[][] grid) {
-        if (grid == null || grid.length == 0 || grid[0].length == 0) return 0;
-        int row = grid.length;
-        int col = grid[0].length;
-        int waters = 0;
-        UnionFind uf = new UnionFind(grid);
-        for (int i = 0; i < row; i++) {
-            for (int j = 0; j < col; j++) {
-                if (grid[i][j] == '0') {
-                    waters++;
-                } else {
-                    for (int[] dir : dirs) {
-                        int x = i + dir[0], y = j + dir[1];
-                        if (x >= 0 && y >= 0 && x < grid.length && y < grid[0].length && grid[x][y] == '1') {
-                            uf.union(i * col + j, x * col + y); // convert grid to array
-
-                        }
-                    }
-                }
-            }
-        }
-        return uf.count() - waters;
-    }
-}
-```
-
-
+  
 
 - [721. 账户合并](https://leetcode-cn.com/problems/accounts-merge/)
 
