@@ -1,21 +1,12 @@
-
-
-
-
 ## Content
 
-- [Definations](#1-definations)
-
-- [Implementations](#2-implementations)
-
-- [Use cases](#3-use-cases)
-  
-  * [Check cycle](#3-1-check-cycle)
-  * [Get the number of components](#3-2-get-the-number-of-components)
-  * [Check connectivity](#3-3-check-connectivity)
-  
-- [Advanced: Add weighed edges to Unionfind](#4-advanced--add-weighed-edges-to-unionfind)
-
+- [1. Definations](#1-definations)
+- [2. Implementations](#2-implementations)
+- [3. Use cases](#3-use-cases)
+  * [3-1 Check cycle](#3-1-check-cycle)
+  * [3-2 Get the number of components](#3-2-get-the-number-of-components)
+  * [3-3 Check connectivity](#3-3-check-connectivity)
+- [4. Advanced: Add weighted edges to Unionfind](#4-advanced--add-weighted-edges-to-unionfind)
   
 
 ## 1 Definations
@@ -496,16 +487,16 @@ path compression               N            <5     <5
 
   **Add weight to edges:**
 
-  ![img](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/images/1609860627-dZoDYx-image.png)
+    ![img](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/images/1609860627-dZoDYx-image.png)
 
   **Compress paths:**
+  
+    ![image.png](https://pic.leetcode-cn.com/1609861184-fXdaCo-image.png)
 
-  ![image.png](https://pic.leetcode-cn.com/1609861184-fXdaCo-image.png)
+  **Find(a):**
 
-**Find(a):**
+    ![img](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/images/1609861645-DbxMDs-image.png)
 
-![img](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/images/1609861645-DbxMDs-image.png)
+  **Caculate the weight when compressing the paths:**
 
-**Caculate the weight when compressing the paths:**
-
-![image.png](https://pic.leetcode-cn.com/1609862151-XZgKGY-image.png)
+    ![image.png](https://pic.leetcode-cn.com/1609862151-XZgKGY-image.png)
