@@ -11,12 +11,15 @@
 
 ## 1 Definations
 
-> What is a graph: Similar to the concept of LinkedList, the data in memory is not necessarily continuous, which is composed of the reference of each node. There are three ways to construct a graph: **Adajcentcy list / Edge list / Adajcentcy matrix.**
->
-> A [*disjoint-set data structure*](http://en.wikipedia.org/wiki/Disjoint-set_data_structure) is a data structure that keeps track of a set of elements partitioned into several disjoint (non-overlapping) subsets. A [*union-find algorithm*](http://en.wikipedia.org/wiki/Disjoint-set_data_structure) is an algorithm that performs two useful operations on such a data structure:
-> ***Find:*** Determine which subset a particular element is in. This can be used for determining if two elements are in the same subset.
-> ***Union:*** Join two subsets into a single subset.
-
+- What is Disjoint-Set and Union-Find?
+  > A [*disjoint-set data structure*](http://en.wikipedia.org/wiki/Disjoint-set_data_structure) is a data structure that keeps track of a set of elements partitioned into several disjoint (non-overlapping) subsets. A [*union-find algorithm*](http://en.wikipedia.org/wiki/Disjoint-set_data_structure) is an algorithm that performs two useful operations on such a data structure:
+  > ***Find:*** Determine which subset a particular element is in. This can be used for determining if two elements are in the same subset.
+  > ***Union:*** Join two subsets into a single subset.
+  > Usually used in Graph questions.
+ 
+- What is a Graph data structure?
+  > Similar to the concept of LinkedList, the data in memory is not necessarily continuous, which is composed of the reference of each node. 
+  > There are three ways to construct a graph: **Adajcentcy list / Edge list / Adajcentcy matrix.**
 
 
 - **Union-Find API**
