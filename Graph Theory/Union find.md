@@ -32,73 +32,73 @@ path compresson               N            <5     <5
 */
 ```
 
-1. Quick Find 
+- Quick Find 
 
-    ![Quick find overview](https://algs4.cs.princeton.edu/15uf/images/quick-find-overview.png)
+![Quick find overview](https://algs4.cs.princeton.edu/15uf/images/quick-find-overview.png)
 
-2. Quick Union
+- Quick Union
 
-   ![Quick union overview](https://algs4.cs.princeton.edu/15uf/images/quick-union-overview.png)
+![Quick union overview](https://algs4.cs.princeton.edu/15uf/images/quick-union-overview.png)
 
-3. Weighted quick-union
+- Weighted quick-union
 
-   ![Weighted quick union overview](https://algs4.cs.princeton.edu/15uf/images/weighted-quick-union-overview.png)
+![Weighted quick union overview](https://algs4.cs.princeton.edu/15uf/images/weighted-quick-union-overview.png)
 
-4. **Weighted quick-union with path compression.**
+- **Weighted quick-union with path compression.**
 
-   > There are a number of easy ways to improve the weighted quick-union algorithm further. Ideally, we would like every node to link directly to the root of its tree, but we do not want to pay the price of changing a large number of links. We can approach the ideal simply by making all the nodes that we do examine directly link to the root.
+> There are a number of easy ways to improve the weighted quick-union algorithm further. Ideally, we would like every node to link directly to the root of its tree, but we do not want to pay the price of changing a large number of links. We can approach the ideal simply by making all the nodes that we do examine directly link to the root.
 
-   ```java
-   public WeightedQuickUnionPathCompressionUF(int n) {
-       private int[] id;
-     	private int[] sz;
-       private int count;
-       
-       public UnionFind(char[][] grid) {
-           int row = grid.length;
-           int col = grid[0].length;
-           count = row * col;
-           id = new int[row * col];
-         	sz = new int[row * col]; //weighted quick-union
-           for (int i = 0; i < row * col; i++) {
-               id[i] = i;
-             	sz[i] = 1;  
-           }
-       }
-       
-       public int find(int x) {
-           while (x != id[x]) {
-             	id[x] = id[id[x]]; // compress path
-               x = id[x];
-           }
-           return x;
-       }
-       
-       public void union(int x, int y) {
-           int rootX = find(x);
-           int rootY = find(y);
-           if (rootX != rootY) {
-               if (sz[rootX] > sz[rootY]) {id[rootY] = rootX; sz[rootX] += sz[rootY];}
-             	else {id[rootX] = rootY; sz[rootY] += sz[rootX];}
-               count--;
-           }
-       }
-       
-       public int count() {
-           return count;
-       }
-     
-     	public boolean connected(int i, int j) {
-         return find(i) == find(j);
-       }
-   }
-   ```
+```java
+public WeightedQuickUnionPathCompressionUF(int n) {
+    private int[] id;
+  	private int[] sz;
+    private int count;
+    
+    public UnionFind(char[][] grid) {
+        int row = grid.length;
+        int col = grid[0].length;
+        count = row * col;
+        id = new int[row * col];
+      	sz = new int[row * col]; //weighted quick-union
+        for (int i = 0; i < row * col; i++) {
+            id[i] = i;
+          	sz[i] = 1;  
+        }
+    }
+    
+    public int find(int x) {
+        while (x != id[x]) {
+          	id[x] = id[id[x]]; // compress path
+            x = id[x];
+        }
+        return x;
+    }
+    
+    public void union(int x, int y) {
+        int rootX = find(x);
+        int rootY = find(y);
+        if (rootX != rootY) {
+            if (sz[rootX] > sz[rootY]) {id[rootY] = rootX; sz[rootX] += sz[rootY];}
+          	else {id[rootX] = rootY; sz[rootY] += sz[rootX];}
+            count--;
+        }
+    }
+    
+    public int count() {
+        return count;
+    }
+  
+  	public boolean connected(int i, int j) {
+      return find(i) == find(j);
+    }
+}
+```
 
-   
+
 
 ## 3 Use cases
 
-2. **Check whether a given (undirected) graph contains a cycle or not.**
+- **Check whether a given (undirected) graph contains a cycle or not.**
 
 ```java
 // Java Program for union-find algorithm to detect cycle in a graph
@@ -200,7 +200,7 @@ class Graph
 
 ```
 
-2. **Keep track of connectivity of each element in a particular subset or connectivity of subsets with each other. (examples in next section)**
+- **Keep track of connectivity of each element in a particular subset or connectivity of subsets with each other. (examples in next section)**
 
 ## 4 LeetCode Quesions
 
