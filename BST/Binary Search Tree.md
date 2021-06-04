@@ -44,7 +44,7 @@ This picture better shows the BST structure:
 
 ### 2.1 Build
 
--  [108. Convert Sorted Array to Binary Search Tree](https://leetcode.com/problems/convert-sorted-array-to-binary-search-tree/)
+- [108. Convert Sorted Array to Binary Search Tree](https://leetcode.com/problems/convert-sorted-array-to-binary-search-tree/)
 
   ```java
   class Solution {
@@ -55,7 +55,7 @@ This picture better shows the BST structure:
       private TreeNode helper(int[] nums, int left, int right) {
           if (left > right) return null;
           int mid = (right - left) / 2 + left;
-	  // set the number in the middle as the root
+    // set the number in the middle as the root
           TreeNode root = new TreeNode(nums[mid]);
           root.left = helper(nums, left, mid - 1);
           root.right = helper(nums, mid + 1, right);
@@ -63,6 +63,8 @@ This picture better shows the BST structure:
       }
   }
   ```
+
+  
 
 - [109. Convert Sorted List to Binary Search Tree](https://leetcode.com/problems/convert-sorted-list-to-binary-search-tree/)
 
@@ -94,80 +96,82 @@ This picture better shows the BST structure:
   
 - [1008. Construct Binary Search Tree from Preorder Traversal](https://leetcode.com/problems/construct-binary-search-tree-from-preorder-traversal/) (2 ways)
 
-```java
+  ```java
   // monotonic stack keeps the timeO(n)
-class Solution {
-    public TreeNode bstFromPreorder(int[] preorder) {
-        if (preorder == null) return null;
-        Stack<TreeNode> stack = new Stack<>();
-        TreeNode root = new TreeNode(preorder[0]);
-        stack.push(root);
+  class Solution {
+      public TreeNode bstFromPreorder(int[] preorder) {
+          if (preorder == null) return null;
+          Stack<TreeNode> stack = new Stack<>();
+          TreeNode root = new TreeNode(preorder[0]);
+          stack.push(root);
+  
+          for (int i = 1; i < preorder.length; i++) {
+              TreeNode node = new TreeNode(preorder[i]);  
+              if (preorder[i] < stack.peek().val) {
+                  stack.peek().left  = node;  // ! node 
+              } else {
+                  TreeNode pre = stack.peek();
+                  while (!stack.isEmpty() && preorder[i] > stack.peek().val) {
+                      pre = stack.pop();  
+                  }
+                  pre.right = node;
+              }
+              stack.push(node);  // we must put the node we insert to root into the stack, not a new TreeNode without any link.
+          }
+          return root;
+          
+      }
+  }
+  
+  
+  //dfs traverse and insert one by one;
+  class Solution {
+      private TreeNode root;
+      public TreeNode bstFromPreorder(int[] preorder) {
+          root = new TreeNode(preorder[0]);
+          for (int i = 1; i < preorder.length; ++i) insert(preorder[i], root);
+          return root;
+      }
+  
+      private void insert(int val, TreeNode root) {
+          if (val < root.val) {
+              if (root.left == null) root.left = new TreeNode(val);
+              else insert(val, root.left);
+          } else {
+              if (root.right == null) root.right = new TreeNode(val);
+              else insert(val, root.right);
+          }
+      }
+  }
+  
+  // normal left part is smaller than root, so just partion the left array into two parts
+  class Solution {
+      public TreeNode bstFromPreorder(int[] preorder) {
+          if (preorder == null || preorder.length == 0) return null;
+          return dfs(preorder, 0, preorder.length - 1);
+      }
+      private TreeNode dfs(int[] preorder, int left, int right) {
+          if (left > right) return null;
+          TreeNode root = new TreeNode(preorder[left]);
+  				// use binary search find the partition place
+          int l = left;
+          int r = right;
+          while (l < r) {
+              int mid = l + (r - l + 1) / 2;
+              if (preorder[mid] < preorder[left]) {
+                  l = mid;
+              } else {
+                  r = mid - 1;
+              }
+          }
+          root.left = dfs(preorder, left + 1, l);
+          root.right = dfs(preorder, l + 1, right);
+          return root;
+      }
+  }
+  ```
 
-        for (int i = 1; i < preorder.length; i++) {
-            TreeNode node = new TreeNode(preorder[i]);  
-            if (preorder[i] < stack.peek().val) {
-                stack.peek().left  = node;  // ! node 
-            } else {
-                TreeNode pre = stack.peek();
-                while (!stack.isEmpty() && preorder[i] > stack.peek().val) {
-                    pre = stack.pop();  
-                }
-                pre.right = node;
-            }
-            stack.push(node);  // we must put the node we insert to root into the stack, not a new TreeNode without any link.
-        }
-        return root;
-        
-    }
-}
-
-
-//dfs traverse and insert one by one;
-class Solution {
-    private TreeNode root;
-    public TreeNode bstFromPreorder(int[] preorder) {
-        root = new TreeNode(preorder[0]);
-        for (int i = 1; i < preorder.length; ++i) insert(preorder[i], root);
-        return root;
-    }
-
-    private void insert(int val, TreeNode root) {
-        if (val < root.val) {
-            if (root.left == null) root.left = new TreeNode(val);
-            else insert(val, root.left);
-        } else {
-            if (root.right == null) root.right = new TreeNode(val);
-            else insert(val, root.right);
-        }
-    }
-}
-
-// normal left part is smaller than root, so just partion the left array into two parts
-class Solution {
-    public TreeNode bstFromPreorder(int[] preorder) {
-        if (preorder == null || preorder.length == 0) return null;
-        return dfs(preorder, 0, preorder.length - 1);
-    }
-    private TreeNode dfs(int[] preorder, int left, int right) {
-        if (left > right) return null;
-        TreeNode root = new TreeNode(preorder[left]);
-				// use binary search find the partition place
-        int l = left;
-        int r = right;
-        while (l < r) {
-            int mid = l + (r - l + 1) / 2;
-            if (preorder[mid] < preorder[left]) {
-                l = mid;
-            } else {
-                r = mid - 1;
-            }
-        }
-        root.left = dfs(preorder, left + 1, l);
-        root.right = dfs(preorder, l + 1, right);
-        return root;
-    }
-}
-```
+  
 
 
 ### 2.2 Search / Insert / Delete
