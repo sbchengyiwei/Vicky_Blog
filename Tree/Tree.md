@@ -1,8 +1,10 @@
-1.traversal ✔️
-2.construction ✔️
-3.path 
-4.depth
-5.reverse
+1.traversal ✔️ 
+**2.construction** ✔️
+**3.path**  ✔️
+**4.depth / breadth** ✔️
+5.reverse ✔️ 6.LCA ✔️
+
+
 
 ### Construction 
 
@@ -181,54 +183,6 @@
   }
   ```
 
-- [297. Serialize and Deserialize Binary Tree](https://leetcode.com/problems/serialize-and-deserialize-binary-tree/)
-
-  ```java
-  public class Codec {
-      // Encodes a tree to a single string.
-      public String serialize(TreeNode root) {
-          if (root == null) return "";
-          StringBuilder res = new StringBuilder();
-          Queue<TreeNode> queue = new LinkedList<>();
-          queue.offer(root);
-          while (!queue.isEmpty()) { // 其实只要不是需要把每个level 明确划分的话都可以不用加 size
-              TreeNode cur = queue.poll();
-              if (cur == null) {
-                  res.append("null ");
-                  continue;
-              }
-              res.append(cur.val + " ");
-              //  上面的 continue 保证 cur 一定不是 null 所以可以把cur.left和 cur.right 加进去
-              queue.offer(cur.left);
-              queue.offer(cur.right);
-          }
-          return res.toString();
-      }
-  
-      // Decodes your encoded data to tree.
-      public TreeNode deserialize(String data) {
-          if (data.equals("")) return null;
-          String[] str = data.split(" ");
-          TreeNode root = new TreeNode(Integer.parseInt(str[0]));
-          Queue<TreeNode> queue = new LinkedList<>();
-          queue.offer(root);
-          for (int i = 1; i < str.length; i++) {
-              TreeNode cur = queue.poll();
-              if (!str[i].equals("null")) {
-                  cur.left = new TreeNode(Integer.parseInt(str[i]));
-                  queue.offer(cur.left);
-              }
-              i++;
-              if (!str[i].equals("null")) {
-                  cur.right = new TreeNode(Integer.parseInt(str[i]));
-                  queue.offer(cur.right);
-              }
-          }
-          return root;
-     }
-  }
-  ```
-
   
 
 - [297. Serialize and Deserialize Binary Tree](https://leetcode.com/problems/serialize-and-deserialize-binary-tree/)
@@ -279,3 +233,175 @@
   ```
 
   
+
+
+
+### Path ：
+
+1. from the root to the leaf
+
+2. start or end in the middle
+
+3. span aross two branches
+
+- [112. Path Sum](https://leetcode-cn.com/problems/path-sum/)
+
+  ```java
+  //Input: root = [5,4,8,11,null,13,4,7,2,null,null,null,1], targetSum = 22
+  //Output: true
+  
+  class Solution {
+      public boolean hasPathSum(TreeNode root, int targetSum) {
+          if (root == null) return false;
+          if (root.right == null && root.left == null)  return root.val == targetSum;
+          return hasPathSum(root.left, targetSum - root.val) || hasPathSum(root.right, targetSum - root.val);
+      }
+  }
+  ```
+
+- [113. Path Sum II](https://leetcode-cn.com/problems/path-sum-ii/)
+
+  ```java
+  //Input: root = [5,4,8,11,null,13,4,7,2,null,null,5,1], targetSum = 22
+  //Output: [[5,4,11,2],[5,8,4,5]]
+  class Solution {
+      public List<List<Integer>> pathSum(TreeNode root, int targetSum) {
+          
+          List<List<Integer>> res = new ArrayList<>();
+          if (root == null) return res;
+          dfs(root, res, targetSum, new ArrayList<>());
+          return res;
+      }
+  
+      private void dfs(TreeNode root, List<List<Integer>> res, int targetSum, List<Integer> list) {
+          if (root.right == null && root.left == null)  {
+              if (root.val == targetSum) {
+                  list.add(root.val);
+                  res.add(new ArrayList<>(list));
+                  list.remove(list.size() - 1);
+                  return;
+              }
+          }
+          if (root.left != null) {
+              list.add(root.val);
+              dfs(root.left, res, targetSum - root.val, list);
+              list.remove(list.size() - 1);
+          }
+          if (root.right != null) {
+              list.add(root.val);
+              dfs(root.right, res, targetSum - root.val, list);
+              list.remove(list.size() - 1);
+          }
+      }
+  }
+  ```
+
+- [**437. Path Sum III**](https://leetcode-cn.com/problems/path-sum-iii/)
+
+  ```java
+  //Input: root = [10,5,-3,3,2,null,11,3,-2,null,1], targetSum = 8
+  //Output: 3
+  class Solution {
+    //n * logn (本来是 logn 但是由于可以不从头开始 又要乘 n) nlogn 同理
+      public int pathSum(TreeNode root, int targetSum) {
+          if (root == null) return 0;
+          return dfs(root, targetSum) + pathSum(root.left, targetSum) + pathSum(root.right, targetSum);
+      }
+  
+      private int dfs(TreeNode root, int targetSum) {
+          if (root == null) return 0; // 走到底部都没满足 return 0 就好
+  
+          int res = 0;
+          if (targetSum == root.val) res += 1; //走到中间就满足了 但是因为有负数所以还要继续
+        
+          res += dfs(root.left, targetSum - root.val);
+          res += dfs(root.right, targetSum - root.val);
+          return res;
+      }
+  }
+  ```
+
+  ![img](https://assets.leetcode.com/uploads/2021/04/09/pathsum3-1-tree.jpg)
+
+- [124. Binary Tree Maximum Path Sum](https://leetcode-cn.com/problems/binary-tree-maximum-path-sum/)
+
+  ```java
+  class Solution {
+      int res = Integer.MIN_VALUE;  // since we have negative node so the res can be negative, we can not initialize res with 0
+      public int maxPathSum(TreeNode root) {
+          dfs(root);
+          return res;
+      }
+      private int dfs(TreeNode root){
+          if (root == null) return 0;
+          int left = Math.max(0,dfs(root.left));
+          int right = Math.max(0,dfs(root.right));
+          res = Math.max(res, left + right + root.val);
+          return Math.max(left, right) + root.val; 
+      }
+  }
+  ```
+
+  
+
+### Depth / Breadth
+
+- [662. Maximum Width of Binary Tree](https://leetcode-cn.com/problems/maximum-width-of-binary-tree/)
+
+  ```java
+  class Node {
+      int pos;
+      TreeNode node;
+  
+      public Node(TreeNode node, int pos) {
+          this.node = node;
+          this.pos = pos;  // each level's postion is different, use the last pos - first pos to get the breadth
+      }
+  }
+  class Solution {
+      public int widthOfBinaryTree(TreeNode root) {
+          if (root == null) {
+              return 0;
+          }
+          LinkedList<Node> deque = new LinkedList<>();
+          Node node = new Node(root, 0);
+          deque.add(node);
+          int res = 0;
+          while (!deque.isEmpty()) {
+              int size = deque.size();
+              res = Math.max(res, deque.getLast().pos - deque.getFirst().pos + 1);  //
+              for (int i = 0; i < size; i++){
+                  Node cur = deque.poll();
+                  if (cur.node.left != null) {
+                      deque.add(new Node(cur.node.left, cur.pos * 2 + 1));
+                  }
+                  if (cur.node.right != null) {
+                      deque.add(new Node(cur.node.right, cur.pos * 2 + 2));
+                  } 
+              }
+          }
+          return res;
+      }
+  }
+  ```
+
+  
+
+### LCA
+
+- [236. Lowest Common Ancestor of a Binary Tree](https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/)
+
+  ```java
+  class Solution {
+      public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+          if (root == null || root == p || root == q) return root;
+          TreeNode left = lowestCommonAncestor(root.left, p, q);
+          TreeNode right = lowestCommonAncestor(root.right, p, q);
+          if (left != null && right != null) return root;
+          return left == null ? right : left;
+      }
+  }
+  ```
+
+  
+
