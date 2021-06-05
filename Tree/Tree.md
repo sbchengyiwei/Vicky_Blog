@@ -115,18 +115,18 @@
   class Solution {
       public TreeNode buildTree(int[] preorder, int[] inorder) {
           if (preorder == null || preorder.length == 0) return null;
-          return helper(0,0,inorder.length - 1, preorder, inorder);
+          return dfs(0,0,inorder.length - 1, preorder, inorder);
           
       }
   
-      private TreeNode helper(int preStart, int inStart, int inEnd, int[] preorder, int[] inorder){
+      private TreeNode dfs(int preStart, int inStart, int inEnd, int[] preorder, int[] inorder){
           if (inStart > inEnd) return null;
           TreeNode root = new TreeNode(preorder[preStart]);
   
           for (int i = inStart; i <= inEnd; i++) {
               if (inorder[i] == root.val) {
-                  root.left = helper(preStart + 1, inStart, i - 1, preorder, inorder);
-                  root.right = helper(preStart + i - inStart + 1, i + 1, inEnd, preorder, inorder); // ! the right part start from the (preStart + i - inStart + 1) item in the preoder!
+                  root.left = dfs(preStart + 1, inStart, i - 1, preorder, inorder);
+                  root.right = dfs(preStart + i - inStart + 1, i + 1, inEnd, preorder, inorder); // ! the right part start from the (preStart + i - inStart + 1) item in the preoder!
                   break;
               }
           }
@@ -231,3 +231,51 @@
 
   
 
+- [297. Serialize and Deserialize Binary Tree](https://leetcode.com/problems/serialize-and-deserialize-binary-tree/)
+
+  ```java
+  public class Codec {
+      // Encodes a tree to a single string.
+      public String serialize(TreeNode root) {
+          if (root == null) return "";
+          Queue<TreeNode> queue = new LinkedList<>();//!LinkedList才能加null；ArrayDeque 不行
+          queue.offer(root);
+          StringBuilder s = new StringBuilder();
+          while(!queue.isEmpty()) {
+              TreeNode cur = queue.poll();
+              if (cur != null) { 
+                    s.append(cur.val + " ");
+                  queue.offer(cur.left);
+                  queue.offer(cur.right);  
+              } else {
+                s.append("null ");
+              }
+          }
+          return s.toString();
+      }
+  
+      // Decodes your encoded data to tree.
+      public TreeNode deserialize(String data) {
+          String[] str = data.split(" ");
+          Queue<TreeNode> queue = new ArrayDeque<>();
+          TreeNode root = new TreeNode(Integer.parseInt(str[0]));
+          queue.offer(root);
+     for (int i = 1; i < str.length; i++) {
+              TreeNode cur = queue.poll();
+              if (!str[i].equals("null")) {
+                  cur.left = new TreeNode(Integer.parseInt(str[i]));
+                  queue.offer(cur.left);
+              }
+              i++;
+              if (i < str.length && !str[i].equals("null")) {
+                  cur.right = new TreeNode(Integer.parseInt(str[i]));
+                  queue.offer(cur.right);
+              }
+          }
+          return root;
+      }
+  }
+  
+  ```
+
+  
