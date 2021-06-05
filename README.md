@@ -6,20 +6,20 @@ Hi, My name is Yiwei Cheng, you can call me Vicky. I am a 21Fall student to NEU 
 ## 1 LeetCode 
 
 ### 1.1 Data Structure
-
-- [1. Trie](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Trie/trie.md)
-- [2. Singly Linked List](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/singly%20linked%20list/singly%20linked%20list.md)
-- [3. Doubly Linked List]()
-- [4. Tree](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Tree/Tree.md)
-- [5. BST](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/BST/Binary%20Search%20Tree.md)
-- [6. Monotone Stack](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Monotone%20Stack/Monotone%20Stack.md)
+- [1. Singly Linked List](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/singly%20linked%20list/singly%20linked%20list.md)
+- [2. Doubly Linked List]()
+- [3. Tree](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Tree/Tree.md)
+- [4. BST](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/BST/Binary%20Search%20Tree.md)
+- [5. Trie](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Trie/trie.md)
+- [6. Stack]()
+- [7. Monotone Stack](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Monotone%20Stack/Monotone%20Stack.md)
 
 ### 1.2 Algorithm
-
-- [1. BFS]()
-- [2. DFS]()
-- [3. Union Find](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Graph%20Theory/Union%20find.md)
-- [4. Topological Sorting](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Graph%20Theory/Topological%20Sorting.md)
+- Graph
+  - [1. BFS]()
+  - [2. DFS]()
+  - [3. Union Find](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Graph%20Theory/Union%20find.md)
+  - [4. Topological Sorting](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Graph%20Theory/Topological%20Sorting.md)
 
 ## 2 Book
 
