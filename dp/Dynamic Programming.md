@@ -36,19 +36,35 @@
 
 
 
-### 3 dp 应用 1：背包问题 
+### 3 Pattern1：Knapsack
 
-> **给你 N个东西和他们的重量及价值，背包容量为 C，问你怎么装价值最高?**
+> Given the weights and profits of ‘N’ items, we are asked to put these items in a knapsack that has a capacity ‘C’. The goal is to get the maximum profit from the items in the knapsack. Each item can only be selected once, as we don’t have multiple quantities of any item.
 >
-> 背包问题的关键在于画出矩阵，例如下面给出的背包容量为 11，给你 5个 item，价值和重量如右边的表所示，那画出矩阵后我们就可以知道最大能装的价值就是矩阵右下角的值----40，具体代码见下面的代码框。
+> Let’s take Merry’s example, who wants to carry some fruits in the knapsack to get maximum profit. Here are the weights and profits of the fruits:
+>
+> **Items:** { Apple, Orange, Banana, Melon }
+> **Weights:** { 2, 3, 1, 4 }
+> **Profits:** { 4, 5, 3, 7 }
+> **Knapsack capacity:** 5
+>
+> Let’s try to put different combinations of fruits in the knapsack, such that their total weight is not more than 5:
+>
+> Apple + Orange (total weight 5) => 9 profit
+> Apple + Banana (total weight 3) => 7 profit
+> Orange + Banana (total weight 4) => 8 profit
+> Banana + Melon (total weight 5) => 10 profit
+>
+> This shows that **Banana + Melon** is the best combination, as it gives us the maximum profit and the total weight does not exceed the capacity.
+>
+> The matrix of Knapsack is like the following: ![背包问题总结（上）](https://pic1.zhimg.com/v2-861a4291fcbfa52c8c2fece808134399_1440w.jpg?source=172ae18b)
 
-![背包问题总结（上）](https://pic1.zhimg.com/v2-861a4291fcbfa52c8c2fece808134399_1440w.jpg?source=172ae18b)
+
+
+#### 3.1 0-1 Knapsack
 
 ```java
-public class BackPack {
-/**
- *0-1背包问题
- */
+public class Knapsack{
+
     public int getMaxValue_01BackPack_1(int N, int[] weight, int[] value, int C) {  
         //设状态为 dp[i][j] ： 代表第 i 件物品放入背包容量为 j 的最大价值（背包此时有前 i 件物品）
         int[][] dp = new int[N][C + 1];
@@ -96,8 +112,15 @@ public class BackPack {
         }
         return dp[C];
     }
-  
-/**
+}
+```
+
+
+
+#### 3.2 Mutiple Knapsack
+
+```java
+ /**
  *多重背包问题 ： 没个东西不再是一个，而是给你 nums 数组代表每个东西的数量
  */
   
@@ -118,10 +141,16 @@ public class BackPack {
         }
         return dp[C];
     }
+```
 
+
+
+#### 3.3 Unbounded Knapsack
+
+```java
 /**
  *完全背包问题 ： 没个东西不再是一个，而是给你无限个
- */
+*/
     //01背包转化的完全背包 （麻烦）扩充 N 即可，每个东西的数量为包能装下的最大数量
     //getMaxValue_CompleteBackPack_1
 
@@ -138,14 +167,13 @@ public class BackPack {
         }
         return dp[C];
     }
-}
 ```
 
 
 
-**背包问题 follow up：打印中间过程 **
+#### 3.4 Follow up：Print intermediate process
 
-> 利用 string 数组，注意分类处理
+> Use string array, pay attention to classification processing
 
 ```java
 //follow up : 打印中间过程
@@ -182,7 +210,7 @@ public void BackPack_followup(int N, int[] weight, int[] value, int C) {
 
 
 
-**背包问题的应用：**
+#### 3.5 Other cases
 
 > [322. Coin Change](https://leetcode-cn.com/problems/coin-change/)
 >
@@ -238,11 +266,11 @@ public void BackPack_followup(int N, int[] weight, int[] value, int C) {
 
 
 
-### 3 dp 应用 2：字符串数组问题（不包含匹配问题）
+### 4 Pattern2：Substring and Subsequence
 
 > Tips：注意条件 --- 矩阵对角一半 j<i
 
-#### 3.1 Word break
+#### 4.1 Word break
 
 >[139. Word Break](https://leetcode-cn.com/problems/word-break/)
 >
@@ -276,7 +304,7 @@ class Solution {
 }
 ```
 
-#### 3.2 Palindrome
+#### 4.2 Palindrome
 
 > [5. Longest Palindromic Substring](https://leetcode-cn.com/problems/longest-palindromic-substring/)
 >
@@ -315,9 +343,9 @@ class Solution {
 }
 ```
 
-![Screen Shot 2021-06-13 at 6.43.18 PM](/Users/vicki/Desktop/Screen Shot 2021-06-13 at 6.43.18 PM.png)
+![Screen Shot 2021-06-13 at 6.43.18 PM](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/images/Screen%20Shot%202021-06-13%20at%206.43.18%20PM.png)
 
-#### 3.4 Subsequece
+#### 4.3 Subsequece
 
 >[300. Longest Increasing Subsequence](https://leetcode-cn.com/problems/longest-increasing-subsequence/)
 >
@@ -354,7 +382,7 @@ class Solution {
 
 
 
-### 4 dp 应用 3：网格问题
+### 5 Pattern3：Grid
 
 > [62. Unique Paths](https://leetcode-cn.com/problems/unique-paths/)
 >
@@ -387,9 +415,11 @@ class Solution {
 
 
 
-### 5 dp 应用 4：匹配问题 
+### 6 Pattern4：Matching 
 
-#### 5.1 区别Subsequence 和 Subarray 
+#### 6.1 Easy Matching
+
+> Tips: Notice the difference between subarray and subsequence.
 
 > [1143. Longest Common Subsequence](https://leetcode.com/problems/longest-common-subsequence/)
 >
@@ -475,7 +505,7 @@ class Solution {
 
 
 
-#### 5.2 Regular Expression & Edit 
+#### 6.2 Regular Expression
 
 >[10. Regular Expression Matching](https://leetcode-cn.com/problems/regular-expression-matching/)
 >
@@ -571,6 +601,8 @@ class Solution {
 ```
 
 
+
+####  6.3 Edit 
 
 > [72. Edit Distance](https://leetcode.com/problems/edit-distance/)
 >
