@@ -20,6 +20,7 @@ Hi, My name is Yiwei Cheng, you can call me Vicky. I am a 21Fall student to NEU 
   - [2. DFS]()
   - [3. Union Find](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Graph%20Theory/Union%20find.md)
   - [4. Topological Sorting](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Graph%20Theory/Topological%20Sorting.md)
+- [Dynamic Programming](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/dp/Dynamic%20Programming.md)
 
 ## 2 Book
 
