@@ -71,12 +71,105 @@ class Solution {
 
 
 
+
+
 > [152. Maximum Product Subarray](https://leetcode-cn.com/problems/maximum-product-subarray/) (Also need to record the minimum value.)
 >
-> 
+> Given an integer array `nums`, find a contiguous non-empty subarray within the array that has the largest product, and return *the product*.
+>
+> It is **guaranteed** that the answer will fit in a **32-bit** integer.
+>
+> A **subarray** is a contiguous subsequence of the array.
+>
+> **Example 1:**
+>
+> ```
+> Input: nums = [2,3,-2,4]
+> Output: 6
+> Explanation: [2,3] has the largest product 6.
+> ```
 
 ```java
+class Solution {
+    public int maxProduct(int[] nums) {
+        int[] min = new int[nums.length];
+        int[] max = new int[nums.length];
+        min[0] = nums[0];
+        max[0] = nums[0];
+        int maxProduct =  nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            max[i] = Math.max(min[i - 1] * nums[i], Math.max(max[i - 1] * nums[i], nums[i]));
+            min[i] = Math.min(max[i - 1] * nums[i], Math.min(min[i - 1] * nums[i], nums[i]));
+            if (max[i] > maxProduct) maxProduct = max[i];
+        }
+        return maxProduct;
+    }
+}
+```
 
+
+
+##### Optimization from Two-dimension to one-dimension
+
+> [120. Triangle](https://leetcode-cn.com/problems/triangle/)
+>
+> Given a triangle array, return the minimum path sum from top to bottom.
+>
+> For each step, you may move to an adjacent number of the row below. More formally, if you are on index i on the current row, you may move to either index i or index i + 1 on the next row.
+>
+> Example 1:
+>
+> ```
+> Input: triangle = [[2],[3,4],[6,5,7],[4,1,8,3]]
+> Output: 11
+> Explanation: The triangle looks like:
+>    2
+>   3 4
+>  6 5 7
+> 4 1 8 3
+> The minimum path sum from top to bottom is 2 + 3 + 5 + 1 = 11 (underlined above).
+> ```
+
+```java
+//二维写法
+class Solution {
+    public int minimumTotal(List<List<Integer>> triangle) {
+        int[][] dp = new int[triangle.size()][triangle.size()];
+        dp[0][0] = triangle.get(0).get(0);
+        for (int i = 1; i < triangle.size(); i++) {
+            dp[i][0] = dp[i - 1][0] + triangle.get(i).get(0);
+            for (int j = 1; j < i; j++) {
+                dp[i][j] = Math.min(dp[i - 1][j - 1], dp[i - 1][j]) + triangle.get(i).get(j);
+            }
+            dp[i][i] = dp[i - 1][i - 1] + triangle.get(i).get(i);
+        }
+        int min = dp[triangle.size() - 1][0];
+        for (int i = 1; i < triangle.size(); i++) {
+            min = Math.min(min, dp[triangle.size() - 1][i]);
+        }
+        return min;
+    }
+}
+
+//优化为一维
+class Solution {
+    public int minimumTotal(List<List<Integer>> triangle) {
+        int[] dp = new int[triangle.size()];
+        dp[0] = triangle.get(0).get(0);
+        for (int i = 1; i < triangle.size(); i++) {
+            dp[i] = dp[i - 1] + triangle.get(i).get(i); //从后往前
+            for (int j = i - 1; j > 0; j--) {
+                dp[j] = Math.min(dp[j - 1], dp[j]) + triangle.get(i).get(j);
+            }  
+            dp[0] = dp[0] + triangle.get(i).get(0);
+        }
+        int min = dp[0];
+        for (int i = 1; i < triangle.size(); i++) {
+            min = Math.min(min, dp[i]);
+        }
+        return min;
+    }
+}
 ```
 
 
@@ -311,6 +404,62 @@ public void BackPack_followup(int N, int[] weight, int[] value, int C) {
 
 
 
+> [377. Combination Sum IV](https://leetcode-cn.com/problems/combination-sum-iv/)
+>
+> Given an array of distinct integers nums and a target integer target, return the number of possible combinations that add up to target.
+>
+> The answer is guaranteed to fit in a 32-bit integer.
+>
+> Example 1:
+>
+> ```
+> Input: nums = [1,2,3], target = 4
+> Output: 7
+> Explanation:
+> The possible combination ways are:
+> (1, 1, 1, 1)
+> (1, 1, 2)
+> (1, 2, 1)
+> (1, 3)
+> (2, 1, 1)
+> (2, 2)
+> (3, 1)
+> Note that different sequences are counted as different combinations.
+> ```
+
+```java
+class Solution {
+    public int combinationSum4(int[] nums, int target) {
+        int[] dp = new int[target + 1];
+        dp[0] = 1;
+        for (int i = 1; i <= target; i++) {
+            for (int num : nums) {
+                if (i - num >= 0) {
+                    dp[i] += dp[i - num];
+                }
+            }
+        }
+        return dp[target];
+    }       
+}
+
+// Follow up: different sequences are counted as same combinations
+class Solution {
+    public int combinationSum4(int[] nums, int target) {
+        int[] dp = new int[target + 1];
+        dp[0] = 1;
+        for (int i = 0; i < nums.length; i++) {
+            for (int j = nums[i]; j <= target; j++) {
+                dp[j] += dp[j - nums[i]];
+            }
+        }
+        return dp[target];
+    }       
+}
+```
+
+
+
 ### 4 Pattern2：Substring and Subsequence
 
 > Tips：注意条件 --- 矩阵对角一半 j<i
@@ -421,6 +570,98 @@ class Solution {
             maxLen = Math.max(maxLen, dp[i]);
         }
         return maxLen;
+    }
+}
+```
+
+
+
+#### 4.4 Decode Ways (optimize two-dimension to 1)
+
+>[91. Decode Ways](https://leetcode-cn.com/problems/decode-ways/)
+>
+>A message containing letters from A-Z can be encoded into numbers using the following mapping:
+>
+>'A' -> "1"
+>'B' -> "2"
+>...
+>'Z' -> "26"
+>To decode an encoded message, all the digits must be grouped then mapped back into letters using the reverse of the mapping above (there may be multiple ways). For example, "11106" can be mapped into:
+>
+>"AAJF" with the grouping (1 1 10 6)
+>"KJF" with the grouping (11 10 6)
+>Note that the grouping (1 11 06) is invalid because "06" cannot be mapped into 'F' since "6" is different from "06".
+>
+>Given a string s containing only digits, return the number of ways to decode it.
+>
+>The answer is guaranteed to fit in a 32-bit integer.
+>
+>
+>Example 1:
+>
+>```
+>Input: s = "226"
+>Output: 3
+>Explanation: "226" could be decoded as "BZ" (2 26), "VF" (22 6), or "BBF" (2 2 6).
+>```
+>
+>Example 2:
+>
+>```
+>Input: s = "06"
+>Output: 0
+>Explanation: "06" cannot be mapped to "F" because of the leading zero ("6" is different from "06").
+>```
+
+```java
+//two-dimension(time exceed)
+class Solution {
+    public int numDecodings(String s) {
+        int[] dp = new int[s.length() + 1];
+        dp[0] = 1;
+        for (int i = 1; i <= s.length(); i++) {
+            for (int j = 0; j < i; j++) {
+                if (s.charAt(j) != '0' && Integer.parseInt(s.substring(j, i)) <= 26) {
+                    dp[i] += dp[j];
+                }
+            }
+        }
+        return dp[s.length()];
+    }
+}
+//1-dimension
+class Solution {
+    public int numDecodings(String s) {
+        int[] dp = new int[s.length() + 1];
+        dp[0] = 1;
+        for (int i = 1; i <= s.length(); i++) {
+            if (s.charAt(i - 1) != '0') {
+                dp[i] += dp[i - 1];
+            }
+            if (i > 1 && s.charAt(i - 2) != '0' && Integer.parseInt(s.substring(i - 2, i)) <= 26){
+                dp[i] += dp[i - 2];
+            }
+        }
+        return dp[s.length()];
+    }
+}
+//fixed
+class Solution {
+    public int numDecodings(String s) {
+        int a = 1;
+        int b = s.charAt(0) == '0'? 0:1;
+        for (int i = 2; i <= s.length(); i++) {
+            int temp = 0;
+            if (s.charAt(i - 1) != '0') {
+                temp += b;
+            }
+            if (s.charAt(i - 2) != '0' && Integer.parseInt(s.substring(i - 2, i)) <= 26){
+                temp += a; 
+            }
+            a = b;
+            b = temp;
+        }
+        return b;
     }
 }
 ```
@@ -702,11 +943,7 @@ class Solution {
 
 > 其他练习：
 >
-> 一维 dp：152、120
->
-> 背包变形：377
->
-> 匹配问题 ：91、115、97
+> 匹配问题 ：115、97
 >
 > 网格问题：70、63、64、174、221
 >
