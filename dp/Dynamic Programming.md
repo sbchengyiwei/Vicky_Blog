@@ -30,9 +30,54 @@
 
 > dp[i] represents the maximum or minimum value at i, the final maximum and minimum may be generated in the middle i.
 
-[53. Maximum Subarray](https://leetcode-cn.com/problems/maximum-subarray/)
+> [53. Maximum Subarray](https://leetcode-cn.com/problems/maximum-subarray/)
+>
+> Given an integer array `nums`, find the contiguous subarray (containing at least one number) which has the largest sum and return *its sum*. 
+>
+> **Example 1:**
+>
+> ```
+> Input: nums = [-2,1,-3,4,-1,2,1,-5,4]
+> Output: 6
+> Explanation: [4,-1,2,1] has the largest sum = 6.
+> ```
 
-[152. Maximum Product Subarray](https://leetcode-cn.com/problems/maximum-product-subarray/) (Also need to record the minimum value.)
+```java
+class Solution {
+    public int maxSubArray(int[] nums) {
+        int[] dp = new int[nums.length];
+        dp[0] = nums[0];
+        int maxSum = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            dp[i] = Math.max(dp[i - 1] + nums[i], nums[i]);
+            if (dp[i] > maxSum) maxSum = dp[i];
+        }
+        return maxSum;
+    }
+}
+//优化
+class Solution {
+    public int maxSubArray(int[] nums) {
+        int sum = nums[0];
+        int res = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            sum = sum <= 0 ? nums[i] : sum + nums[i];
+            res = Math.max(res, sum);
+        }
+        return res;
+    }
+}
+```
+
+
+
+> [152. Maximum Product Subarray](https://leetcode-cn.com/problems/maximum-product-subarray/) (Also need to record the minimum value.)
+>
+> 
+
+```java
+
+```
 
 
 
