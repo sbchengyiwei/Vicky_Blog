@@ -1,49 +1,42 @@
-### 1 什么是 dp 问题 --- Dynamic Programming
+### 1 What is Dynamic Programming
 
-> **dp 初印象：**用来解决递归时间复杂度很高的问题，用空间换时间 memorization -> 自顶向下，用变量记录中间的结果。
+[Reference article](https://www.educative.io/courses/grokking-dynamic-programming-patterns-for-coding-interviews/m2G1pAq0OO0)
+
+> Dynamic Programming (DP) is an algorithmic technique for solving an optimization problem by breaking it down into simpler subproblems and utilizing the fact that the optimal solution to the overall problem depends upon the optimal solution to its subproblems.
 >
-> **memorization进一步转化为 dp：**自底向上转换  -> 将原问题拆解成若干子问题，每个子问题只求解一次，并保持子问题的解，最终获得原问题的答案。
+> 1.state: dp[] or dp[][]
 >
-> **与递归的区别：**不需要重复计算，节省时间复杂度。
+> 2.state transition equation: if...: dp[i] = dp[i - 1]; else...
 >
-> ​                  递归     memorization      dp
->
-> 重复计算      ✔️              ❎                 ❎
->
-> 方向            自顶向下   自顶向下    自底向上
->
-> 重复计算       ✔️             ✔️                  ❎  
+> 3.return: the last state/ maximum state in the middle
+
+- The origin of DP: 
+  - Recursion ->  Memoization -> DP
+  - Exponential time complexity -> Reduce the time complexity by store the subproblem's results -> Resolve from bottom to the top without recursion
+
+- Properties of DP:
+  - Overlapping subproblems 
+  - Optimal substructure
+  - No aftereffect (every past state is a complete summary of past history)
+
+- Essence of the DP: the definition of the **state** and the definition of the **state transition equation**. (Notice: The returned value is the last state, or need to judge in the middle.)
+
+- DP optimization: Two-dimension to one-dimension, one-dimension to fixed.
+- DP method: After determining the state, you can draw the matrix first, and then find the rule.
 
 
 
-- **dp 的由来：**想到了递归 -> 转化memorization -> 转化 dp（指数级栈空间 -> 指数级优化数组存储 -> 降维优化数据存储）
+### 2 One dimensional DP 
 
-- **dp 的特性：**
-  - 子问题重叠（空间换时间）
-  - 子结构最优
-  - 无后效性（每一个过去的状态都是过去历史的完整总结）
+> dp[i] represents the maximum or minimum value at i, the final maximum and minimum may be generated in the middle i.
 
+[53. Maximum Subarray](https://leetcode-cn.com/problems/maximum-subarray/)
 
-
-- **dp 问题本质：对状态的定义和状态转移方程的定义**
-
-- **如何处理 dp 问题：**
-
-  **1. 状态的定义：中间问题 f(i)代表的含义或数组存储每个值的含义**
-
-  **2. 状态转移方程：1）初始化=0/1/i 2）写方程：if...f(i) = ..f(j); else...**
-
-  注意返回的值是最后一个, 还是要在中间判断
+[152. Maximum Product Subarray](https://leetcode-cn.com/problems/maximum-product-subarray/) (Also need to record the minimum value.)
 
 
 
-- **dp优化：**二维化一维，一维化固定
-
-- **dp方法：**确定状态后，都可以先画矩阵 后找对应关系规律
-
-
-
-### 2 dp 应用 1：背包问题 
+### 3 dp 应用 1：背包问题 
 
 > **给你 N个东西和他们的重量及价值，背包容量为 C，问你怎么装价值最高?**
 >
@@ -324,7 +317,7 @@ class Solution {
 
 ![Screen Shot 2021-06-13 at 6.43.18 PM](/Users/vicki/Desktop/Screen Shot 2021-06-13 at 6.43.18 PM.png)
 
-#### 3.2 Subsequece
+#### 3.4 Subsequece
 
 >[300. Longest Increasing Subsequence](https://leetcode-cn.com/problems/longest-increasing-subsequence/)
 >
