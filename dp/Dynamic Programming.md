@@ -1,25 +1,29 @@
 ## Content
 - [1 What is Dynamic Programming](#1-what-is-dynamic-programming)
 - [2 One dimensional DP](#2-one-dimensional-dp)
-    + [Optimization from Two-dimension to one-dimension](#optimization-from-two-dimension-to-one-dimension)
 - [3 Pattern1：Knapsack](#3-pattern1-knapsack)
   * [3.1 0-1 Knapsack](#31-0-1-knapsack)
   * [3.2 Mutiple Knapsack](#32-mutiple-knapsack)
   * [3.3 Unbounded Knapsack](#33-unbounded-knapsack)
-  * [3.4 Follow up：Print process](#34-follow-up-print-intermediate-process)
+  * [3.4 Follow up：Print intermediate process](#34-follow-up-print-intermediate-process)
   * [3.5 Other cases](#35-other-cases)
 - [4 Pattern2：Substring and Subsequence](#4-pattern2-substring-and-subsequence)
   * [4.1 Word break](#41-word-break)
   * [4.2 Palindrome](#42-palindrome)
   * [4.3 Subsequece](#43-subsequece)
-  * [4.4 Decode Ways (optimize two-dimension to 1)](#44-decode-ways--optimize-two-dimension-to-1-)
+  * [4.4 Decode Ways](#44-decode-ways--optimize-two-dimension-to-1-)
 - [5 Pattern3：Grid](#5-pattern3-grid)
 - [6 Pattern4：Matching](#6-pattern4-matching)
   * [6.1 Easy Matching](#61-easy-matching)
   * [6.2 Regular Expression](#62-regular-expression)
   * [6.3 Edit](#63-edit)
-  
-  
+- [7 Series Question](#7-series-question)
+  * [7.1 House Robber](#71-house-robber)
+  * [7.2 Stock](#72-stock)
+  * [7.3 Painting](#73-painting)
+
+
+
 ### 1 What is Dynamic Programming
 
 [Reference article](https://www.educative.io/courses/grokking-dynamic-programming-patterns-for-coding-interviews/m2G1pAq0OO0)
@@ -426,6 +430,38 @@ public void BackPack_followup(int N, int[] weight, int[] value, int C) {
 
 
 
+>[279. Perfect Squares](https://leetcode-cn.com/problems/perfect-squares/)
+>
+>Given an integer n, return the least number of perfect square numbers that sum to n.
+>
+>A perfect square is an integer that is the square of an integer; in other words, it is the product of some integer with itself. For example, 1, 4, 9, and 16 are perfect squares while 3 and 11 are not.
+>
+>Example 1:
+>
+>```
+>Input: n = 12
+>Output: 3
+>Explanation: 12 = 4 + 4 + 4.
+
+```java
+//coins change : coins is equal to i*i. Coins must contain 1, so the initialization is easier
+class Solution {
+    public int numSquares(int n) {
+        int[] dp = new int[n + 1];
+        Arrays.fill(dp, Integer.MAX_VALUE);
+        dp[0] = 0;
+        for (int i = 1; i * i <= n; i++) {
+            for (int j = i * i; j <= n; j++) {
+                dp[j] = Math.min(dp[j], dp[j - i * i] + 1);
+            }
+        }
+        return dp[n];
+    }
+}
+```
+
+
+
 > [377. Combination Sum IV](https://leetcode-cn.com/problems/combination-sum-iv/)
 >
 > Given an array of distinct integers nums and a target integer target, return the number of possible combinations that add up to target.
@@ -688,6 +724,8 @@ class Solution {
 }
 ```
 
+> much more : 132
+
 
 
 ### 5 Pattern3：Grid
@@ -721,7 +759,7 @@ class Solution {
 }
 ```
 
-
+> much more : 70、63、64、174、221
 
 ### 6 Pattern4：Matching 
 
@@ -933,8 +971,6 @@ class Solution {
 > rose -> ros (remove 'e')
 > ```
 
-
-
 ```java
 class Solution {
     public int minDistance(String word1, String word2) {
@@ -963,17 +999,297 @@ class Solution {
 
 
 
-> 其他练习：
+> [115. Distinct Subsequences](https://leetcode-cn.com/problems/distinct-subsequences/)
 >
-> 匹配问题 ：115、97
+> Given two strings s and t, return the number of distinct subsequences of s which equals t.
 >
-> 网格问题：70、63、64、174、221
+> A string's subsequence is a new string formed from the original string by deleting some (can be none) of the characters without disturbing the remaining characters' relative positions. (i.e., "ACE" is a subsequence of "ABCDE" while "AEC" is not).
 >
-> 字符串问题：132
+> It is guaranteed the answer fits on a 32-bit signed integer.
 >
-> hard 题：312、375
+> Example 1:
 >
-> 其他结合：96、95、354
+> ```Input: s = "babgbag", t = "bag"
+> Input: s = "babgbag", t = "bag"
+> Output: 5
+> ```
 >
-> 实现题&有趣套题：279、股票问题（121、122、123、188、309）、打家劫舍（198、213）、装修（256、265、276）
+> [Reference Video](https://www.bilibili.com/video/BV1R4411T7sV?from=search&seid=15071372781045463717)
 
+```java
+class Solution {
+    public int numDistinct(String s, String t) {
+        int[][] dp = new int[t.length() + 1][s.length() + 1];
+        for (int i = 0; i <= s.length(); i++) {
+            dp[0][i] = 1;
+        }
+        for (int i = 1; i <= t.length(); i++) {
+            for (int j = 1; j <= s.length(); j++) {
+                if (t.charAt(i - 1) == s.charAt(j - 1)) {
+                    dp[i][j] = dp[i - 1][j - 1] + dp[i][j - 1]; //bbb * a + (ba)
+                } else {
+                     dp[i][j] = dp[i][j - 1]; //no mind
+                }
+            }
+        }
+        return dp[t.length()][s.length()];
+    }
+}
+```
+
+
+
+> [7. Interleaving String](https://leetcode-cn.com/problems/interleaving-string/)
+>
+> Given strings s1, s2, and s3, find whether s3 is formed by an interleaving of s1 and s2.
+>
+> An interleaving of two strings s and t is a configuration where they are divided into non-empty substrings such that:
+>
+> s = s1 + s2 + ... + sn
+> t = t1 + t2 + ... + tm
+> |n - m| <= 1
+> The interleaving is s1 + t1 + s2 + t2 + s3 + t3 + ... or t1 + s1 + t2 + s2 + t3 + s3 + ...
+> Note: a + b is the concatenation of strings a and b. 
+>
+> Example 1:
+>
+> ![img](https://assets.leetcode.com/uploads/2020/09/02/interleave.jpg)
+>
+> ```
+> Input: s1 = "aabcc", s2 = "dbbca", s3 = "aadbbcbcac"
+> Output: true
+> ```
+
+```java
+class Solution {
+    public boolean isInterleave(String s1, String s2, String s3) {
+        if (s1.length() + s2.length() != s3.length()) return false;
+        //dp : represent whether the s1[0..i] and s2[0..j] can configure the s3[0..i + j]
+        boolean[][] dp = new boolean[s1.length() + 1][s2.length() + 1];
+        //初始化
+        dp[0][0] = true;
+        for (int i = 1; i <= s1.length(); i++) {
+            dp[i][0] = dp[i - 1][0] && s1.charAt(i - 1) == s3.charAt(i - 1);
+        }
+        for (int i = 1; i <= s2.length(); i++) {
+            dp[0][i] = dp[0][i - 1] && s2.charAt(i - 1) == s3.charAt(i - 1);
+        }
+        //状态转移方程：前面的不包含当前元素 是不是能构成 能的话看当前元素和s3 对应元素是不是相等
+        for (int i = 1; i <= s1.length(); i++) {
+            for (int j = 1; j <= s2.length(); j++) {
+                dp[i][j] = (dp[i - 1][j] && s1.charAt(i - 1) == s3.charAt(i + j - 1)) || (dp[i][j - 1] && s2.charAt(j - 1) == s3.charAt(i + j - 1));
+            }
+        }
+        return dp[s1.length()][s2.length()];
+    }
+}
+```
+
+
+
+### 7 Series Question
+
+#### 7.1 House Robber
+
+198、213、337
+
+```java
+class Solution {
+    public int rob(int[] nums) {
+        if (nums.length <= 1) return nums.length == 0 ? 0 : nums[1];
+      	int[] dp = new int[nums.length + 1];
+        dp[0] = 0;
+        dp[1] = nums[0];
+        for (int i = 2; i <= nums.length; i++) {
+            dp[i] = Math.max(dp[i - 2] + nums[i - 1], dp[i - 1]);
+        }
+        return dp[nums.length];
+    }
+}
+
+
+//分三种情况，不抢头 不抢尾；枪头 buwei bu tou qing wei
+
+class Solution {
+    public int rob(int[] nums) {
+        if (nums.length <= 1) return nums.length == 0 ? 0 : nums[0];
+        int[] nums1 = Arrays.copyOfRange(nums, 1, nums.length - 1);
+        int[] nums2 = Arrays.copyOfRange(nums, 0, nums.length - 1);
+        int[] nums3 = Arrays.copyOfRange(nums, 1, nums.length);
+        return Math.max(rob1(nums1), Math.max(rob1(nums2), rob1(nums3)));
+    }
+    public int rob1(int[] nums) {
+        if (nums.length <= 1) return nums.length == 0 ? 0 : nums[0];
+      	int[] dp = new int[nums.length + 1];
+        dp[0] = 0;
+        dp[1] = nums[0];
+        for (int i = 2; i <= nums.length; i++) {
+            dp[i] = Math.max(dp[i - 2] + nums[i - 1], dp[i - 1]);
+        }
+        return dp[nums.length];
+    }
+}
+
+
+  // 树的dp （dfs）：分两种情况。一种是抢这个节点 一种是不抢这个; 
+class Solution {
+    public int rob(TreeNode root) {
+        int[] rootDp = dfs(root);
+        return Math.max(rootDp[0], rootDp[1]); //rootDp[0] 代表不抢劫 root 这家；rootDp[1] 代表抢劫 root 这家 
+    }
+    private int[] dfs(TreeNode node) {
+        if (node == null) return new int[]{0, 0};
+
+        int[] lDp = dfs(node.left);
+        int[] rDp = dfs(node.right);
+        int nonNode = Math.max(lDp[1], lDp[0]) + Math.max(rDp[1], rDp[0]);
+        int robNode = node.val + lDp[0] + rDp[0];
+        
+        return new int[]{nonNode, robNode};
+    }
+}
+```
+
+
+
+#### 7.2 Stock
+
+188 123  121 122  714 309
+
+```java
+class Solution {
+    //at most k, the time of transactions can less than k
+    public int maxProfit(int k, int[] prices) {
+        int day = prices.length;
+        if (k > day / 2) k = day / 2;
+        int[][][] dp = new int[day + 1][k + 1][2];
+        //初始化 要合理化第 0 天手里有股票的状态，值是min_value/10 （防止溢出）是一个肯定比后面要小的值 max 的时候就被替换了
+        for (int i = 0; i <= k; i++) {
+            dp[0][i][1] = Integer.MIN_VALUE / 10;
+        }
+
+        int max = 0;// 如果一次都不买卖 那就保持 0
+        for (int i = 1; i <= day; i++) {
+            for (int j = 1; j <= k; j++) {
+                dp[i][j][0] = Math.max(dp[i - 1][j][0], dp[i - 1][j][1] + prices[i - 1]);
+                dp[i][j][1] = Math.max(dp[i - 1][j][1], dp[i - 1][j - 1][0] - prices[i - 1]);
+                max = Math.max(max, dp[i][j][0]);
+            }
+        }
+        return max;
+    }
+}
+
+//空间优化1，因为后面一天的只是由前面一天推出来的 所以可以只设置一个变量 每天覆盖即可
+class Solution {
+    //at most k, the time of transactions can less than k
+    public int maxProfit(int k, int[] prices) {
+        int day = prices.length;
+        if (k > day / 2) k = day / 2;
+        int[][] dp = new int[k + 1][2];
+        //初始化 要合理化第 0 天手里有股票的状态，值是min_value/10 （防止溢出）是一个肯定比后面要小的值 max 的时候就被替换了
+        for (int i = 0; i <= k; i++) {
+            dp[i][1] = Integer.MIN_VALUE / 10;
+        }
+
+        int max = 0;// 如果一次都不买卖 那就保持 0
+        for (int i = 1; i <= day; i++) {
+            for (int j = 1; j <= k; j++) {
+                dp[j][0] = Math.max(dp[j][0], dp[j][1] + prices[i - 1]);
+                dp[j][1] = Math.max(dp[j][1], dp[j - 1][0] - prices[i - 1]);
+                max = Math.max(max, dp[j][0]);
+            }
+        }
+        return max;
+    }
+}
+
+//123 k <= 2 了就
+class Solution {
+    public int maxProfit(int[] prices) {
+        int day = prices.length;
+        int k = day / 2 >= 2 ? 2 : day / 2;
+        int[][] dp = new int[k + 1][2];
+        for (int i = 0; i <= k; i++) {
+            dp[i][1] = Integer.MIN_VALUE / 10;
+        }
+        int max = 0;// 如果一次都不买卖 那就保持 0
+        for (int i = 1; i <= day; i++) {
+            for (int j = 1; j <= k; j++) {
+                dp[j][0] = Math.max(dp[j][0], dp[j][1] + prices[i - 1]);
+                dp[j][1] = Math.max(dp[j][1], dp[j - 1][0] - prices[i - 1]);
+                max = Math.max(max, dp[j][0]);
+            }
+        }
+        return max;   
+    }
+}
+// 121 k = 1 了就
+class Solution {
+    public int maxProfit(int[] prices) {
+        int day = prices.length;
+        if (day < 2) return 0;
+        int[][] dp = new int[2][2];
+        dp[0][1] = Integer.MIN_VALUE / 10;
+        dp[1][1] = Integer.MIN_VALUE / 10;
+        int max = 0;// 如果一次都不买卖 那就保持 0
+        for (int i = 1; i <= day; i++) {
+            dp[1][0] = Math.max(dp[1][0], dp[1][1] + prices[i - 1]);
+            dp[1][1] = Math.max(dp[1][1], dp[0][0] - prices[i - 1]);
+            max = Math.max(max, dp[1][0]);
+        }
+        return max;
+    }
+}
+
+//714
+class Solution {
+    public int maxProfit(int[] prices, int fee) {
+        int day = prices.length;
+        int[] dp = new int[2];
+        dp[1] = Integer.MIN_VALUE / 10;
+        int max = 0;// 如果一次都不买卖 那就保持 0
+        for (int i = 1; i <= day; i++) {
+            dp[0] = Math.max(dp[0], dp[1] + prices[i - 1] - fee);  // 122 k无限 就是要扣个 fee
+            dp[1] = Math.max(dp[1], dp[0] - prices[i - 1]);
+                max = Math.max(max, dp[0]);
+        }
+        return max;   
+    }
+}
+
+//309 
+class Solution {
+    public int maxProfit(int[] prices) {
+        int day = prices.length;
+        int[][] dp = new int[day + 1][2];
+
+        //初始化 要合理化第 0 天手里有股票的状态，值是min_value/10 （防止溢出）是一个肯定比后面要小的值 max 的时候就被替换了
+        dp[0][1] = Integer.MIN_VALUE / 10;
+        dp[1][1] = - prices[0]; //第一天手里有股票那一定是 -prices[0]
+
+        int max = 0;// 如果一次都不买卖 那就保持 0
+        for (int i = 2; i <= day; i++) {
+            dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][1] + prices[i - 1]);
+            dp[i][1] = Math.max(dp[i - 1][1], dp[i - 2][0] - prices[i - 1]);// 只能卖掉两天前买的
+            max = Math.max(max, dp[i][0]);
+        }
+        return max;
+    }
+}
+
+```
+
+
+
+#### 7.3 Painting
+
+256、265、276
+
+
+
+> much more:
+>
+> hard ：312、375
+>
+> 96、95、354
