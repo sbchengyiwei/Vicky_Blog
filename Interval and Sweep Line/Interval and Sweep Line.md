@@ -1,12 +1,12 @@
 ### How to solve the Interval Problems?
 
-**1、排序**。常见的排序方法就是按照区间起点排序，或者先按照起点升序排序，若起点相同，则按照终点降序排序。当然，如果你非要按照终点排序，无非对称操作，本质都是一样的。
+**1. 排序**。常见的排序方法就是按照区间起点排序，或者先按照起点升序排序，若起点相同，则按照终点降序排序。当然，如果你非要按照终点排序，无非对称操作，本质都是一样的。
 
 注意判断是否需要对**终点降序排列**，目的是防止如下情况：
 
 ![Image](https://mmbiz.qpic.cn/sz_mmbiz_jpg/gibkIz0MVqdHvEm6Hfybxj5tHaDLbHmMwNQAb9KdpBxJw0mAmLfWLRZNnw84kv11kcaGJEOE2ypn1dqXglI14ZA/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
 
-**2、画图**。就是说不要偷懒，勤动手，两个区间的相对位置到底有几种可能，不同的相对位置我们的代码应该怎么去处理。
+**2. 画图**。就是说不要偷懒，勤动手，两个区间的相对位置到底有几种可能，不同的相对位置我们的代码应该怎么去处理。
 
 ![Image](https://mmbiz.qpic.cn/sz_mmbiz_jpg/gibkIz0MVqdHvEm6Hfybxj5tHaDLbHmMwOdic80XKAs3ho1hJsby925sEneG24WgN55FJJu4hfrbjZuWRqRiaW4NA/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
 
@@ -14,7 +14,7 @@
 
 ![Image](https://mmbiz.qpic.cn/sz_mmbiz_jpg/gibkIz0MVqdHvEm6Hfybxj5tHaDLbHmMwZvyib1gGbacibosib4gCpv1P6VbvBHL4sOxAcJjPiaaPbM2GbzxZYO3A1Q/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
 
-**3、Sweep Line **(for loop)
+**3. Sweep Line **(for loop)
 
 
 
