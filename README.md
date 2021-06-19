@@ -27,6 +27,7 @@ Hi, My name is Yiwei Cheng, you can call me Vicky. I am a 21Fall student to NEU 
 - Sort
   - [1. MergeSort]()
   - [2. QuickSort]()
+- [Binary Search]()
 
 ## 2 Book
 
