@@ -295,6 +295,31 @@ class Solution {
 
 
 
+#### [11. Container With Most Water](https://leetcode-cn.com/problems/container-with-most-water/)
+
+```java
+class Solution {
+    public int maxArea(int[] height) {
+        //corner case
+       //if (height == null && height.length < 2) return 0;
+        int ans = 0;
+        int l = 0, r = height.length - 1;
+        while(l < r) {
+            int area = Math.min(height[l], height[r]) * (r - l);
+            ans = Math.max(ans, area);
+            if (height[l] <= height[r]) {
+                ++l;
+            } else {++r;}
+        }
+        return ans;     
+    }
+}
+```
+
+![img](https://s3-lc-upload.s3.amazonaws.com/uploads/2018/07/17/question_11.jpg)
+
+
+
 ### Pattern4: Sort Colors
 
 #### [75. Sort Colors](https://leetcode-cn.com/problems/sort-colors/)
