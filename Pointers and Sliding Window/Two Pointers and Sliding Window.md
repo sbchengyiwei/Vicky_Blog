@@ -229,12 +229,11 @@ class Solution {
 
 > for 多用 hash 优化， 有序用 pointers 继续优化
 
-18. 4Sum
+#### [18. 4Sum](https://leetcode-cn.com/problems/4sum/)
 
-```
+```java
 class Solution {
     public List<List<Integer>> fourSum(int[] nums, int target) {
-       
         List<List<Integer>> res = new ArrayList<>();
         if (nums == null || nums.length < 4) return res;
         Arrays.sort(nums);
@@ -264,9 +263,11 @@ class Solution {
 }
 ```
 
-454. 4Sum II
 
-```
+
+#### [454. 4Sum II](https://leetcode-cn.com/problems/4sum-ii/)
+
+```java
 class Solution {
     // two  hashmaps
     public int fourSumCount(int[] A, int[] B, int[] C, int[] D) {
@@ -291,3 +292,32 @@ class Solution {
     }
 }
 ```
+
+
+
+### Pattern4: Sort Colors
+
+#### [75. Sort Colors](https://leetcode-cn.com/problems/sort-colors/)
+
+```java
+class Solution {
+    public void sortColors(int[] nums) {
+        int i = 0, index = 0;  // 其实是三个指针 还需要一个 index 进行遍历
+        int j = nums.length - 1;
+        while(index <= j) {
+            if (nums[index] == 2) {
+                swap(nums, index, j--);
+            } else if (nums[index] == 0) {
+                swap(nums, index++, i++);
+            } else index++;
+        }
+    }
+    
+    private void swap(int[] nums, int i, int j) {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
+}
+```
+
