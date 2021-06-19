@@ -11,8 +11,9 @@ Hi, My name is Yiwei Cheng, you can call me Vicky. I am a 21Fall student to NEU 
 - [3. Tree](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Tree/Tree.md)
 - [4. BST](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/BST/Binary%20Search%20Tree.md)
 - [5. Trie](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Trie/trie.md)
-- [6. Stack]()
-- [7. Monotone Stack](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Monotone%20Stack/Monotone%20Stack.md)
+- [6. Monotone Stack](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Monotone%20Stack/Monotone%20Stack.md)
+- [7.PriorityQueue and TreeSet/TreeMap]()
+- [8.HashSet and HashMap]()
 
 ### 1.2 Algorithm
 - Graph
@@ -23,6 +24,9 @@ Hi, My name is Yiwei Cheng, you can call me Vicky. I am a 21Fall student to NEU 
 - [Dynamic Programming](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/dp/Dynamic%20Programming.md)
 - [Two Pointers and Sliding window](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Pointers%20and%20Sliding%20Window/Two%20Pointers%20and%20Sliding%20Window.md)
 - [Sweep Line and Interval](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Interval%20and%20Sweep%20Line/Interval%20and%20Sweep%20Line.md)
+- Sort
+  - [1. MergeSort]()
+  - [2. QuickSort]()
 
 ## 2 Book
 
