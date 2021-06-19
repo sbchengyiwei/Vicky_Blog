@@ -227,6 +227,8 @@ class Solution {
 
 ### Pattern3: Two sum
 
+> Opposite direction, 根据条件判断移动 i 还是 j
+>
 > for 多用 hash 优化， 有序用 pointers 继续优化
 
 #### [18. 4Sum](https://leetcode-cn.com/problems/4sum/)
@@ -323,6 +325,8 @@ class Solution {
 ### Pattern4: Sort Colors
 
 #### [75. Sort Colors](https://leetcode-cn.com/problems/sort-colors/)
+
+> Opposite direction 结合一个遍历指针和一个swap函数
 
 ```java
 class Solution {
