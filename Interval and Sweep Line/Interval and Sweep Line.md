@@ -1,20 +1,18 @@
 ### How to solve the Interval Problems?
 
-1. **排序**。常见的排序方法就是按照区间起点排序，或者先按照起点升序排序，若起点相同，则按照终点降序排序。当然，如果你非要按照终点排序，无非对称操作，本质都是一样的。
+1. **Sorting**: A common way to sort is to sort by the beginning of the interval and pay attention to whether you need to **sort the end points in descending order** when the starting points are the same. The goal is to prevent the following：
 
-注意判断是否需要对**终点降序排列**，目的是防止如下情况：
+![Image](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/images/Screen%20Shot%202021-06-20%20at%201.16.17%20AM.png)
 
-![Image](https://mmbiz.qpic.cn/sz_mmbiz_jpg/gibkIz0MVqdHvEm6Hfybxj5tHaDLbHmMwNQAb9KdpBxJw0mAmLfWLRZNnw84kv11kcaGJEOE2ypn1dqXglI14ZA/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
+2. **Draw Pictures**: How many different relative positions are there between these two sections, how should our code deal with these different relative positions?
 
-2. **画图**。就是说不要偷懒，勤动手，两个区间的相对位置到底有几种可能，不同的相对位置我们的代码应该怎么去处理。
+![Image](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/images/Screen%20Shot%202021-06-20%20at%201.16.40%20AM.png)
 
-![Image](https://mmbiz.qpic.cn/sz_mmbiz_jpg/gibkIz0MVqdHvEm6Hfybxj5tHaDLbHmMwOdic80XKAs3ho1hJsby925sEneG24WgN55FJJu4hfrbjZuWRqRiaW4NA/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
+​	After sorting, two adjacent intervals may have the following three relative positions:
 
-排序之后，两个相邻区间可能有如下三种相对位置：
+![Image](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/images/Screen%20Shot%202021-06-20%20at%201.16.46%20AM.png)
 
-![Image](https://mmbiz.qpic.cn/sz_mmbiz_jpg/gibkIz0MVqdHvEm6Hfybxj5tHaDLbHmMwZvyib1gGbacibosib4gCpv1P6VbvBHL4sOxAcJjPiaaPbM2GbzxZYO3A1Q/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
-
-3. **Sweep Line** (for loop)
+3. **Sweep Line**: for loop
 
 
 
@@ -44,12 +42,12 @@ class Solution {
         return res;
     }
 }
-//PQ 解法
+//PQ Way
 class Solution {
     public int minMeetingRooms(int[][] intervals) {
         if(intervals == null || intervals.length == 0) return 0;
         PriorityQueue<Integer> queue = new PriorityQueue<>();
-        Arrays.sort(intervals, (a,b)->(a[0] - b[0]));  // 注意要排个序
+        Arrays.sort(intervals, (a,b)->(a[0] - b[0]));  // Pay attention to order
         queue.offer(intervals[0][1]);
         int res = 1;
         for (int i = 1; i < intervals.length; i++) {
@@ -75,7 +73,7 @@ class Solution {
 ```java
 class Solution {
     public int removeCoveredIntervals(int[][] intervals) {
-        Arrays.sort(intervals, (a, b)->(a[0] == b[0] ? b[1] - a[1] : a[0] - b[0]));//注意中点要降序排列 否则像开头的图那样 重复区间被当成相交 结果错误
+        Arrays.sort(intervals, (a, b)->(a[0] == b[0] ? b[1] - a[1] : a[0] - b[0]));//Note that the ends should be arranged in descending order otherwise repeated intervals as shown in the opening diagram are treated as intersecting errors
         int end = intervals[0][1];
         int cover = 0;
         for (int i = 1; i < intervals.length; i++) {
