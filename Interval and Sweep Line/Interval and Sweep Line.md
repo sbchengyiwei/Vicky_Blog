@@ -66,7 +66,7 @@ class Solution {
 
 
 
-### Pattern2: Intervals merge and intersection
+### Pattern2: Intervals merging and intersection
 
 #### [1288. Remove Covered Intervals](https://leetcode-cn.com/problems/remove-covered-intervals/)
 
