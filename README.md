@@ -16,8 +16,8 @@ Hi, My name is Yiwei Cheng, you can call me Vicky. I am a 21Fall student to NEU 
 - Stack
   - [Stack & Token](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Stack/stack.md)
   - [Monotone Stack](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Monotone%20Stack/Monotone%20Stack.md)
-- [PriorityQueue and TreeSet/TreeMap]()
-- [HashSet and HashMap]()
+- [PriorityQueue & TreeSet/TreeMap]()
+- [HashSet & HashMap]()
 
 ### 1.2 Algorithm
 - Graph
