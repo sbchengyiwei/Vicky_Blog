@@ -27,7 +27,8 @@ Hi, My name is Yiwei Cheng, you can call me Vicky. I am a 21Fall student to NEU 
 - Sort
   - [1. MergeSort]()
   - [2. QuickSort]()
-- [Binary Search]()
+- [Binary Search](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Binary%20Search/Binary%20Search.md)
+- [Reservoir Sampling](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Reservoir%20Sampling/Reservoir%20Sampling.md)
 
 ## 2 Book
 
