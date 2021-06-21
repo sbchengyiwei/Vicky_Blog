@@ -1108,7 +1108,7 @@ class Solution {
 }
 
 
-//分三种情况，不抢头 不抢尾；枪头 buwei bu tou qing wei
+//分三种情况 不抢第一家 不抢最后一家；抢第一家 不抢最后一家；不抢第一家 抢最后一家； 
 
 class Solution {
     public int rob(int[] nums) {
