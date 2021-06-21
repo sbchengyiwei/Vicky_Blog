@@ -25,6 +25,7 @@ Hi, My name is Yiwei Cheng, you can call me Vicky. I am a 21Fall student to NEU 
   - [DFS]()
   - [Union Find](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Graph%20Theory/Union%20find.md)
   - [Topological Sorting](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Graph%20Theory/Topological%20Sorting.md)
+- [Back Tracking]()
 - [Dynamic Programming](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/dp/Dynamic%20Programming.md)
 - [Two Pointers and Sliding window](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Pointers%20and%20Sliding%20Window/Two%20Pointers%20and%20Sliding%20Window.md)
 - [Sweep Line and Interval](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Interval%20and%20Sweep%20Line/Interval%20and%20Sweep%20Line.md)
