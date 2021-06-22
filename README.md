@@ -8,7 +8,7 @@ Hi, My name is Yiwei Cheng, you can call me Vicky. I am a 21Fall student to NEU 
 ### 1.1 Data Structure
 - Linked List
   - [Singly Linked List](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/singly%20linked%20list/singly%20linked%20list.md)
-  - [Doubly Linked List]()
+  - [Doubly Linked List](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Doubly%20Linked%20List/Doubly%20Linked%20List.md)
 - Tree
   - [Tree](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Tree/Tree.md)
   - [BST](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/BST/Binary%20Search%20Tree.md)
