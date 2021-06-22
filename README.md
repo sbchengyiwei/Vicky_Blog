@@ -31,8 +31,8 @@ Hi, My name is Yiwei Cheng, you can call me Vicky. I am a 21Fall student to NEU 
 - [Binary Search](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Binary%20Search/Binary%20Search.md)
 - [Reservoir Sampling](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Reservoir%20Sampling/Reservoir%20Sampling.md)
 - Sort
-  - [1. MergeSort](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Sort/Merge%20Sort.md)
-  - [2. QuickSort](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Sort/Quick%20Sort.md)
+  - [MergeSort](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Sort/Merge%20Sort.md)
+  - [QuickSort](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Sort/Quick%20Sort.md)
 - Graph
   - [BFS & DFS](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Graph%20Theory/DFS%20%26%20BFS.md)
   - [Union Find](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Graph%20Theory/Union%20find.md)
