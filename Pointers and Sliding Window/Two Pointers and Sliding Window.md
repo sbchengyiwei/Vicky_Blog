@@ -225,11 +225,75 @@ class Solution {
 
 
 
-### Pattern3: Two sum
+### Pattern3: Two sum(sorted)
 
 > Opposite direction, 根据条件判断移动 i 还是 j
 >
 > for 多用 hash 优化， 有序用 pointers 继续优化
+
+- LeetCode 167 Two Sum II - Input array is sorted
+
+  ```java
+  class Solution {
+      public int[] twoSum(int[] numbers, int target) {
+          //two pointers:one from left, one from right
+          if (numbers == null || numbers.length < 2) {
+              return new int[]{-1, -1};
+          }
+          int left = 0;
+          int right = numbers.length -1;
+          while(left < right) {
+              int sum = numbers[left] + numbers[right];
+              if (target == sum) {
+                  return new int[]{left + 1, right +1};
+              } else if (sum < target) {
+                  left++;
+              } else {
+                  right--;
+              }
+          }
+          return new int[]{-1, -1};
+      }
+      
+  }
+  ```
+
+- LeetCode 15 3Sum
+
+  > 1. Two sum `降维` :  `int sum = 0 - nums[i];  if (nums[low] + nums[high] == sum) `
+  > 2. 注意：`去重` : ` if (i > 0 && nums[i] == nums[i - 1]) continue;`   `while (low < high && nums[low] == nums[low + 1]) low++; while (low < high && nums[high] == nums[high - 1]) high--;`
+  > 3. `↑` while (low < high && nums[low] == nums[low + 1]) 记得判断`low < high`
+
+  ```java
+  class Solution {
+      public List<List<Integer>> threeSum(int[] nums) {
+          List<List<Integer>> res = new ArrayList<>();
+          if (nums == null || nums.length < 3) return new ArrayList<>(res);
+          Arrays.sort(nums);
+          for (int i = 0; i < nums.length - 2; i++) {
+              if (i > 0 && nums[i] == nums[i - 1]) continue;
+              int low = i + 1;
+              int high = nums.length - 1;
+              while(low < high) {
+                  if (nums[i] + nums[low] + nums[high] == 0) {
+                      res.add(Arrays.asList(nums[i], nums[low], nums[high]));
+                      while (low < high && nums[low] == nums[low + 1]) low++;
+                      while (low < high && nums[high] == nums[high - 1]) high--;
+                      low++;
+                      high--;
+                  } else if (nums[i] + nums[low] + nums[high] < 0) {
+                      low++;         
+                  } else {  
+                      high--; 
+                  }
+              }
+          }
+          return res;
+      }
+  }
+  ```
+
+  
 
 #### [18. 4Sum](https://leetcode-cn.com/problems/4sum/)
 
