@@ -16,23 +16,27 @@ Hi, My name is Yiwei Cheng, you can call me Vicky. I am a 21Fall student to NEU 
 - Stack
   - [Stack & Token](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Stack/stack.md)
   - [Monotone Stack](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Monotone%20Stack/Monotone%20Stack.md)
-- [PriorityQueue & TreeSet/TreeMap]()
-- [HashSet & HashMap]()
+- [Heap]()
+  - [PriorityQueue]()
+  - [TreeSet/TreeMap]()
+- [HashTable]()
+  - [HashSet]()
+  - [HashMap]()
 
 ### 1.2 Algorithm
-- Graph
-  - [BFS & DFS](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Graph%20Theory/DFS%20%26%20BFS.md)
-  - [Union Find](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Graph%20Theory/Union%20find.md)
-  - [Topological Sorting](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Graph%20Theory/Topological%20Sorting.md)
 - [Back Tracking](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Back%20Tracking/Back%20Tracking.md)
 - [Dynamic Programming](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/dp/Dynamic%20Programming.md)
 - [Two Pointers and Sliding window](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Pointers%20and%20Sliding%20Window/Two%20Pointers%20and%20Sliding%20Window.md)
 - [Sweep Line and Interval](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Interval%20and%20Sweep%20Line/Interval%20and%20Sweep%20Line.md)
-- Sort
-  - [1. MergeSort]()
-  - [2. QuickSort]()
 - [Binary Search](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Binary%20Search/Binary%20Search.md)
 - [Reservoir Sampling](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Reservoir%20Sampling/Reservoir%20Sampling.md)
+- Sort
+  - [1. MergeSort](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Sort/Merge%20Sort.md)
+  - [2. QuickSort](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Sort/Quick%20Sort.md)
+- Graph
+  - [BFS & DFS](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Graph%20Theory/DFS%20%26%20BFS.md)
+  - [Union Find](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Graph%20Theory/Union%20find.md)
+  - [Topological Sorting](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Graph%20Theory/Topological%20Sorting.md)
 
 ## 2 Book
 - [Algorithms, 4th](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/book%20notes/Algorithms%2C%204th%20Edition(%E7%AE%97%E6%B3%95%EF%BC%8C%E7%AC%AC%E5%9B%9B%E7%89%88%EF%BC%8C%E8%8B%B1%E6%96%87%E7%89%88).pdf)   [ | book note](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/book%20notes/algorithms.md)
