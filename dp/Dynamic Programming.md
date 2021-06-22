@@ -160,7 +160,7 @@ class Solution {
 //二维写法
 class Solution {
     public int minimumTotal(List<List<Integer>> triangle) {
-        int[][] dp = new int[triangle.size()][triangle.size()];
+        int[][] dp = new int[triangle.size()][triangle.size()];  
         dp[0][0] = triangle.get(0).get(0);
         for (int i = 1; i < triangle.size(); i++) {
             dp[i][0] = dp[i - 1][0] + triangle.get(i).get(0);
@@ -180,7 +180,7 @@ class Solution {
 //优化为一维
 class Solution {
     public int minimumTotal(List<List<Integer>> triangle) {
-        int[] dp = new int[triangle.size()];
+        int[] dp = new int[triangle.size()]; //最后一行的长度等于 triangle 的 size
         dp[0] = triangle.get(0).get(0);
         for (int i = 1; i < triangle.size(); i++) {
             dp[i] = dp[i - 1] + triangle.get(i).get(i); //从后往前
@@ -285,7 +285,7 @@ public class Knapsack{
 
 ```java
  /**
- *多重背包问题 ： 没个东西不再是一个，而是给你 nums 数组代表每个东西的数量
+ *多重背包问题 ： 每个东西不再是一个，而是给你 nums 数组代表每个东西的数量
  */
   
     //01背包转化的完全背包 （麻烦）扩充 N 即可
@@ -448,8 +448,7 @@ public void BackPack_followup(int N, int[] weight, int[] value, int C) {
 class Solution {
     public int numSquares(int n) {
         int[] dp = new int[n + 1];
-        Arrays.fill(dp, Integer.MAX_VALUE);
-        dp[0] = 0;
+        for (int i = 0; i < n + 1; i++) dp[i] = i;
         for (int i = 1; i * i <= n; i++) {
             for (int j = i * i; j <= n; j++) {
                 dp[j] = Math.min(dp[j], dp[j - i * i] + 1);
