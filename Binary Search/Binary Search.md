@@ -12,12 +12,13 @@ Ps: 从做题感受上来看 第三种模板出错的概率比较小 一般优�
 
 
 
-LeetCode 4 Median of Two Sorted Arrays
+### Hard 题
+
+- LeetCode 4 Median of Two Sorted Arrays
 
 ![](https://trello-attachments.s3.amazonaws.com/6072d0d2385f2e81619166e2/607f13164b1c1033bf5a2ca8/x/8debdec2289e82ae283511bfab609273/Screen_Shot_2021-04-19_at_6.29.48_PM.png)
 
-时间复杂度是 log(min((m, n))  ：
-因为总数组长度固定 中位数的位置是一半总长 那么只要知道最小的数组划分到左边的长度 就知道长的数组划分到左边的长度了
+> 时间复杂度是 log(min((m, n)): 因为总数组长度固定 中位数的位置是一半总长 那么只要知道最小的数组划分到左边的长度 就知道长的数组划分到左边的长度了
 
 ```java
 class Solution {
@@ -59,3 +60,40 @@ class Solution {
 }
 ```
 
+
+
+- LeetCode 33 Search in Rotated Sorted Array
+
+> 重点是如何理解只要看 `nums[low] < nums[mid] ` 就能判断左边是否单调：画图：见p1
+>
+> 注意：
+> 1）All values of nums are unique 
+> 2）orignal array are sorted in ascending order.
+
+```java
+class Solution {
+    public int search(int[] nums, int target) {
+        int low = 0;
+        int high = nums.length - 1;
+        while(low + 1 < high) {
+            int mid = (high - low) / 2 + low;
+            if (target == nums[mid]) return mid;
+           // 先看单调的区域  如果nums[low] < nums[mid] 那么左边单调 否则右边单调 然后就可以判断 target 在不在这个区域了
+            if (nums[low] <= nums[mid]) {
+                if (target < nums[mid] && target >= nums[low]) {
+                    high = mid - 1;
+                } else low = mid + 1;
+            } else {
+                if (target <= nums[high] && target > nums[mid]) {
+                    low = mid + 1;
+                } else high = mid - 1;
+            }
+        }
+        if (nums[low] == target) return low;
+        if (nums[high] == target) return high;
+        return -1;  
+    }
+}
+```
+
+![](https://trello-attachments.s3.amazonaws.com/6072d0d2385f2e81619166e2/607f0e4ba0547e2990089d95/x/12b63cc152604461f33bbb764be01cf2/IMG_15CD7576DFE7-1.jpeg)
