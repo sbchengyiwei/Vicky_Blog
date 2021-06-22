@@ -21,8 +21,7 @@ Hi, My name is Yiwei Cheng, you can call me Vicky. I am a 21Fall student to NEU 
 
 ### 1.2 Algorithm
 - Graph
-  - [BFS]()
-  - [DFS]()
+  - [BFS & DFS](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Graph%20Theory/DFS%20%26%20BFS.md)
   - [Union Find](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Graph%20Theory/Union%20find.md)
   - [Topological Sorting](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Graph%20Theory/Topological%20Sorting.md)
 - [Back Tracking](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Back%20Tracking/Back%20Tracking.md)
