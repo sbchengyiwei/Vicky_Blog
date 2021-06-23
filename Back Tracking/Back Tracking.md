@@ -1,4 +1,19 @@
-**时间复杂度**计算是根据枚举的个数，也就是看数学公式（和 DFS 不同，Backtracking 并不会走完整个树，而是根据需要的进行剪枝）
+
+
+## What is Backtracking
+
+Backtracking is an algorithmic-technique for solving problems recursively by trying to build a solution incrementally, one piece at a time, removing those solutions that fail to satisfy the constraints of the problem at any point of time (by time, here, is referred to the time elapsed till reaching any level of the search tree). 
+
+According to the wiki definition, 
+
+> **Backtracking** can be defined as a general algorithmic technique that considers searching every possible combination in order to solve a computational problem. 
+>  
+
+**Time complexity** calculation is based on the number of enumerations, that is, by looking at the mathematical formula. (unlike DFS, Backtracking does not walk the entire tree, but prunes as needed.) 
+
+
+
+## Patterns
 
 ### Pattern1: Subset
 
@@ -33,7 +48,7 @@ class Solution {
 
 
 
-**字符串**
+- **字符串**
 
 #### [131. Palindrome Partitioning](https://leetcode-cn.com/problems/palindrome-partitioning/)
 
@@ -114,7 +129,7 @@ class Solution {
 
 
 
-**字符串** +.. 传入递归不用再remove
+- **字符串** +.. 传入递归不用再remove
 
 没有 index 也是因为不同的 k 传入不同的字符串 相当于自动变 index 了
 
@@ -255,7 +270,7 @@ class Solution {
 
 
 
-**字符匹配**
+- **字符匹配**
 
 #### [22. Generate Parentheses](https://leetcode-cn.com/problems/generate-parentheses/)
 
@@ -284,7 +299,7 @@ class Solution {
 
 
 
-**结合 Tree(BST)** 
+- **结合 Tree(BST)** 
 
 #### [95. Unique Binary Search Trees II](https://leetcode-cn.com/problems/unique-binary-search-trees-ii/)（不推荐做）
 
