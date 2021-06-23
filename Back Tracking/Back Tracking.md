@@ -159,7 +159,7 @@ class Solution {
 
 ```java
 class Solution {
-  //time : O(n * 2^n)  space : O(n)
+    //time : O(n * 2^n)  space : O(n)
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
         List<List<Integer>> res = new ArrayList<List<Integer>>();
         if (candidates == null || candidates.length == 0) return res;
