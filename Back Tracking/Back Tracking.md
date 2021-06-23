@@ -1,5 +1,26 @@
 
 
+## Content
+
+- [Content](#content)
+- [What is Backtracking](#what-is-backtracking)
+- [Patterns](#patterns)
+  * [Pattern1: Subset](#pattern1--subset)
+    + [[78. Subsets](https://leetcode-cn.com/problems/subsets/)](#-78-subsets--https---leetcode-cncom-problems-subsets--)
+    + [[131. Palindrome Partitioning](https://leetcode-cn.com/problems/palindrome-partitioning/)](#-131-palindrome-partitioning--https---leetcode-cncom-problems-palindrome-partitioning--)
+  * [Pattern2: Conbiantion](#pattern2--conbiantion)
+    + [[77. Combinations](https://leetcode-cn.com/problems/combinations/)](#-77-combinations--https---leetcode-cncom-problems-combinations--)
+    + [[17. Letter Combinations of a Phone Number](https://leetcode-cn.com/problems/letter-combinations-of-a-phone-number/)](#-17-letter-combinations-of-a-phone-number--https---leetcode-cncom-problems-letter-combinations-of-a-phone-number--)
+  * [Pattern3: Conbiantion Sum](#pattern3--conbiantion-sum)
+    + [[39. Combination Sum](https://leetcode-cn.com/problems/combination-sum/)](#-39-combination-sum--https---leetcode-cncom-problems-combination-sum--)
+    + [[216. Combination Sum III](https://leetcode-cn.com/problems/combination-sum-iii/)](#-216-combination-sum-iii--https---leetcode-cncom-problems-combination-sum-iii--)
+  * [Pattern4: Permutation](#pattern4--permutation)
+    + [[46. Permutations](https://leetcode-cn.com/problems/permutations/)](#-46-permutations--https---leetcode-cncom-problems-permutations--)
+    + [[22. Generate Parentheses](https://leetcode-cn.com/problems/generate-parentheses/)](#-22-generate-parentheses--https---leetcode-cncom-problems-generate-parentheses--)
+    + [[95. Unique Binary Search Trees II](https://leetcode-cn.com/problems/unique-binary-search-trees-ii/)（不推荐做）](#-95-unique-binary-search-trees-ii--https---leetcode-cncom-problems-unique-binary-search-trees-ii--------)
+
+
+
 ## What is Backtracking
 
 Backtracking is an algorithmic-technique for solving problems recursively by trying to build a solution incrementally, one piece at a time, removing those solutions that fail to satisfy the constraints of the problem at any point of time (by time, here, is referred to the time elapsed till reaching any level of the search tree). 
