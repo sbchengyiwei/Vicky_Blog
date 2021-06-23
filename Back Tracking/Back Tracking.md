@@ -91,7 +91,7 @@ class Solution {
 
 ```java
 class Solution {
-    //time : O(n * 2^n)  space : O(n)
+    //time : O(n*(n k))  space : O(n)
     public List<List<Integer>> combine(int n, int k) {
         List<List<Integer>> res = new ArrayList<>();
         helper(res, new ArrayList<>(), k, n, 1);
@@ -122,7 +122,6 @@ class Solution {
 
 ```java
 class Solution {
-  	//time : O(n * 2^n)  space : O(n)
     public List<String> letterCombinations(String digits) {
         List<String> res = new ArrayList<>();
         if (digits == null || digits.length() == 0 ) return res;
@@ -142,6 +141,12 @@ class Solution {
         }
     }
 }
+/*
+  复杂度分析：
+  时间复杂度：O(3^m * 4^n) 其中 m 是输入中对应 3 个字母的数字个数（包括数字 2、3、4、5、6、8），nn 是输入中对应 4 个字母的数字个数（包括数字 7、9），m+n 是输入数字的总个数。当输入包含 m 个对应 3 个字母的数字和 n 个对应 4 个字母的数字时，不同的字母组合一共有 3^m * 4^n 种，需要遍历每一种字母组合。
+
+  空间复杂度：O(m+n)，除了返回值以外，空间复杂度主要取决于哈希表以及回溯过程中的递归调用层数，哈希表的大小与输入无关，可以看成常数，递归调用层数最大为 m+n。
+*/
 ```
 
 
@@ -154,7 +159,7 @@ class Solution {
 
 ```java
 class Solution {
-  	//time : O(n * 2^n)  space : O(n)
+  //time : O(n * 2^n)  space : O(n)
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
         List<List<Integer>> res = new ArrayList<List<Integer>>();
         if (candidates == null || candidates.length == 0) return res;
