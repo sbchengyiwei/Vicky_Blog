@@ -11,6 +11,7 @@
 
 ```java
 class Solution {
+   //time : O(n * 2^n)  space : O(n)
     public List<List<Integer>> subsets(int[] nums) {
         List<List<Integer>> res = new ArrayList<>();
         if(nums == null || nums.length == 0) return res;
@@ -38,6 +39,7 @@ class Solution {
 
 ```java
 class Solution {
+    //time : O(n * 2^n)  space : O(n)
     public List<List<String>> partition(String s) {
         List<List<String>> res = new ArrayList<List<String>>();
         List<String> list = new ArrayList<String>();
@@ -89,6 +91,7 @@ class Solution {
 
 ```java
 class Solution {
+    //time : O(n * 2^n)  space : O(n)
     public List<List<Integer>> combine(int n, int k) {
         List<List<Integer>> res = new ArrayList<>();
         helper(res, new ArrayList<>(), k, n, 1);
@@ -119,6 +122,7 @@ class Solution {
 
 ```java
 class Solution {
+  	//time : O(n * 2^n)  space : O(n)
     public List<String> letterCombinations(String digits) {
         List<String> res = new ArrayList<>();
         if (digits == null || digits.length() == 0 ) return res;
@@ -150,6 +154,7 @@ class Solution {
 
 ```java
 class Solution {
+  	//time : O(n * 2^n)  space : O(n)
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
         List<List<Integer>> res = new ArrayList<List<Integer>>();
         if (candidates == null || candidates.length == 0) return res;
@@ -179,6 +184,7 @@ class Solution {
 
 ```java
 class Solution {
+    //time : O(n * 2^n)  space : O(n)
     public List<List<Integer>> combinationSum3(int k, int n) {
         List<List<Integer>> res = new ArrayList<>();
         helper(res, new ArrayList<>(), n, k, 1);
@@ -218,6 +224,7 @@ if (list.size() == nums.length) {
 
 ```java
 class Solution {
+  	//time : O(n * 2^n)  space : O(n)
     public List<List<Integer>> permute(int[] nums) {
         List<List<Integer>> res = new ArrayList<List<Integer>>();
         if (nums == null || nums.length == 0) return res;
@@ -249,6 +256,7 @@ class Solution {
 
 ```java
 class Solution {
+    //time : O(n * 2^n)  space : O(n)
     public List<String> generateParenthesis(int n) {
         List<String> res = new ArrayList<String>();
         if (n == 0) return res;
@@ -271,12 +279,13 @@ class Solution {
 
 
 
-**结合 Tree(BST)**
+**结合 Tree(BST)** 
 
-#### [95. Unique Binary Search Trees II](https://leetcode-cn.com/problems/unique-binary-search-trees-ii/)
+#### [95. Unique Binary Search Trees II](https://leetcode-cn.com/problems/unique-binary-search-trees-ii/)（不推荐做）
 
 ```java
 class Solution {
+  	//time : O(n * 2^n)  space : O(n)
     public List<TreeNode> generateTrees(int n) {
         List<TreeNode> res = constructTrees(1, n);
         return res;   
