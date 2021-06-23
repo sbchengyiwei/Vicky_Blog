@@ -2,7 +2,6 @@
 
 ## Content
 
-- [Content](#content)
 - [What is Backtracking](#what-is-backtracking)
 - [Patterns](#patterns)
   * [Pattern1: Subset](#pattern1--subset)
