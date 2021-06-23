@@ -244,7 +244,7 @@ if (list.size() == nums.length) {
 
 ```java
 class Solution {
-  	//time : O(n * 2^n)  space : O(n)
+  	//time : O(n*n!)  space : O(n)
     public List<List<Integer>> permute(int[] nums) {
         List<List<Integer>> res = new ArrayList<List<Integer>>();
         if (nums == null || nums.length == 0) return res;
@@ -276,7 +276,6 @@ class Solution {
 
 ```java
 class Solution {
-    //time : O(n * 2^n)  space : O(n)
     public List<String> generateParenthesis(int n) {
         List<String> res = new ArrayList<String>();
         if (n == 0) return res;
@@ -305,7 +304,6 @@ class Solution {
 
 ```java
 class Solution {
-  	//time : O(n * 2^n)  space : O(n)
     public List<TreeNode> generateTrees(int n) {
         List<TreeNode> res = constructTrees(1, n);
         return res;   
