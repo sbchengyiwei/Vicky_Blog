@@ -1,3 +1,18 @@
+## Content
+
+- [FaceBook -- Dp](#facebook----dp)
+  - [139. Word Break](https://leetcode-cn.com/problems/word-break/)
+  - [1269. Number of Ways to Stay in the Same Place After Some Steps](https://leetcode-cn.com/problems/number-of-ways-to-stay-in-the-same-place-after-some-steps/)
+- [Microsoft -- Two Pointers](#microsoft----two-pointers)
+  - [1879 · Two Sum VII](https://www.lintcode.com/problem/1879/)
+- [Amazon -- Shortest path(BFS)](#amazon----shortest-path-bfs-)
+  - [1563 · Shortest path to the destination](https://www.lintcode.com/problem/1563)
+- [Google -- Dp &Two Pointers & Partition](#google----dp--two-pointers---partition)
+  - [1833 · pen box](https://www.lintcode.com/problem/1833/)
+  - [123. Best Time to Buy and Sell Stock III](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/) (similar)
+
+
+
 ### FaceBook -- Dp
 
 [139. Word Break](https://leetcode-cn.com/problems/word-break/)
