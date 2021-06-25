@@ -38,6 +38,9 @@ Hi, My name is Yiwei Cheng, you can call me Vicky. I am a 21Fall student to NEU 
   - [Union Find](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Graph%20Theory/Union%20find.md)
   - [Topological Sorting](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/Graph%20Theory/Topological%20Sorting.md)
 
+### 1.3 High frequency problems
+- [Companys'](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/High%20frequency%20problems/company's.md)
+
 ## 2 Book
 - [Algorithms, 4th](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/book%20notes/Algorithms%2C%204th%20Edition(%E7%AE%97%E6%B3%95%EF%BC%8C%E7%AC%AC%E5%9B%9B%E7%89%88%EF%BC%8C%E8%8B%B1%E6%96%87%E7%89%88).pdf)   [ | book note](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/book%20notes/algorithms.md)
 - [Cracking the Coding Interview](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/book%20notes/Cracking%20the%20Coding%20Interview%20189%20Programming%20Questions%20and%20Solutions.pdf)   [ |  book note]()
