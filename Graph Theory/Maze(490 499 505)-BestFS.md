@@ -64,7 +64,7 @@ class Point {
 }
 
 class Solution {
-    //Time:O(MN) Space:O(MN)
+    //Time:O(MN*logMN) Space:O(MN)  用到 priorityqueue 每次加入取出需要 logn 时间
     public int shortestDistance(int[][] maze, int[] start, int[] destination) {
         int[][] dirs = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
         int row = maze.length;
@@ -124,7 +124,7 @@ class Point {
 }
 
 class Solution {
-    //Time:O(MN) Space:O(MN)
+    //Time:O(MN*logMN) Space:O(MN)
     //Differences to MazeII: 1. add orientation 2. change the order of directions 3. break if roll onto the hole
     public String findShortestWay(int[][] maze, int[] ball, int[] hole) {
         int[][] dirs = {{1, 0}, {0, 1}, {0, -1}, {-1, 0}};
