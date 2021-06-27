@@ -243,7 +243,9 @@ public class Solution {
 
 
 
-### Google -- Dp &Two Pointers & Partition
+### Google -- Dp & PreSum & Two Pointers & Partition
+
+**PreSum & Two Pointers 结合的时候 presum可以在过程中用 sum 存储 不一定要用数组另外一个 for 循环存储**
 
 [1833 · pen box](https://www.lintcode.com/problem/1833/)
 
@@ -316,39 +318,31 @@ public class Solution {
 //only two while loops
 public class Solution {
     public int minimumBoxes(int[] boxes, int target) {
-        // write your code here
-        int n = boxes.length;
-        int left = n - 1, right = n - 1, sum = 0;
-        int[] dp = new int[boxes.length + 1]; // The dp[i] indicates what is the shortest interval length of [i, n).
-        Arrays.fill(dp, Integer.MAX_VALUE / 2);
-        while(left >= 0) {
-            sum += boxes[left];
-            while(sum > target) {
-                sum -= boxes[right --];
-            }
-            if(sum == target) {
-                dp[left] = right - left + 1;
-            }
-            if(left + 1 < n) {
-                dp[left] = Math.min(dp[left], dp[left + 1]);
-            }
-            left --;
-        }
+        //partation
+        //use space save time
+        if (boxes == null || boxes.length < 2) return -1;
         
-        left = 0; right = 0; sum = 0;
-        int ans = Integer.MAX_VALUE; // ans = min(ans, spreSumLeft[i] + preSumRight[i + 1])
-        while(right < n) {
-            sum += boxes[right];
-            while(sum > target) {
-                sum -= boxes[left ++];
+        int[] dp = new int[boxes.length];
+        Arrays.fill(dp, Integer.MAX_VALUE / 2);
+        int sum = 0;
+        for (int i = 0, j = 0; i < boxes.length; i++) {
+            sum += boxes[i];
+            while (sum > target) {
+                sum -= boxes[j++];
             }
-            if(sum == target && right + 1 < n) {
-                ans = Math.min(right - left + 1 + dp[right + 1], ans);
-            }
-            right ++;
+            if (i - 1 >= 0) dp[i] = dp[i - 1];
+            if (sum == target) {dp[i] = Math.min(dp[i], i - j + 1);}
         }
-        if(ans >= Integer.MAX_VALUE / 2) return -1;
-        return ans;
+        sum = 0;
+        int ans = Integer.MAX_VALUE;
+        for (int i = boxes.length - 1, j = boxes.length - 1; i >= 1; i--) {
+            sum += boxes[i];
+            while (sum > target) {
+                sum -= boxes[j--];
+            }
+            if (sum == target) {ans = Math.min(j - i + 1 + dp[i - 1], ans);}
+        }
+        return ans >= Integer.MAX_VALUE / 2 ? -1 : ans; 
     }
 }
 ```
