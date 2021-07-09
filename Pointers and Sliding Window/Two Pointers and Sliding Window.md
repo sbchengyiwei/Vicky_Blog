@@ -9,10 +9,50 @@ Why two pointers: save time(same as hash and stack)
 **How to solve these problem:**
 
 1. initailize two pointers (set the original position)
-
 2. move i first ( Same direction usually use for loop)
+3. Make it valid(by move j) and update result
 
-3. Make it valid(by move j) and update result (or update result each time move j)
+#### Template 1:  Simple One
+
+```java
+int j = 0;
+for (int i = 0; i < n; i++) {  //既能处理 longest 也能处理 shortest 因为i 一次只向前移动一格
+	// 不满足则循环到满足搭配为止
+	while (j < n && i 到j 之间不满足条件) {
+			j += 1;
+  }
+  if (i 到j 之间满足条件) {
+		处理i，j 这次搭配
+  }
+}
+```
+
+#### Template 2: With other Restriction
+
+```java
+//1.
+int j = 0;
+for (int i = 0; i < n; i++) {
+	// 不满足则循环到满足搭配为止
+	while (不满足其他条件) {
+		j += 1;
+  }
+  if (i 到j 之间满足条件) {
+			处理i，j 这次搭配
+  	}
+}
+//2.
+int j = 0;
+for (int i = 0; i < n; i++) {
+	// 不满足则循环到满足搭配为止
+	while (满足其他条件) {
+  	if (i 到j 之间满足条件) {
+			处理i，j 这次搭配
+  	}
+		j += 1;
+  }
+}
+```
 
 
 
@@ -170,9 +210,11 @@ class Solution {
 
 
 
-### Pattern2: Get the number of subarray with the restriction --- at most k or less than k
+### Pattern2: Get the number of subarray with the restriction --- at most k or at least k (at least 不适用)
 
-> res += right - left
+> At most : res += right - left
+>
+> At least : res += left
 
 #### [713. Subarray Product Less Than K](https://leetcode-cn.com/problems/subarray-product-less-than-k/)
 
@@ -217,6 +259,41 @@ class Solution {
                 j++;
             }
             res += i - j + 1;
+        }
+        return res;
+    }
+}
+```
+
+#### [1375 · Substring With At Least K Distinct Characters](https://www.lintcode.com/problem/1375/)
+
+> Given a string `S` with only lowercase characters.
+>
+> Return the number of substrings that contains at least `k` distinct characters.
+>
+> **Example 1:**
+>
+> ```
+> Input: S = "abcabcabca", k = 4
+> Output: 0
+> Explanation: There are only three distinct characters in the string.
+> ```
+
+```java
+public class Solution {
+    public long kDistinctCharacters(String s, int k) {
+        // Write your code here
+        if (s == null || s.length() == 0 || s.length() < k) return 0;
+        int total = 0;
+        int[] count = new int[128];
+        long res = 0;
+        for (int i = 0, j = 0; i < s.length(); i++) {
+            if (count[s.charAt(i)]++ == 0) total++;
+            while (total >= k) {
+                if (--count[s.charAt(j)] == 0) total--;
+                j++;
+            }
+            res += j * 1L;
         }
         return res;
     }

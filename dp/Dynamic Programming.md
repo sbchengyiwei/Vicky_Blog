@@ -517,7 +517,7 @@ class Solution {
 
 
 
-### 4 Pattern2：Substring and Subsequence
+### 4 Pattern2：Prefix -- Substring 
 
 > Tips：注意条件 --- 矩阵对角一半 j<i
 
@@ -595,41 +595,6 @@ class Solution {
 ```
 
 ![Screen Shot 2021-06-13 at 6.43.18 PM](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/images/Screen%20Shot%202021-06-13%20at%206.43.18%20PM.png)
-
-#### 4.3 Subsequece
-
->[300. Longest Increasing Subsequence](https://leetcode-cn.com/problems/longest-increasing-subsequence/)
->
->Given an integer array `nums`, return the length of the longest strictly increasing subsequence.
->
->A **subsequence** is a sequence that can be derived from an array by deleting some or no elements without changing the order of the remaining elements. For example, `[3,6,2,7]` is a subsequence of the array `[0,3,1,6,2,2,7]`.
->
->**Example 1:**
->
->```
->Input: nums = [10,9,2,5,3,7,101,18]
->Output: 4
->Explanation: The longest increasing subsequence is [2,3,7,101], therefore the length is 4.
->```
-
-```java
-class Solution {
-    public int lengthOfLIS(int[] nums) {
-        int[] dp = new int[nums.length];
-        for (int i = 0; i < nums.length; i++) {
-            dp[i] = 1;
-        }
-        int maxLen = 1;  // 注意不是最后一个一定是最大的 而是中间过程就要判断
-        for (int i = 1; i < nums.length; i++) {
-            for (int j = 0; j < i; j++) {
-                if (nums[j] < nums[i]) dp[i] = Math.max(dp[i], dp[j] + 1);
-            }
-            maxLen = Math.max(maxLen, dp[i]);
-        }
-        return maxLen;
-    }
-}
-```
 
 
 
@@ -727,40 +692,98 @@ class Solution {
 
 
 
-### 5 Pattern3：Grid
+### 5 Pattern3：Prefix --Subsequence
 
-> [62. Unique Paths](https://leetcode-cn.com/problems/unique-paths/)
+> 状态一般是以 i 为结束位置
+
+>[300. Longest Increasing Subsequence](https://leetcode-cn.com/problems/longest-increasing-subsequence/)
 >
-> A robot is located at the top-left corner of a `m x n` grid (marked 'Start' in the diagram below).
+>Given an integer array `nums`, return the length of the longest strictly increasing subsequence.
 >
-> The robot can only move either down or right at any point in time. The robot is trying to reach the bottom-right corner of the grid (marked 'Finish' in the diagram below).
+>A **subsequence** is a sequence that can be derived from an array by deleting some or no elements without changing the order of the remaining elements. For example, `[3,6,2,7]` is a subsequence of the array `[0,3,1,6,2,2,7]`.
 >
-> How many possible unique paths are there?
+>**Example 1:**
+>
+>```
+>Input: nums = [10,9,2,5,3,7,101,18]
+>Output: 4
+>Explanation: The longest increasing subsequence is [2,3,7,101], therefore the length is 4.
+>```
 
 ```java
-
 class Solution {
-    public int uniquePaths(int m, int n) {
-        int[][] dp = new int[m][n];
-        for (int i = 0; i < m; ++i) {
-            dp[i][0] = 1;
+  	//time : o(n)
+    public int lengthOfLIS(int[] nums) {
+        int[] dp = new int[nums.length];
+        for (int i = 0; i < nums.length; i++) {
+            dp[i] = 1;
         }
-        for (int j = 0; j < n; ++j) {
-            dp[0][j] = 1;
-        }
-        for (int i = 1; i < m; ++i) {
-            for (int j = 1; j < n; ++j) {
-                dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+        int maxLen = 1;  // 注意不是最后一个一定是最大的 而是中间过程就要判断
+        for (int i = 1; i < nums.length; i++) {
+            for (int j = 0; j < i; j++) {
+                if (nums[j] < nums[i]) dp[i] = Math.max(dp[i], dp[j] + 1);
             }
+            maxLen = Math.max(maxLen, dp[i]);
         }
-        return dp[m - 1][n - 1];
+        return maxLen;
     }
 }
 ```
 
-> much more : 70、63、64、174、221
 
-### 6 Pattern4：Matching 
+
+> [1702 · Distinct Subsequences II](https://www.lintcode.com/problem/1702/)
+>
+> Given a string `S`, count the number of distinct, non-empty subsequences of `S` .
+>
+> Since the result may be large, return the answer modulo `10^9 + 7`.
+>
+> 1. `S` contains only lowercase letters.
+> 2. `1 <= S.length <= 2000`
+>
+> **Example 1:**
+>
+> ```
+> Input: "abc"
+> Output: 7
+> Explanation: The 7 distinct subsequences are "a", "b", "c", "ab", "ac", "bc", and "abc".
+> ```
+
+```java
+public class Solution {
+    /**
+     * @param S: The string s
+     * @return: The number of distinct, non-empty subsequences of S.
+     */
+    private int MOD = 1000000007;
+    public int distinctSubseqII(String S) {
+       
+        // Write your code here
+        //思路：就是以 i 未结尾的有多少个 但是要去重！去重的原则就是起点选择第一次出现的字符，拼接也不去选择和自己字符相等的前面的字符
+        int len = S.length();
+        int[] dp = new int[len];
+        HashSet<Character> visited = new HashSet<>();
+        for (int i = 0; i < len; i++) {
+            if (visited.add(S.charAt(i))) dp[i] = 1;
+        }
+        for (int i = 0; i < len; i++) {
+            for (int j = i - 1; j >= 0; j--) {
+                dp[i] = (dp[i] + dp[j]) % MOD;
+                if (S.charAt(i) == S.charAt(j)) break;
+            }
+        }
+        int res = 0;
+        for (int i = 0; i < len; i++) {
+            res = (res + dp[i]) % MOD;
+        }
+        return res;
+    }
+}
+```
+
+
+
+### 6 Pattern4：Prefix --Matching 
 
 #### 6.1 Easy Matching
 
@@ -1086,6 +1109,40 @@ class Solution {
 
 
 
+### 7 Pattern5：Grid
+
+> [62. Unique Paths](https://leetcode-cn.com/problems/unique-paths/)
+>
+> A robot is located at the top-left corner of a `m x n` grid (marked 'Start' in the diagram below).
+>
+> The robot can only move either down or right at any point in time. The robot is trying to reach the bottom-right corner of the grid (marked 'Finish' in the diagram below).
+>
+> How many possible unique paths are there?
+
+```java
+class Solution {
+    public int uniquePaths(int m, int n) {
+        int[][] dp = new int[m][n];
+        for (int i = 0; i < m; ++i) {
+            dp[i][0] = 1;
+        }
+        for (int j = 0; j < n; ++j) {
+            dp[0][j] = 1;
+        }
+        for (int i = 1; i < m; ++i) {
+            for (int j = 1; j < n; ++j) {
+                dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+            }
+        }
+        return dp[m - 1][n - 1];
+    }
+}
+```
+
+> much more : 70、63、64、174、221
+
+
+
 ### 7 Series Question
 
 #### 7.1 House Robber
@@ -1285,7 +1342,11 @@ class Solution {
 
 256、265、276
 
+min
 
+min
+
+Min
 
 > much more:
 >

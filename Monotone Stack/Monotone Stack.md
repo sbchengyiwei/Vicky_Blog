@@ -131,19 +131,13 @@ public int farestGreaterElement(int[] hours) {
       public int[] dailyTemperatures(int[] T) {
           Stack<Integer> stack = new Stack<>();
           int[] res = new int[T.length];
-        
           for (int i = 0; i < T.length; i++){
-              if(stack.isEmpty() || T[stack.peek()] > T[i]){
-                  stack.push(i);
+              while (!stack.isEmpty() && T[stack.peek()] < T[i]){
+                  // if temperature between warmer, calculate all the result before it in the stack.
+                  res[stack.peek()] = i - stack.peek();
+                  stack.pop();
               }
-              else{
-                  while (!stack.isEmpty() && T[stack.peek()] < T[i]){
-                      // if temperature between warmer, calculate all the result before it in the stack.
-                      res[stack.peek()] = i - stack.peek();
-                      stack.pop();
-                  }
-                  stack.push(i);
-              }
+              stack.push(i); 
           }
           return res;
       }
@@ -155,7 +149,7 @@ public int farestGreaterElement(int[] hours) {
   ||||  result is 3 2 1 0  
   */
   ```
-
+  
 - [496. Next Greater Element I](https://leetcode.com/problems/next-greater-element-i/)
 
   ```java
