@@ -515,6 +515,29 @@ class Solution {
 }
 ```
 
+**方案数 = 不做i 项目的方案数 + 做 i 项目的方案数**
+
+> [1607 · Profitable Schemes](https://www.lintcode.com/problem/1607/)
+>
+> There are `G` criminals are going to plan a series of criminal activity.
+> Given two arrays named `groups` and `profit` represent the i-th criminal activity needs `groups[i]` members and it will get a profit `profit[i]`.
+> A member can only participate in one criminal activity at the same time.
+> The purpose of the gang is to get at least p profit. Your task is to calculate how many options are available.
+> You need to return the answer module 10^{9}+7.
+>
+> **Example 1:**
+>
+> ```
+> Input: G = 5, P = 3, group = [2,2], profit = [2,3]
+> Output: 2
+> Explanation: 
+> To make a profit of at least 3, the gang could either commit crimes 0 and 1, or just crime 1.
+> In total, there are 2 schemes.
+> ```
+
+```java
+```
+
 
 
 ### 4 Pattern2：Prefix -- Substring 
