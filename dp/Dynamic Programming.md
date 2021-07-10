@@ -515,6 +515,8 @@ class Solution {
 }
 ```
 
+
+
 **方案数 = 不做i 项目的方案数 + 做 i 项目的方案数**
 
 > [1607 · Profitable Schemes](https://www.lintcode.com/problem/1607/)
@@ -536,6 +538,39 @@ class Solution {
 > ```
 
 ```java
+public class Solution {
+    /**
+     * @param G: The people in a gang.
+     * @param P: A profitable scheme any subset of these crimes that generates at least P profit.
+     * @param group: The i-th crime requires group[i] gang members to participate.
+     * @param profit: The i-th crime generates a profit[i].
+     * @return: Return how many schemes can be chosen.
+     */
+    private int MOD = 1000000007;
+    public int profitableSchemes(int G, int P, int[] group, int[] profit) {
+        // dp[n][G][P] 代表 前 n 个犯罪项目用了 G 个人 获得至少 P 盈利的方案数
+        //前i个方案数 用 dp[i-1][啥也不做] + dp[i-1][减去当前的一些操作]表示
+        int n = group.length;
+        int[][][] dp = new int[2][G + 1][P + 1];
+        dp[0][0][0] = 1;
+        for (int i = 1; i <= n; i++) {
+            for (int j = 0; j <=G; j++) {
+                for (int k = 0; k <= P; k++) {
+                    dp[i % 2][j][k] = dp[(i - 1) % 2][j][k];
+                    if (j >= group[i - 1]) {
+                        int preK = Math.max(k - profit[i - 1], 0);
+                        dp[i % 2][j][k] = (dp[i % 2][j][k] + dp[(i - 1) % 2][j - group[i - 1]][preK]) % MOD;
+                    }
+                }
+            }
+        }
+        int res = 0;
+        for (int g = 0; g <= G; g++) {
+            res = (res + dp[n % 2][g][P]) % MOD;
+        }
+        return res;
+    }
+}
 ```
 
 
@@ -1162,13 +1197,219 @@ class Solution {
 }
 ```
 
+> [1861 · Rat Jump](https://www.lintcode.com/problem/1861/)
+>
+> There is a mouse jumping from the top of a staircase with height `n`. This mouse can jump 1, 3 or 4 steps in an even number of jumps and 1, 2, or 4 steps in an odd number of times. Some steps have glue,if the mouse jump those steps,it will be directly stuck and cannot continue to jump.You need to solve how many ways the mouse can reach the ground ( level 0 ) from the top of this staircase.It also can be reached if it exceeds the ground. For example, jumping from 1 to -1 is another plan for jumping from 1 to 0.The state of the stairs with or without glue is input from high to low, that is, `arr[0]` is the top of the stairs.
+> `arr[i] == 0` represents that there is no glue on the i-th position, `arr[i] == 1` represents that there is glue on the i-th position.
+>
+> **Example1:**
+>
+> ```
+> Input:
+> [0,0,0]
+> Output:
+> 5
+> Explanation:
+> There are 3 steps.
+> The step 2  is the starting point without glue.
+> Step 1, no glue.
+> Step 0, no glue.
+> The mouse jump plans is:
+> 2--odd(1)-->1--even(1)-->0
+> 2--odd(1)-->1--even(3)-->-2
+> 2--odd(1)-->1--even(4)-->-3
+> 2--odd(2)-->0
+> 2--odd(4)-->-2
+> ```
+
+```java
+public class Solution {
+    /**
+     * @param arr: the steps whether have glue
+     * @return: the sum of the answers
+     */
+    private int MOD = 1000000007; 
+    
+    public int ratJump(int[] arr) {
+        int n = arr.length;
+
+        // state: dp[i][0] 代表从 0 的位置跳偶数步后到 i 的位置的方案数
+        //        dp[i][1] 代表从 0 的位置跳奇数步后到 i 的位置的方案数
+        int[][] dp = new int[n][2]; // 可以令 n = 5 使用滚动数组 这个滚动数组计算的是前面符合条件的方案数的和 并不需要用到自己本来的数 所以算之前把自己清空 ： dp[i % 5][0] =  dp[i % 5][1] = 0;
+        // initialization: 一开始站在 0 的位置, 已经跳过了 0 步(偶数步)
+        dp[0][0] = 1;
+        
+        int[] evenJumps = {1, 3, 4};
+        int[] oddJumps = {1, 2, 4};
+        
+        // function: dp[i][0] = dp[i - 1][1] + dp[i - 3][1] + dp[i - 4][1]
+        //           dp[i][1] = dp[i - 1][0] + dp[i - 2][0] + dp[i - 4][0]
+        for (int i = 1; i < n - 1; i++) {
+            if (arr[i] == 1) {
+                continue;
+            }
+            for (int jump: evenJumps) {
+                if (i - jump >= 0) {
+                    dp[i][0] = (dp[i][0] + dp[i - jump][1]) % MOD;
+                }
+            }
+                
+            for (int jump: oddJumps) {
+                if (i - jump >= 0) {
+                    dp[i][1] = (dp[i][1] + dp[i - jump][0]) % MOD;
+                }
+            }
+        }
+            
+        
+        // answer: 研究跳到地板之前的那一步是从哪儿出发的，跳了多远
+        int plans = 0;
+        for (int jump: evenJumps) {
+            for (int i = Math.max(0, n - jump - 1); i < n - 1; i++) {
+                plans = (plans + dp[i][1]) % MOD;
+            }
+        }
+            
+        for (int jump: oddJumps) {
+            for (int i = Math.max(0, n - jump - 1); i < n - 1; i++) {
+                plans = (plans + dp[i][0]) % MOD;
+            }
+        }
+        return plans;
+    }
+}
+```
+
+
+
 > much more : 70、63、64、174、221
 
 
 
-### 7 Series Question
+### 8 Pattern6: probability
 
-#### 7.1 House Robber
+> [20 · Dices Sum](https://www.lintcode.com/problem/20)
+>
+> Throw `n` dices, the sum of the dices' faces is `S`. Given `n`, find the all possible value of `S` along with its probability.
+>
+> **Example 1:**
+>
+> Input:
+>
+> ```
+> n = 2
+> ```
+>
+> Output:
+>
+> ```
+> [[2,0.03],[3,0.06],[4,0.08],[5,0.11],[6,0.14],[7,0.17],[8,0.14],[9,0.11],[10,0.08],[11,0.06],[12,0.03]]
+> ```
+
+```java
+public class Solution {
+    /**
+     * @param n an integer
+     * @return a list of Map.Entry<sum, probability>
+     */
+    public List<Map.Entry<Integer, Double>> dicesSum(int n) {
+        // Write your code here
+        // Ps. new AbstractMap.SimpleEntry<Integer, Double>(sum, pro)
+        // to create the pair
+
+        if (n == 0) return new ArrayList<>();
+        double[][] dp = new double[n + 1][6*n + 1];
+        for (int i = 1; i <= 6; i++) {
+            dp[1][i] = 1.0 / 6;
+        }
+        for (int i = 2; i <= n; i++) {
+            for (int j = i; j <= 6 * n; j++) {
+                for (int k = 1; k <= 6; k++) {
+                    if (j > k) {
+                        dp[i][j] += dp[i - 1][j - k] * (1.0 / 6);
+                    }
+                }
+            }
+        }
+        List<Map.Entry<Integer, Double>> list = new ArrayList<>();
+        for (int i = n ; i <= 6 * n ; i++) {
+            list.add(new AbstractMap.SimpleEntry<Integer, Double>(i, dp[n][i]));
+        }
+        return list;
+    }
+}
+```
+
+> [1084 · Knight Probability in Chessboard](https://www.lintcode.com/problem/1084/)
+>
+> On an `N`x`N` chessboard, a knight starts at the `r`-th row and `c`-th column and attempts to make exactly `K` moves. The rows and columns are 0 indexed, so the top-left square is `(0, 0)`, and the bottom-right square is `(N-1, N-1)`.
+>
+> A chess knight has 8 possible moves it can make, as illustrated below. Each move is two squares in a cardinal direction, then one square in an orthogonal direction.
+>
+> ![knight](https://assets.leetcode.com/uploads/2018/10/12/knight.png)
+>
+> Each time the knight is to move, it chooses one of eight possible moves uniformly at random (even if the piece would go off the chessboard) and moves there.
+>
+> The knight continues moving until it has made exactly `K` moves or has moved off the chessboard. Return the probability that the knight remains on the board after it has stopped moving.
+>
+> **Example 1:**
+>
+> ```
+> Input: 3, 2, 0, 0
+> Output: 0.06
+> Explanation: There are two moves (to (1,2), (2,1)) that will keep the knight on the board.
+> From each of those positions, there are also two moves that will keep the knight on the board.
+> The total probability the knight stays on the board is 0.06.
+> ```
+
+```java
+public class Solution {
+    /**
+     * @param N: int
+     * @param K: int
+     * @param r: int
+     * @param c: int
+     * @return: the probability
+     */
+    int[][] dirs = {{1,2},{1,-2},{-1,2},{-1,-2},{2,1},{-2,1},{2,-1},{-2,-1}};
+    public double knightProbability(int N, int K, int r, int c) {
+        // Write your code here.
+        double[][][] dp = new double[K + 1][N][N];
+        dp[0][r][c] = 1;
+        for (int k = 1; k < K + 1; k++) {
+            for (int i = 0; i < N; i++) {
+                for (int j = 0; j < N; j++) {
+                    for (int[] dir : dirs) {
+                        int x = i + dir[0]; 
+                        int y = j + dir[1]; 
+                        if (valid(x, y, N)) {
+                            dp[k][i][j] += dp[k - 1][x][y] * 0.125;
+                        }
+                    }
+                }
+            }
+        }
+        double res = 0;
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                res += dp[K][i][j];
+
+            }
+        }
+        return res;
+    }
+    private boolean valid(int x, int y, int N) {
+        if (x < 0 || y < 0 || x >= N || y >= N) return false;
+        return true;
+    }
+}
+```
+
+
+
+### 9 Series Question
+
+#### 9.1 House Robber
 
 198、213、337
 
@@ -1231,7 +1472,7 @@ class Solution {
 
 
 
-#### 7.2 Stock
+#### 9.2 Stock
 
 188 123  121 122  714 309
 
@@ -1361,7 +1602,7 @@ class Solution {
 
 
 
-#### 7.3 Painting
+#### 9.3 Painting
 
 256、265、276
 
