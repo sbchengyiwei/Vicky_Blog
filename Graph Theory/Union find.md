@@ -7,7 +7,6 @@
   * [3-2 Get the number of components](#3-2-get-the-number-of-components)
   * [3-3 Check connectivity](#3-3-check-connectivity)
 - [4. Advanced: Add weighted edges to Unionfind](#4-advanced--add-weighted-edges-to-unionfind)
-  
 
 ## 1 Definations
 
@@ -16,10 +15,10 @@
   > ***Find:*** Determine which subset a particular element is in. This can be used for determining if two elements are in the same subset.
   > ***Union:*** Join two subsets into a single subset.
   > Usually used in Graph questions.
- 
+
 - What is a Graph data structure?
   > Similar to the concept of LinkedList, the data in memory is not necessarily continuous, which is composed of the reference of each node. 
-  > There are three ways to construct a graph: **Adajcentcy list / Edge list / Adajcentcy matrix.**
+  > There are three ways to construct a graph: **Adajcentcy list / Edge list(start end len) / Adajcentcy matrix.**
 
 
 - **Union-Find API**
@@ -79,11 +78,10 @@ path compression               N            <5     <5
       }
       
       public int find(int x) {
-          while (x != id[x]) {
-            	id[x] = id[id[x]]; // compress path
-              x = id[x];
+          if (x != id[x]) {
+            	id[x] = find(id[x]); // compress path
           }
-          return x;
+          return id[x];
       }
       
       public void union(int x, int y) {
@@ -105,7 +103,68 @@ path compression               N            <5     <5
       }
   }
   ```
-
+  
+  ```java
+  //面试中可以简化不写 
+  class WeightedQuickUnionPathCompressionUF {
+      private int[] id;
+      private int count;
+      
+      public UnionFind(int n) {
+          count = n;
+          id = new int[n];
+          for (int i = 0; i <n; i++) {
+              id[i] = i;  
+          }
+      }
+      
+      public int find(int x) {
+          if (x != id[x]) {
+            	//int origin = id[x]; //save for the postorder
+            	id[x] = find(id[x]); // compress path
+            	//weigh[x] *= weight[origin] // postorder
+          }
+          return id[x];
+      }
+    
+    //iteration 写法
+      public int find(int x) {
+        	int root = x;
+          //weightSum *= 1
+          while (root != id[root]) {
+            //weightSum *= weight[root];
+            root = id[root];
+          }
+          while (x != root) {
+            	int originFather = id[x]; 
+            	id[x] = root; // compress path
+              //weight[x] = suumWeight / weight[x]
+            	x = originFather;
+               
+          }
+          return id[x];
+      }  
+    
+      
+      public void union(int x, int y) {
+          int rootX = find(x);
+          int rootY = find(y);
+          if (rootX != rootY) {
+              id[rootY] = rootX;
+              count--;
+          }
+      }
+      
+      public int count() {
+          return count;
+      }
+    
+    	public boolean connected(int x, int y) {
+        return find(x) == find(y);
+      }
+  }
+  ```
+  
   
 
 ## 3 Use cases
@@ -409,25 +468,25 @@ path compression               N            <5     <5
   class UnionFind {
   
       private int[] id;
-      private double[] weight; // add weight to edge
-  
+      private double[] weight; // weight代表的是子节点指向父节点的权值 x->y: weight = x/y
+    																													
       public UnionFind(int n) {
           id = new int[n];
-  
           weight = new double[n];
           for (int i = 0; i < n; i++) {
               id[i] = i;
-              weight[i] = 1.0d;
+              weight[i] = 1.0d; //(double)1
           }
       }
   
       public void union(int x, int y, double value) {
-  
           int rootX = find(x);
           int rootY = find(y);
           if (rootX != rootY) {
              id[rootX] = rootY;
              weight[rootX] = weight[y] * value / weight[x]; // union(a, b) -> a = 2b
+             //代码 weight[rootX] = weight[y] * value / weight[x]; 的推导过程，主要需要明白各个变量的含义，由两条路径有向边的权值乘积相等得到相等关系，然后做等价变换即可。
+  
           }  
       }
       
@@ -436,7 +495,8 @@ path compression               N            <5     <5
           if (x != id[x]) {
               int origin = id[x];  
               id[x] = find(id[x]); 
-              weight[x] *= weight[origin];  // post order: calculate the weight of bottom edges (a = 2b, b = 3c -> a = 6c)
+              weight[x] *= weight[origin];  // post order: calculate the weight of bottom edges (a = 2b, b = 3c -> a = 6c)  
+              // 压缩过程就是一路把 weight 沿着箭头乘上去
           }
           return id[x];
       }
@@ -489,18 +549,17 @@ path compression               N            <5     <5
   ```
 
 
-  **Add weight to edges:**
-  
-    ![img](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/images/a.png)
+  **Add weight to edges:** （没有 union 之前这个箭头并不代表实际的连接）
 
-  **Compress paths:**
-  
-    ![image.png](https://pic.leetcode-cn.com/1609861184-fXdaCo-image.png)
+![img](https://pic.leetcode-cn.com/1609860627-dZoDYx-image.png)
 
-  **Find(a):**
+  **Compress paths:** （find 的时候把每个子节点都连接到根节点上）
 
-    ![img](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/images/1609861645-DbxMDs-image.png)
+![image.png](https://pic.leetcode-cn.com/1609861645-DbxMDs-image.png)
 
-  **Calculate the weight when compressing the paths:**
+  **Union(x, y, value):** (value的那个箭头并不是实际的连接 而是代表xy 之间的数值关系 实际的连接是 rootX -> rootY 这条)
 
-    ![image.png](https://pic.leetcode-cn.com/1609862151-XZgKGY-image.png)
+![image.png](https://pic.leetcode-cn.com/1609863006-GhibcH-image.png)
+
+
+

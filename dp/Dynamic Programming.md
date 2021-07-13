@@ -1,26 +1,29 @@
 ## Content
 - [1 What is Dynamic Programming](#1-what-is-dynamic-programming)
 - [2 One dimensional DP](#2-one-dimensional-dp)
+    + [Optimization from Two-dimension to one-dimension](#optimization-from-two-dimension-to-one-dimension)
 - [3 Pattern1：Knapsack](#3-pattern1-knapsack)
   * [3.1 0-1 Knapsack](#31-0-1-knapsack)
   * [3.2 Mutiple Knapsack](#32-mutiple-knapsack)
   * [3.3 Unbounded Knapsack](#33-unbounded-knapsack)
-  * [3.4 Follow up：Print intermediate process](#34-follow-up-print-intermediate-process)
+  * [3.4 Follow up：Print/output intermediate process](#34-follow-up-print-output-intermediate-process)
   * [3.5 Other cases](#35-other-cases)
-- [4 Pattern2：Substring and Subsequence](#4-pattern2-substring-and-subsequence)
+- [4 Pattern2：Prefix -- Substring](#4-pattern2-prefix----substring)
   * [4.1 Word break](#41-word-break)
   * [4.2 Palindrome](#42-palindrome)
-  * [4.3 Subsequece](#43-subsequece)
-  * [4.4 Decode Ways](#44-decode-ways--optimize-two-dimension-to-1-)
-- [5 Pattern3：Grid](#5-pattern3-grid)
-- [6 Pattern4：Matching](#6-pattern4-matching)
+  * [4.4 Decode Ways (optimize two-dimension to 1)](#44-decode-ways--optimize-two-dimension-to-1-)
+- [5 Pattern3：Prefix --Subsequence](#5-pattern3-prefix---subsequence)
+- [6 Pattern4：Prefix --Matching](#6-pattern4-prefix---matching)
   * [6.1 Easy Matching](#61-easy-matching)
   * [6.2 Regular Expression](#62-regular-expression)
   * [6.3 Edit](#63-edit)
-- [7 Series Question](#7-series-question)
-  * [7.1 House Robber](#71-house-robber)
-  * [7.2 Stock](#72-stock)
-  * [7.3 Painting](#73-painting)
+- [7 Pattern5：Grid](#7-pattern5-grid)
+- [8 Pattern6: probability](#8-pattern6--probability)
+- [9 Series Question](#9-series-question)
+  * [9.1 House Robber](#91-house-robber)
+  * [9.2 Stock](#92-stock)
+  * [9.3 Painting](#93-painting)
+- [10 Much more:](#10-much-more-)
 
 
 
@@ -335,7 +338,7 @@ public class Knapsack{
 
 
 
-#### 3.4 Follow up：Print intermediate process
+#### 3.4 Follow up：Print/output intermediate process
 
 > Use string array, pay attention to classification processing
 
@@ -369,6 +372,72 @@ public void BackPack_followup(int N, int[] weight, int[] value, int C) {
   for(String[] p : path) {
     System.out.println(Arrays.toString(p)); //打印
   }
+}
+```
+
+
+
+[1800 · Float Combination Sum](https://www.lintcode.com/problem/1800/description)
+
+> Given an array of `A`, a non-negative integer `target`. Each decimal in `A` needs to be operated by ceil or floor, and finally an integer array is obtained, requiring the sum of all integers that are in the array to be equal to `target`, and requiring adjustments sum of the decimal array is minimum.
+> Such as ceil(1.2),adjustment is 0.8,floor(1.2),adjustment is 0.2. return the integer array.
+>
+> > 1.`1<=A.length<=300`
+> >
+> > 2.`0<=target<=15000`
+> >
+> > 3.`0.0<=A[i]<=100.0`
+> >
+> > 4.Datas guarantees the existence of answers.
+> > There are still something wrong in the c++ and python. We will fix it as soon as possible.
+>
+> **Example 1:**
+>
+> ```
+> Input：A=[1.2,1.3,2.3,4.2],target=9
+> Output：[1,1,3,4]
+> Explanation：1.2->1,1.3->1,2.3->3,4.2->4.
+> ```
+
+```java
+public class Solution {
+    /**
+     * @param A: A float array
+     * @param target: A non-negative integer
+     * @return: Return an integer array which sum equals target
+     */
+    public int[] getArray(double[] A, int target) {
+        int n = A.length;
+        double[][] dp = new double[n + 1][target + 1];
+        int[][] prev = new int[n + 1][target + 1];
+        for (int i = 0; i < n + 1; i++) {
+            for (int j = 0; j < target + 1; j++) {
+                dp[i][j] = 300;
+            }
+        }
+        dp[0][0] = 0;
+        for (int i = 1; i < n + 1; i++) {
+            int ceil = (int)Math.ceil(A[i - 1]);
+            int floor = (int)Math.floor(A[i - 1]);
+            for (int j = 0; j < target + 1; j++) {
+                if (j >= ceil) {
+                    dp[i][j] = dp[i - 1][j - ceil] + ceil - A[i - 1];
+                    prev[i][j] = 1;}
+                if (j >= floor && dp[i - 1][j - floor]  + A[i - 1] - floor < dp[i][j]) {
+                    dp[i][j] = dp[i - 1][j - floor]  + A[i - 1] - floor;
+                    prev[i][j] = 2;
+                }
+            }
+        }
+        int[] res = new int[n];
+        
+        for (int i = n; i > 0; i--) {
+            if (prev[i][target] == 1) res[i - 1] = (int)Math.ceil(A[i - 1]);
+            else res[i - 1] = (int)Math.floor(A[i - 1]);
+            target -= res[i - 1];
+        }
+        return res;
+    }
 }
 ```
 
@@ -838,6 +907,8 @@ public class Solution {
     }
 }
 ```
+
+
 
 
 
@@ -1606,14 +1677,112 @@ class Solution {
 
 256、265、276
 
-min
+[515. Paint House](https://www.lintcode.com/problem/515/solution)
 
-min
+```java
+public class Solution {
+    /**
+     * @param costs: n x 3 cost matrix
+     * @return: An integer, the minimum cost to paint all houses
+     */
+    public int minCost(int[][] costs) {
+        if (costs == null || costs.length == 0) return 0;
+        // write your code here
+        int n = costs.length;
+        int[][] dp = new int[2][3];
+        dp[0][0] = costs[0][0];
+        dp[0][1] = costs[0][1];
+        dp[0][2] = costs[0][2];
+        for (int i = 1; i < n; i++) {
+            dp[i % 2][0] = costs[i][0] + Math.min(dp[(i-1) % 2][1], dp[(i-1) % 2][2]);
+            dp[i % 2][1] = costs[i][1] + Math.min(dp[(i-1) % 2][0], dp[(i-1) % 2][2]);
+            dp[i % 2][2] = costs[i][2] + Math.min(dp[(i-1) % 2][1], dp[(i-1) % 2][0]);
+        }
+        return Math.min(dp[(n - 1) % 2][0],  Math.min(dp[(n - 1) % 2][1], dp[(n - 1) % 2][2]));
+    }
+}
+```
 
-Min
 
-> much more:
->
+
+### 10 Much more:
+
 > hard ：312、375
 >
 > 96、95、354
+
+
+
+[1869 .Count Square Submatrices with All Ones](https://www.lintcode.com/problem/1869/)
+
+> Given a m * n matrix of ones and zeros, please count and return the number of square submatrix completely composed of 1.
+>
+>  1 <= arr.length <= 300
+>
+>  1 <= arr[0].length <= 300
+>
+> **Example 1:**
+>
+> ```
+> Input: 
+> matrix =
+> [
+>   [0,1,1,1],
+>   [1,1,1,1],
+>   [0,1,1,1]
+> ]
+> Output: 
+> 15
+> Explanation: 
+> There are 10 squares of side 1.
+> There are 4 squares of side 2.
+> There is  1 square of side 3.
+> Total number of squares = 10 + 4 + 1 = 15.
+> ```
+
+```java
+//Tips: 状态：use dp[i][j] to count the size of the square 1 submatrix whose right bottom is matrix[i][j], and the size of submatrix is just the number of square submatrix it contains.
+// 方程 ：dp[i][j] = min(dp[i-1][j-1], up[i-1][j], left[i][j-1]) up 和 left 代表(包括自己)连续上面1 的个数以及左边连续 1 的个数
+// 初始化：可以把左边和上面的边都初始化为 matrix 值（很好理解）
+
+public class Solution {
+    /**
+     * @param matrix: a matrix
+     * @return: return how many square submatrices have all ones
+     */
+    public int countSquares(int[][] matrix) {
+        int row = matrix.length;
+        int col = matrix[0].length;
+        int[][] dp = new int[row][col];
+        int[][] up = new int[row][col];
+        int[][] left = new int[row][col];
+
+        for (int i = 0; i < row; i++) {
+            dp[i][0] = left[i][0] = matrix[i][0];
+        }
+        for (int i = 0; i < col; i++) {
+            dp[0][i] = up[0][i] = matrix[0][i];
+        }
+      
+        for (int i = 1; i < row; i++) { 
+            for (int j = 1; j < col; j++) {
+                if (matrix[i][j] == 0) continue;
+                    left[i][j] = left[i][j - 1] + 1;
+                    up[i][j] = up[i - 1][j] + 1;
+                    dp[i][j] = Math.min(dp[i - 1][j - 1]+1, Math.min(left[i][j], up[i][j]));
+            }
+        }
+        int res = 0;
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                res += dp[i][j];
+            }
+        }
+        return res;
+    }
+}
+```
+
+
+
+区间型动态规划有点太难了 有时间做stone game 系列
