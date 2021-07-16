@@ -6,7 +6,7 @@ Three are three templates for Binart Search:
 
 1 left <= right  ; left = 0 right = size - 1; right = mid - 1 left = mid + 1 
 
-2 left < right  ; left = 0 right = size;    right = mid   left = mid + 1         
+2 left < right  ; left = 0 right = size;    right = mid   left = mid + 1  (反之不可以！！！left = mid 无限循环)       
 
 3 left  + 1/1e-5 < right  ; left = 0 right = size - 1; right = mid   left = mid     
 
@@ -14,9 +14,9 @@ Three are three templates for Binart Search:
 
 `适用性：` length >= 2 就都可以用 length == 1 只有 1 可以直接用 其余两个要另外判断
 
-2 适用于找出分界线并返回的题     =>整数二分答案时使用
+2 适用于找出分界线并返回的题     =>整数二分答案时使用 （但是当成功找右边的情况也不适用 left = mid 无限循环 只能用第三种）
 
-3 比较普适       =>浮点数二分答案时使用
+3 比较普适       =>浮点数二分答案时使用 成功找右边的情况下用
 
 1 不需要额外再判断
 
