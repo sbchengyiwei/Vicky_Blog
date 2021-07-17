@@ -438,6 +438,84 @@ class Solution {
 
 
 
+[1879 · Two Sum VII](https://www.lintcode.com/problem/1879/?_from=collection&fromId=178)
+
+```java
+public class Solution {
+    /**
+     * @param nums: the input array
+     * @param target: the target number
+     * @return: return the target pair
+     */
+    public List<List<Integer>> twoSumVII(int[] nums, int target) {
+        // write your code here
+        List<List<Integer>> ans = new ArrayList<>();
+        if (nums.length == 0) return ans;
+        int left = 0, right = 0;
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] > nums[right]) right = i;
+            if (nums[i] < nums[left]) left = i;
+        }
+        while (nums[left] < nums[right]) {
+            if (nums[left] + nums[right] < target) {
+                left = nextleft(left, nums);
+                if (left == -1) break;
+            } else if (nums[left] + nums[right] > target) {
+                right = nextright(right, nums);
+                if (right == -1) break;
+            } else {
+                List<Integer> temp = new ArrayList<>();
+                if (left < right) {
+                    temp.add(left);
+                    temp.add(right);
+                } else {
+                    temp.add(right);
+                    temp.add(left);
+                }
+                ans.add(temp);
+                left = nextleft(left, nums);
+                if (left == -1) break;
+            }
+        }
+        return ans;
+    }
+
+    public int nextleft(int left, int[] nums) {
+        if (nums[left] < 0) {
+            for (int i = left - 1; i >= 0; i--) {
+                if (nums[i] < 0) return i;
+            } 
+            for (int i = 0; i < nums.length; i++) {
+                if (nums[i] >= 0) return i;
+            }
+            
+        }
+        for (int i = left + 1; i < nums.length; i++) {
+            if (nums[i] >= 0) return i;
+        }
+        return -1;
+    }
+
+    public int nextright(int right, int[] nums) {
+        if (nums[right] > 0) {
+            for (int i = right - 1; i >= 0; i--) {
+                if (nums[i] > 0) return i;
+            } 
+            for (int i = 0; i < nums.length; i++) {
+                if (nums[i] <= 0) return i;
+            }
+        }
+        for (int i = right + 1; i < nums.length; i++) {
+            if (nums[i] <= 0) return i;
+        }
+        
+        return -1;
+    }
+}
+```
+
+
+
 #### [11. Container With Most Water](https://leetcode-cn.com/problems/container-with-most-water/)
 
 ```java

@@ -1548,6 +1548,7 @@ class Solution {
 188 123  121 122  714 309
 
 ```java
+//188
 class Solution {
     //at most k, the time of transactions can less than k
     public int maxProfit(int k, int[] prices) {
@@ -1649,7 +1650,7 @@ class Solution {
     }
 }
 
-//309 
+//309 不能连续交易
 class Solution {
     public int maxProfit(int[] prices) {
         int day = prices.length;
