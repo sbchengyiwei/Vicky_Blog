@@ -284,3 +284,126 @@ class Solution {
 }
 ```
 
+
+
+**树的 dfs(爆栈了) 和 bfs**
+
+[1469 · Longest Path On The Tree](https://www.lintcode.com/problem/1469)
+
+DFS
+
+```java
+public class Solution {
+    /**
+     * @param n: The number of nodes
+     * @param starts: One point of the edge
+     * @param ends: Another point of the edge
+     * @param lens: The length of the edge
+     * @return: Return the length of longest path on the tree.
+     */
+    public int longestPath(int n, int[] starts, int[] ends, int[] lens) {
+        //建图
+        Map<Integer, Map<Integer,  Integer>> neighbors = buildGraph(n, starts, ends, lens);
+        return dfs(0, -1, neighbors)[1]; // 0:chain 1:path
+    }
+  
+    //dfs
+    private int[] dfs(int node, int parent, Map<Integer, Map<Integer,  Integer>> neighbors) {
+        int maxPath = 0;
+        int maxChain = 0, secondChain = 0;
+        for (int child : neighbors.get(node).keySet()) {
+            if (child == parent) continue; // parent作用：在 dfs 里面不走回头路
+            int len = neighbors.get(node).get(child);
+            //取当前子节点的链长
+            int chain = dfs(child, node, neighbors)[0] + len;
+            //更新第一大第二大的链长
+            secondChain = Math.max(chain, secondChain);
+            if (secondChain > maxChain) {
+                int temp = maxChain;
+                maxChain = secondChain;
+                secondChain = temp;
+            } 
+            //取当前子节点下面的最长 path
+            int path = dfs(child, node, neighbors)[1];
+            //找到所有子节点中最长的 path
+            maxPath = Math.max(maxPath, path);
+        }
+        // 更新最长的 path：比较子节点中最长的 path和两个最长链之和，谁大取谁
+        maxPath = Math.max(maxPath, maxChain + secondChain);
+        return new int[]{maxChain, maxPath};
+    }
+
+    //buildGraph
+    private Map<Integer, Map<Integer,  Integer>> buildGraph(int n, int[] starts, int[] ends, int[] lens) {
+        Map<Integer, Map<Integer,  Integer>> neighbors = new HashMap<>();
+        for (int i = 0; i < n - 1; i++) {
+            neighbors.computeIfAbsent(starts[i], k -> new HashMap<>()).put(ends[i], lens[i]);
+            neighbors.computeIfAbsent(ends[i], k -> new HashMap<>()).put(starts[i], lens[i]);
+        }
+        return neighbors;
+    }
+}
+```
+
+BFS
+
+Tips: The longest path: the distance between the first farthest_node and the second farthest_node.
+
+```java
+public class Solution {
+    /**
+     * @param n: The number of nodes
+     * @param starts: One point of the edge
+     * @param ends: Another point of the edge
+     * @param lens: The length of the edge
+     * @return: Return the length of longest path on the tree.
+     */
+    public int longestPath(int n, int[] starts, int[] ends, int[] lens) {
+        //建图
+        Map<Integer, Map<Integer,  Integer>> neighbors = buildGraph(n, starts, ends, lens);
+        int start = bfs(0, neighbors)[0];// 0:farthest_node 1:distance
+        return bfs(start, neighbors)[1]; // the longest path: the distance between the first farthest_node and the second farthest_node.
+    }
+
+
+    //bfs
+    private int[] bfs(int node, Map<Integer, Map<Integer,  Integer>> neighbors) {
+        //bfs 模板
+      	Queue<Integer> queue = new ArrayDeque<>();
+        HashMap<Integer, Integer> distance = new HashMap<>();
+
+        queue.offer(node);
+        distance.put(node, 0);
+
+        int farthestNode = -1;
+        int farthestDist = 0;
+
+        while (!queue.isEmpty()) {
+            int now = queue.poll();
+            for (int child : neighbors.get(now).keySet()) {
+                if (distance.containsKey(child)) continue;
+                queue.offer(child);
+                distance.put(child, distance.get(now) + neighbors.get(now).get(child));
+            }
+          	//更新farthestNode 和 farthestDist
+            if (farthestDist < distance.get(now)) {
+                farthestDist = distance.get(now);
+                farthestNode = now;
+            }
+        }
+        return new int[]{farthestNode, farthestDist};
+        
+    }
+
+    //buildGraph
+    private Map<Integer, Map<Integer,  Integer>> buildGraph(int n, int[] starts, int[] ends, int[] lens) {
+        Map<Integer, Map<Integer,  Integer>> neighbors = new HashMap<>();
+        for (int i = 0; i < n - 1; i++) {
+            neighbors.computeIfAbsent(starts[i], k -> new HashMap<>()).put(ends[i], lens[i]);
+            neighbors.computeIfAbsent(ends[i], k -> new HashMap<>()).put(starts[i], lens[i]);
+        }
+        return neighbors;
+    }
+}
+```
+

@@ -18,7 +18,7 @@
 
 - What is a Graph data structure?
   > Similar to the concept of LinkedList, the data in memory is not necessarily continuous, which is composed of the reference of each node. 
-  > There are three ways to construct a graph: **Adajcentcy list / Edge list(start end len) / Adajcentcy matrix.**
+  > There are three ways to construct a graph: **Adajcentcy list / Edge list(start end len&not traverse by nodes) / Adajcentcy matrix.**
 
 
 - **Union-Find API**
