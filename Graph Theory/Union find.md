@@ -106,7 +106,7 @@ path compression               N            <5     <5
   
   ```java
   //面试中可以简化不写 
-  class WeightedQuickUnionPathCompressionUF {
+  class UnionFind {
       private int[] id;
       private int count;
       
@@ -130,7 +130,7 @@ path compression               N            <5     <5
     //iteration 写法
       public int find(int x) {
         	int root = x;
-          //weightSum *= 1
+          //weightSum = 1
           while (root != id[root]) {
             //weightSum *= weight[root];
             root = id[root];
@@ -336,6 +336,53 @@ path compression               N            <5     <5
           }
           return new ArrayList(res.values());   
           
+      }
+  }
+  ```
+  
+  
+  
+  **DFS解法**：思路也是通过第一个邮件连接到子邮件建图，并顺便把 email2name存下来，这样每次单拎出来一个邮件就把所有的相连邮件都找出来存到 list 里（通过 dfs)，找过的用 visited 存下来
+  
+  ```java
+  class Solution {
+      //time: O(n*m*α);  space: O(n*m).
+      public List<List<String>> accountsMerge(List<List<String>> accounts) {
+          Map<String, String> email2name = new HashMap<>();
+          Map<String, List<String>> graph = new HashMap<>();
+        //build graph
+          for (List<String> account : accounts) {
+              String firstmail = account.get(1);
+              email2name.put(firstmail, account.get(0));
+              for (int i = 2; i< account.size(); i++) {
+                  graph.computeIfAbsent(account.get(i), k -> new ArrayList<>()).add(firstmail);
+                  graph.computeIfAbsent(firstmail, k -> new ArrayList<>()).add(account.get(i));
+              }
+          }
+          List<List<String>> res = new ArrayList<>();
+        
+        //dfs
+          HashSet<String> visited = new HashSet<>();
+          for (String email : email2name.keySet()) {
+              if (visited.contains(email)) continue;
+              List<String> list = new ArrayList<>();
+              dfs(list, graph, email, visited);
+              Collections.sort(list);
+              list.add(0, email2name.get(email));
+              res.add(list);
+          }
+          return res;
+      }
+  
+      private void dfs(List<String> list, Map<String, List<String>> graph, String email, HashSet<String> visited) {
+          list.add(email);
+          visited.add(email);
+          if (graph.get(email) == null) return;
+          for (String neigh : graph.get(email)) {
+              if (!visited.contains(neigh)) {
+                  dfs(list, graph, neigh, visited);
+              }
+          }
       }
   }
   ```
