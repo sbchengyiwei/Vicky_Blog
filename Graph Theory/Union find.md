@@ -608,5 +608,5 @@ path compression               N            <5     <5
 
 ![image.png](https://pic.leetcode-cn.com/1609863006-GhibcH-image.png)
 
-
+for change
 
