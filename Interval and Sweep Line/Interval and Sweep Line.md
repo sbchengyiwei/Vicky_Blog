@@ -63,7 +63,7 @@ public class Solution {
  */
 
 class Boundary {
-    int num, type;
+   intth
     public Boundary(int num, int type) {
         this.num = num;
         this.type = type;

@@ -6,17 +6,17 @@ Three are three templates for Binart Search:
 
 1 left <= right  ; left = 0 right = size - 1; right = mid - 1 left = mid + 1 
 
-2 left < right  ; left = 0 right = size;    right = mid   left = mid + 1  (反之不可以！！！left = mid 无限循环)       
+2 left < right  ; left = 0 right = size;    right = mid   left = mid + 1 (正常情况下取 lower_bound, 要取 upper_bound需要input+1 然后结果-1)
 
 3 left  + 1/1e-5 < right  ; left = 0 right = size - 1; right = mid   left = mid     
 
-> mid 加不加一 这里给出的最小值 如果不这样就会无限循环 但也可以根据题意往上加
+
 
 `适用性：` length >= 2 就都可以用 length == 1 只有 1 可以直接用 其余两个要另外判断
 
-2 适用于找出分界线并返回的题     =>整数二分答案时使用 （但是当成功找右边的情况也不适用 left = mid 无限循环 只能用第三种）
+2 适用于找出分界线并返回的题（lower or upper）或者整数二分答案时使用 
 
-3 比较普适 放心用  =>浮点数二分答案时使用 成功找右边的情况下用
+3 比较普适放心用  或者 浮点数二分答案时使用
 
 1 不需要额外再判断 注意范围越界问题
 
