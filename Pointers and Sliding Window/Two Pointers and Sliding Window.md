@@ -210,7 +210,7 @@ class Solution {
 
 
 
-### Pattern2: Get the number of subarray with the restriction --- at most k or at least k (at least 不适用)
+### Pattern2: Get the number of subarray with the restriction --- at most k or at least k 
 
 > At most : res += right - left
 >
