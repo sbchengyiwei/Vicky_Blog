@@ -22,7 +22,78 @@ Three are three templates for Binart Search:
 
 
 
-### Hard 题
+### 使用两个 bound 解题
+
+#### [300. Longest Increasing Subsequence](https://leetcode-cn.com/problems/longest-increasing-subsequence/)
+
+```java
+//贪心 + 二分法解决最长递增子序列问题
+//贪心思想 总是把小数放到数组里面 只有改变了长度才更新答案
+//每个数字放入的位置代表以当前数为结尾的递增数组的长度 每个数组都是顺序的 顺序不会错乱
+class Solution {
+    //Time : O(nlogn)
+    //Space: O(n)
+    public int lengthOfLIS(int[] nums) {
+        List<Integer> list = new ArrayList<>();
+        list.add(nums[0]);
+        for (int num : nums) {
+            int lower_bound = lower_bound(list, num);
+            if (lower_bound == list.size()) list.add(num);
+            else list.set(lower_bound, num);
+        }
+        return list.size();
+    }
+
+    private int lower_bound(List<Integer> list , int num){
+        int left = 0, right = list.size();
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            if (num > list.get(mid)) left = mid + 1;  
+            else right = mid;
+        }
+        return left;
+    }
+}
+```
+
+
+
+#### [5841. Find the Longest Valid Obstacle Course at Each Position](https://leetcode-cn.com/problems/find-the-longest-valid-obstacle-course-at-each-position/)
+
+```java
+//贪心 + 二分法解决最长递增子序列问题
+class Solution {
+    //Time : O(nlogn)
+    //Space: O(n)
+    public int[] longestObstacleCourseAtEachPosition(int[] obstacles) {
+        int[] res = new int[obstacles.length];
+        List<Integer> list = new ArrayList<>();
+        list.add(obstacles[0]);
+        res[0] = 1;
+        for (int i = 1; i < obstacles.length; i++) {
+            int upper_bound = upper_bound(list, obstacles[i]);
+            if (upper_bound == list.size()) list.add(obstacles[i]);
+            else list.set(upper_bound, obstacles[i]);
+            res[i] = upper_bound + 1;
+        }
+        return res;
+    }
+
+    private int upper_bound(List<Integer> list , int num){
+        int left = 0, right = list.size();
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            if (num >= list.get(mid)) left = mid + 1;  
+            else right = mid;
+        }
+        return left;
+    }
+}
+```
+
+
+
+### 不能用 bound 解的 Hard 题
 
 - LeetCode 4 Median of Two Sorted Arrays
 
@@ -274,30 +345,5 @@ public class Solution {
     }
 }
 ```
-
-
-
-#### [300. Longest Increasing Subsequence](https://leetcode-cn.com/problems/longest-increasing-subsequence/)
-
-```java
-class Solution {
-    public int lengthOfLIS(int[] nums) {
-        List<Integer> list = new ArrayList<>();
-        list.add(nums[0]);
-        for (int num : nums) {
-            int left = 0, right = list.size();
-            while (left < right) {
-                int mid = left + (right - left) / 2;
-                if (num > list.get(mid)) left = mid + 1;  //注意区别开 list.get 和 nums[] 别写混了
-                else right = mid;
-            }
-            if (left == list.size()) list.add(num);
-            else list.set(left, num);
-        }
-        return list.size();
-    }
-}
-```
-
 
 

@@ -1,36 +1,81 @@
-## Compare
+# Compare
 
 - graph 问题上关于 bfs dfs uf 的选择 ： 首先如果都能用就和面试官逐个分析一下，如果是特殊问题（比如island2里cell不断地增加)uf只需对付新增的部分即可对付这些问题就要用uf， 其次 bfs 和 dfs 的时空复杂度差不多 通常先用dfs一般代码简洁些速度略快  有的题dfs栈空间不足 必须bfs 那再用 bfs（比如找最短路径、分层递归等）
 - 递归主要是使用栈空间 迭代会使用额外的存储空间（一般比栈空间大） 不能上来就说递归空间复杂度更高 因为比如树很深很满 其实迭代使用空间更多 所以还是具体问题具体分析 
 - 先分析好时间空间复杂度 并且问清楚数据量多大 栈空间内存空间够不够 然后再做题
 
-## BFS
+
+
+# BFS
+
+## Template
 
 #### 简单模板
 
+```java
+Queue<Integer> queue = new ArrayDeque<>();
+Set<Integer> visited = new HashSet<>();
+
+queue.offer(start_point);
+visited.add(start_point);
+
+while (!queue.isEmpty()) {
+		Point cur = queue.poll();
+            
+for (int[] dir : dirs) { //for (int next_point : findNext(now)) {
+    if (!isValid(next_point)) continue;  //一般就是出界和遍历过
+    queue.offer(next_point);
+    visited.add(next_point);
+}  
+```
+
 #### 分层模板 HashMap distance
 
+```java
+Queue<Integer> queue = new ArrayDeque<>();
+HashMap<Integer, Integer> distance = new HashMap<>();
 
+queue.offer(start_point);
+distance.put(start_point,0);
 
-582. Kill Process
-实现题：从暴力解到 DFS 和 BFS
+while (!queue.isEmpty()) {
+		Point cur = queue.poll();
+            
+for (int[] dir : dirs) { //for (int next_point : findNext(now)) {
+    if (!isValid(next_point)) continue;  //一般就是出界和遍历过
+    queue.offer(next_point);
+    distance.put(next_point, cur_dist + 1);
+} 
+```
+
+### SPFA
 
 ```java
-class Solution {
-    //time exceed: O(n^n)! 一般超过 n^3 就要考虑优化了
-    public List<Integer> killProcess(List<Integer> pid, List<Integer> ppid, int kill) {
-        List<Integer> res = new ArrayList<Integer>();
-        res.add(kill);
-        for (int i = 0; i < ppid.size(); i++) {
-            if (ppid.get(i) == kill) {
-                res.addAll(killProcess(pid, ppid, pid.get(i))); 
-            }
-        }
-        return res;
-    }
+PriorityQueue<Point> pq = new PriorityQueue<>((a,b)->(a.distance - b.distance));
+HashMap<Integer, Integer> distance = new HashMap<>();
 
-    save time by using hashmap and constructing the tree structure.
+pq.offer(start_point);
+distance.put(start_point,0);
 
+while (!queue.isEmpty()) {
+		Point cur = queue.poll();
+            
+for (int[] dir : dirs) { //for (int next_point : findNext(now)) {
+    if (!isValid(next_point)) continue;  //一般就是出界和 new_dist >= origin_dist
+    queue.offer(next_point);
+    distance.put(next_point, new_dist);
+} 
+```
+
+
+
+## 练习
+
+### 初级 BFS
+
+#### [582. Kill Process](https://leetcode-cn.com/problems/kill-process/)学会建图
+
+```java
     //dfs
     public List<Integer> killProcess(List<Integer> pid, List<Integer> ppid, int kill) {
         // construct the tree with adajcentcy list
@@ -84,7 +129,9 @@ class Solution {
 }
 ```
 
-[200. Number of Islands](https://leetcode.com/problems/number-of-islands/)
+
+
+#### [200. Number of Islands](https://leetcode.com/problems/number-of-islands/)
 
 Question:
 
@@ -285,9 +332,7 @@ class Solution {
 
 
 
-**树的 dfs(爆栈了) 和 bfs**
-
-[1469 · Longest Path On The Tree](https://www.lintcode.com/problem/1469)
+#### [1469 · Longest Path On The Tree](https://www.lintcode.com/problem/1469)
 
 DFS
 
@@ -402,6 +447,219 @@ public class Solution {
             neighbors.computeIfAbsent(ends[i], k -> new HashMap<>()).put(starts[i], lens[i]);
         }
         return neighbors;
+    }
+}
+```
+
+
+
+#### [598 · 僵尸矩阵](https://www.lintcode.com/problem/598/?_from=collection&fromId=178)
+
+```java
+public class Solution {
+    /**
+     * 分层 BFS 解法 
+     * Time : O(n * m)
+     * Space : O(n * m)
+     */
+
+    private static final int[][] DIRECTIONS = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+
+    public int zombie(int[][] grid) {
+        int row = grid.length;
+        int col = grid[0].length;
+        Queue<Position> q = new LinkedList<>();
+        Map<Integer, Integer> distance = new HashMap<>();
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                if (grid[i][j] == 1) { //就相当于是没有遍历过
+                q.offer(new Position(i, j));
+                distance.put(i * col + j, 0);}
+            }
+        }
+        int res = 0;
+        while (!q.isEmpty()) {
+            Position cur = q.poll();
+            int x = cur.x;
+            int y = cur.y;
+            int dist = distance.get(x * col + y);
+            for (int[] direction : DIRECTIONS) {
+                int newX = x + direction[0];
+                int newY = y + direction[1];
+                if (isValid(newX, newY, grid)) {
+                    q.offer(new Position(newX, newY));
+                    grid[newX][newY] = 1;   // 
+                    distance.put(newX * col + newY, dist + 1);
+                    res = Math.max(res, dist + 1);
+                }
+            }
+        }
+        
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                if (grid[i][j] == 0) {
+                    return -1;
+                }
+            }
+        }
+        return res;
+
+    }
+
+
+    private boolean isValid(int x, int y, int[][] grid) {
+        return x >= 0 && x < grid.length && y >= 0 && y < grid[0].length && grid[x][y] == 0;
+    }
+} 
+
+class Position {
+    public int x;
+    public int y;
+    public Position(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+}
+```
+
+
+
+### 中级BFS
+
+[1828 · Lake Escape](https://www.lintcode.com/problem/1828/description?_from=collection&fromId=178)
+
+```java
+//0. Set the class
+class Point {
+    int x;
+    int y;
+    public Point(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+}
+
+public class Solution {
+    // 0. Set the direction
+    public static final int[][] dirs = {{1, 0}, {0, 1}, {0, -1}, {-1, 0}};
+
+    public boolean lakeEscape(int side_length, int[][] lake_grid, int albert_row, int albert_column, int kuna_row, int kuna_column) {
+      //bfs find his puppy but during the journey he run out of the lake 
+        int row = lake_grid.length;
+        int col = lake_grid[0].length;
+        boolean find_kuna = false;
+        boolean exit = false;
+        Queue<Point> queue = new ArrayDeque<>();
+        Set<Integer> visited = new HashSet<>();
+        queue.offer(new Point(albert_row, albert_column));
+        visited.add(albert_row * col + albert_column);
+
+        while (!queue.isEmpty()) {
+            Point cur = queue.poll();
+            //if (cur.x == destination[0] && cur.y == destination[1]) return true;
+            //System.out.println("newPoint: ");
+            for (int[] dir : dirs) {
+                int x = cur.x;
+                int y = cur.y;
+                //System.out.println("original point: " + x + "," + y);
+                while (inbound(lake_grid, x + dir[0], y + dir[1])) {  // the key of this question
+                    x += dir[0];
+                    y += dir[1];
+                    if (lake_grid[x][y] == 1 || lake_grid[x][y] == -1) break;
+                }
+                //System.out.println("newPoint: " + x + "," + y);
+                if (visited.contains(x * col + y)) continue;   
+
+                if (lake_grid[x][y] != -1 && !inbound(lake_grid, x + dir[0], y + dir[1])) {
+                    exit = true;
+                }
+
+                if (x == kuna_row && y == kuna_column) {
+                    find_kuna = true;
+                }
+                
+                if (lake_grid[x][y] == 0 || lake_grid[x][y] == -1) continue;
+
+                queue.offer(new Point(x, y));
+                visited.add(x * col + y);
+                
+            }
+        }
+         
+        return find_kuna && exit;
+    }
+    
+    private boolean inbound(int[][] lake_grid, int x, int y) {
+        int row = lake_grid.length;
+        int col = lake_grid[0].length;
+        return x >= 0 && x < row && y >= 0 && y < col;
+    }
+}
+```
+
+Maze 小球那个可以继续修改整理进来
+
+
+
+### SPFA
+
+#### [1565 · 飞行棋 I](https://www.lintcode.com/problem/1565/?_from=collection&fromId=178)
+
+```java
+class Point{
+    int i;
+    int distance;
+
+    public Point(int i, int distance) {
+        this.i  = i;
+        this.distance = distance;
+    }
+}
+
+public class Solution {
+    public int modernLudo(int length, int[][] connections) {
+        // build graph
+        Map<Integer, Set<Integer>> graph = buildGraph(connections);
+        
+        //data structures (heap)
+        Queue<Point> pq = new PriorityQueue<>((a, b) -> (a.distance - b.distance));
+        Map<Integer, Integer> distance = new HashMap<>();
+        
+        pq.offer(new Point(1, 0));
+        
+        distance.put(1, 0);
+        for (int i = 2; i <= length; i++) {
+            distance.put(i, Integer.MAX_VALUE);
+        }
+        //bfs
+        while (!pq.isEmpty()) {
+            Point cur = pq.poll();
+            
+            //if (cur.i == length) return cur.distance;
+            if (graph.containsKey(cur.i)) {
+
+            for (int position: graph.get(cur.i)) {
+                if (distance.get(position) > cur.distance) {
+                pq.offer(new Point(position, cur.distance));
+                distance.put(position, cur.distance);}
+            }}
+
+            int limit = Math.min(length, cur.i + 6);
+            for (int next = cur.i + 1; next <= limit; next++) {
+                if (distance.get(next) > cur.distance) {
+                pq.offer(new Point(next, cur.distance + 1));
+                distance.put(next, cur.distance + 1);}
+            }
+        }
+        return distance.get(length);// values on the end point
+    }
+
+    private Map<Integer, Set<Integer>> buildGraph(int[][] connections) {
+        Map<Integer, Set<Integer>> graph = new HashMap<>();
+        for (int[] connection : connections) {
+            graph.computeIfAbsent(connection[0], k -> new HashSet<>()).add(connection[1]); 
+        }
+        return graph;
     }
 }
 ```
