@@ -597,6 +597,86 @@ public class Solution {
 }
 ```
 
+
+
+#### [573 · Build Post Office II](https://www.lintcode.com/problem/573/?_from=collection&fromId=178)
+
+```java
+/*BFS : 从空地出发找每一个房子求和 时间复杂度为空地数量 * n * m : 如果空地数量远远大于房子的数量怎么优化?
+从房子出发累计每个空地 时间复杂度为房子数量 * n * m */
+
+class Point {
+    int x;
+    int y;
+    public Point (int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+}
+public class Solution {
+    //Time : O(房子数量 * n * m) Space : O(n * m)
+    
+    private static final int[][] dirs = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+
+    public int shortestDistance(int[][] grid) {
+        if (grid == null || grid.length == 0 || grid[0].length == 0) return -1;
+        int row = grid.length;
+        int col = grid[0].length;
+        int res = Integer.MAX_VALUE;
+        int[][] distanceSum = new int[row][col];
+        int[][] reachableCount = new int[row][col];  //！万一有的房子到不了这个空地 也不能建在这个地方
+        int house = 0;
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                if (grid[i][j] == 1) {
+                    bfs(grid,i, j,  distanceSum,reachableCount);
+                    house++;
+                }
+            }
+        }
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                if (reachableCount[i][j] < house) continue;
+                res = Math.min(res, distanceSum[i][j]);
+            }
+        }
+        return res == Integer.MAX_VALUE ? -1 : res;
+    }
+    
+    private void bfs (int[][] grid, int i, int j, int[][] distanceSum,int[][] reachableCount) {
+        int row = grid.length;
+        int col = grid[0].length;
+        Map<Integer, Integer> distance = new HashMap<>();  // 还是要新设立一个 distance 用于计算每一轮的 distance 因为全局的 distance里面的数字是好几轮加起来的结果
+        Queue<Point> queue = new ArrayDeque<>();
+        queue.offer(new Point(i, j));
+        distance.put(i * col + j, 0);
+        while (!queue.isEmpty()) {
+            Point cur = queue.poll();
+            for (int[] dir : dirs) { //for (int next_point : findNext(now)) {
+                int newX = cur.x + dir[0];
+                int newY = cur.y + dir[1];
+                if (!isValid(newX, newY, grid)) continue;  //一般就是出界和遍历过
+                if (distance.containsKey(newX*col +newY)) continue;
+                queue.offer(new Point(newX, newY));
+                distance.put(newX *col + newY, distance.get(cur.x *col + cur.y) + 1);
+                distanceSum[newX][newY] += distance.get(newX *col + newY);
+                reachableCount[newX][newY]++;
+            } 
+        }
+    }
+
+    private boolean isValid (int x, int y, int[][] grid) {
+        int row = grid.length;
+        int col = grid[0].length;
+        if (x < 0 || x >= row || y < 0 || y >= col) return false;
+        if (grid[x][y] != 0) return false;
+        return true; 
+    }
+}
+```
+
+
+
 Maze 小球那个可以继续修改整理进来
 
 
