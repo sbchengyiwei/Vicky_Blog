@@ -135,13 +135,15 @@ public class Solution {
 ```java
 class Solution {
     public int lengthOfLongestSubstringKDistinct(String s, int k) {
-        int[] count = new int[256];
+        int[] count = new int[128];
         int total = 0;
         int maxLen = 0;
         for (int i = 0, j = 0; i < s.length(); i++) {
-            if (count[s.charAt(i)]++ == 0) total++;
+            count[s.charAt(i)]++;
+            if (count[s.charAt(i)] - 1 == 0) total++; //total++的条件：第一次增加到窗口
             while (total > k) {
-                if (--count[s.charAt(j)] == 0) total--;
+                count[s.charAt(j)]--;
+                if (count[s.charAt(j)] == 0) total--;//total变化的条件：最后一个也出了窗口
                 j++;
             }
             maxLen = Math.max(maxLen, i - j + 1);
