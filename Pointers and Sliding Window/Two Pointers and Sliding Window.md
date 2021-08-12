@@ -12,46 +12,53 @@ Why two pointers: save time(same as hash and stack)
 2. move i first ( Same direction usually use for loop)
 3. Make it valid(by move j) and update result
 
-#### Template 1:  Simple One
+###  Template 1:  求longest or shortest子串的长度
 
 ```java
+//1.longest- 第一个合法子区间
 int j = 0;
-for (int i = 0; i < n; i++) {  //既能处理 longest 也能处理 shortest 因为i 一次只向前移动一格
-	// 不满足则循环到满足搭配为止
-	while (j < n && i 到j 之间不满足条件) {
-			j += 1;
+for (int i = 0; i < n; i++) {
+	while (不满足条件) {
+		j += 1;
   }
-  if (i 到j 之间满足条件) {
-		处理i，j 这次搭配
+	res = Math.max()
+  
+}
+//2.shortest - 最后一个合法子区间
+int j = 0;
+for (int i = 0; i < n; i++) {
+	while (满足条件) {
+  	res = Math.min()
+		j += 1;
   }
 }
 ```
 
-#### Template 2: With other Restriction
+
+
+### Template 1: 求至少/最多包含 k 个不同字符的子串个数
 
 ```java
-//1.
-int j = 0;
+//1. at least k distinct characters
+int res = 0;
+int left = 0;
 for (int i = 0; i < n; i++) {
-	// 不满足则循环到满足搭配为止
-	while (不满足其他条件) {
-		j += 1;
-  }
-  if (i 到j 之间满足条件) {
-			处理i，j 这次搭配
-  }
+	while (state is vaild) { 
+		left += 1;
+  } // 循环到不满足搭配为止
+	res += left;  //left 前面都是满足的子数组
 }
-//2.
-int j = 0;
+
+//2.at most k distinct characters
+int res = 0;
+int left = 0;
 for (int i = 0; i < n; i++) {
-	// 满足则循环到不满足搭配为止
-	while (满足其他条件) {
-  	if (i 到j 之间满足条件) {
-			处理i，j 这次搭配
-  	}
-		j += 1;
-  }
+	while (state is not vaild) { 
+		left += 1;
+  } // 循环到满足搭配为止
+	res += i - left + 1; //从 left 到 i 都是满足的子数组
 }
+
 ```
 
 
@@ -69,7 +76,8 @@ class Solution {
         for (int i = 0, j = 0; i < s.length(); i++) {
             count[s.charAt(i)]++;
             while (count[s.charAt(i)] > 1) {
-                count[s.charAt(j++)]--;
+                count[s.charAt(j)]--;
+              	j++;
             }
             maxLen = Math.max(maxLen, i - j + 1);
         }
@@ -89,7 +97,8 @@ public class Solution {
         for (int i = 0, j = 0; i < s.length(); i++) { //移动左边指针
             count[s.charAt(i) - 'A']++;  //增加 count
             while (!valid(count, s, i, j, k)) {  // 保证 sliding window 里的是 vaild
-                count[s.charAt(j++) - 'A']--;
+                count[s.charAt(j) - 'A']--;
+              	j++;
             }
             maxLen = Math.max(maxLen, i - j + 1); // 用这个 vaild 的长度更新 maxlen
         }
@@ -171,7 +180,8 @@ class Solution {
             if (count[s.charAt(i)]-- > 0) total++;  //注意要判断-之后的 count 是要把--符号写在前面的！  
             while (total == t.length()) {
                 if (i - j + 1 < minLen) {start = j; minLen = i - j + 1;}
-                if (++count[s.charAt(j)] > 0) total--;  
+               	count[s.charAt(j)]++;
+                if (count[s.charAt(j)] > 0) total--;  
                 j++;
             }
         }
@@ -259,7 +269,7 @@ class Solution {
             while (total > k) {
                 if (--count[nums[j]] == 0) total--;
                 j++;
-            }
+            }//满足后退出
             res += i - j + 1;
         }
         return res;
@@ -294,7 +304,7 @@ public class Solution {
             while (total >= k) {
                 if (--count[s.charAt(j)] == 0) total--;
                 j++;
-            }
+            }//一直到不满足退出
             res += j * 1L;
         }
         return res;
