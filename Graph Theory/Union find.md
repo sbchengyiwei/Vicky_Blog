@@ -503,6 +503,77 @@ path compression               N            <5     <5
 
 
 
+**Percolation （逆向思维）**
+
+#### [5845. Last Day Where You Can Still Cross](https://leetcode-cn.com/problems/last-day-where-you-can-still-cross/)
+
+```java
+class UnionFind {
+    private int[] id;
+    
+    public UnionFind(int n) {
+        id = new int[n];
+        for (int i = 0; i <n; i++) {
+            id[i] = i;  
+        }
+    }
+
+    public int find(int x) {
+        if (x != id[x]) {   
+          id[x] = find(id[x]);
+        }
+        return id[x];
+    }  
+  
+    
+    public void union(int x, int y) {
+        int rootX = find(x);
+        int rootY = find(y);
+        if (rootX != rootY) {
+            id[rootY] = rootX;
+        }
+    }
+  
+  	public boolean connected(int x, int y) {
+      return find(x) == find(y);
+    }
+    
+}
+
+class Solution {
+    int[][] dirs = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+    public int latestDayToCross(int row, int col, int[][] cells) {
+        int len = row * col;
+        int VTOP = len;
+        int VBOT = len + 1;
+        UnionFind uf = new UnionFind(len + 2);
+        int[][] land = new int[row][col];
+        //REVERSE: begin from the last day: cells.length == col * row means int the last day all the land becomes water.
+        for (int i = cells.length - 1; i >= 0; i--) {
+            int x = cells[i][0] - 1;
+            int y = cells[i][1] - 1;
+            land[x][y] = 1;
+            if (x == 0) uf.union(VTOP, y);
+            if (x == row - 1) uf.union(VBOT, x * col + y);
+            for (int[] dir : dirs) {
+                int newX = x + dir[0];
+                int newY = y + dir[1];
+                if (!valid(land, row, col, newX, newY)) continue;
+                uf.union(x * col + y, newX * col + newY);
+            }
+            if (uf.connected(VTOP, VBOT)) return i;
+        }
+        return -1;
+    }
+    private boolean valid(int[][] land, int row, int col, int x, int y) {
+        if (x >= 0 && y >= 0 && x < row && y < col && land[x][y] == 1) return true;
+        else return false;
+    }
+}
+```
+
+
+
 
 ## 4 Advanced: Add weighted edges to Union find
 
