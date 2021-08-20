@@ -321,6 +321,33 @@
   }
   ```
 
+  **降低时间复杂度：使用 hashmap + 回溯法**
+
+  ```java
+  class Solution {
+      //Time :O(n) Space :O(n)
+      public int pathSum(TreeNode root, int targetSum) {
+          HashMap<Integer, Integer> sum2num = new HashMap<>();
+          sum2num.put(0, 1);
+          return dfs(root, sum2num, targetSum, 0);
+      }
+  
+      private int dfs(TreeNode root, HashMap<Integer, Integer> sum2num, int target, int presum) {
+          if (root == null) return 0;
+          presum += root.val;
+          int count = 0;
+          if (sum2num.containsKey(presum - target)) count += sum2num.get(presum - target);
+          sum2num.put(presum, sum2num.getOrDefault(presum, 0) + 1);
+          count += dfs(root.left, sum2num, target, presum);
+          count += dfs(root.right,sum2num, target, presum);
+          sum2num.put(presum,sum2num.get(presum) - 1);
+          return count;
+      }
+  }
+  ```
+
+  
+
   ![img](https://assets.leetcode.com/uploads/2021/04/09/pathsum3-1-tree.jpg)
 
 - [124. Binary Tree Maximum Path Sum](https://leetcode-cn.com/problems/binary-tree-maximum-path-sum/)
