@@ -100,8 +100,6 @@ class Solution {
 
 
 
-
-
 > [152. Maximum Product Subarray](https://leetcode-cn.com/problems/maximum-product-subarray/) (Also need to record the minimum value.)
 >
 > Given an integer array `nums`, find a contiguous non-empty subarray within the array that has the largest product, and return *the product*.
