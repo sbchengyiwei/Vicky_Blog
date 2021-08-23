@@ -36,7 +36,7 @@ for (int i = 0; i < n; i++) {
 
 
 
-### Template 1: 求至少/最多包含 k 个不同字符的子串个数
+### Template 2: 求至少/最多包含 k 个不同字符的子串个数
 
 ```java
 //1. at least k distinct characters
