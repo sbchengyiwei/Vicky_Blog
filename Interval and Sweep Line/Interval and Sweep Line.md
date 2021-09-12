@@ -1,63 +1,46 @@
 ### How to solve the Interval Problems?
 
-1. **Sorting**: A common way to sort is to sort by the beginning of the interval and pay attention to whether you need to **sort the end points in descending order** when the starting points are the same. The goal is to prevent the following：
+Way1: Boundary + PQ + Sweep line : 使用一般题型 可以用 count 来求出结果的
 
-![Image](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/images/Screen%20Shot%202021-06-20%20at%201.16.17%20AM.png)
+Way2: Arrays.sort +  Sweep line：需要知道起点终点具体对应那个区间 不能仅仅通过 count 求出结果的题
 
-2. **Draw Pictures**: How many different relative positions are there between these two sections, how should our code deal with these different relative positions?
+Way3: Two Pointers：已经给我们排好序了 时间复杂度为 O(n)
 
-![Image](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/images/Screen%20Shot%202021-06-20%20at%201.16.40%20AM.png)
-
-​	After sorting, two adjacent intervals may have the following three relative positions:
-
-![Image](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/images/Screen%20Shot%202021-06-20%20at%201.16.46%20AM.png)
-
-3. **Sweep Line**: for loop
+Way4: Dp/贪心 （难）
 
 
 
-### Pattern1: Meeting Room
+### Way1: Meeting Room
 
-#### [253. Meeting Rooms II](https://leetcode-cn.com/problems/meeting-rooms-ii/)
+#### [56. Merge Intervals](https://leetcode-cn.com/problems/merge-intervals/)
 
 ```java
-class Solution {
-    public int minMeetingRooms(int[][] intervals) {
-        if(intervals == null || intervals.length == 0) return 0;
-        int[] starts = new int[intervals.length];
-        int[] ends = new int[intervals.length];
-        for (int i = 0; i < intervals.length; i++) {
-            starts[i] = intervals[i][0];
-            ends[i] = intervals[i][1];
-        }
-        Arrays.sort(starts);
-        Arrays.sort(ends);
-        int end = 0;
-        int res = 1;
-        for (int i = 1; i < intervals.length; i++) {
-            if (starts[i] < ends[end]) {
-                res++;
-            } else end++;
-        }
-        return res;
-    }
+class Boundary {
+    int num, type;
+    public Boundary(int num, int type) {
+        this.num = num;
+        this.type = type;
+    }   
 }
-//PQ Way
-class Solution {
-    public int minMeetingRooms(int[][] intervals) {
-        if(intervals == null || intervals.length == 0) return 0;
-        PriorityQueue<Integer> queue = new PriorityQueue<>();
-        Arrays.sort(intervals, (a,b)->(a[0] - b[0]));  // Pay attention to order
-        queue.offer(intervals[0][1]);
-        int res = 1;
-        for (int i = 1; i < intervals.length; i++) {
-            if (intervals[i][0] < queue.peek()) {
-                queue.offer(intervals[i][1]);
-                res++;
-            } else {
-                queue.poll();
-                queue.offer(intervals[i][1]);
-            }
+public class Solution {
+    /**
+     * @param intervals: interval list.
+     * @return: A new interval list.
+     */
+    public List<Interval> merge(List<Interval> intervals) {
+        //if not valid return 0
+        PriorityQueue<Boundary> pq = new PriorityQueue<>((a, b) -> (a.num == b.num ? a.type - b.type : a.num - b.num));
+        for (Interval interval : intervals) {
+            pq.offer(new Boundary(interval.start, -1));
+            pq.offer(new Boundary(interval.end, 1));
+        }
+        int count = 0, left = 0, right = 0;
+        List<Interval> res = new ArrayList<>();
+        while (!pq.isEmpty()) {  
+            Boundary cur = pq.poll();
+            if (count == 0) left = cur.num;
+            count += cur.type;
+            if (count == 0) {right = cur.num; res.add(new Interval(left, right));}
         }
         return res;
     }
@@ -66,20 +49,68 @@ class Solution {
 
 
 
-### Pattern2: Intervals merging and intersection
+#### [253. Meeting Rooms II](https://leetcode-cn.com/problems/meeting-rooms-ii/)
+
+```java
+//sweep line
+/**
+ * Definition of Interval:
+ * public classs Interval {
+ *     int start, end;
+ *     Interval(int start, int end) {
+ *         this.start = start;
+ *         this.end = end;
+ *     }
+ * }
+ */
+
+class Boundary {
+   intth
+    public Boundary(int num, int type) {
+        this.num = num;
+        this.type = type;
+    }   
+}
+
+public class Solution {
+    /**
+     * @param intervals: an array of meeting time intervals
+     * @return: the minimum number of conference rooms required
+     */
+    public int minMeetingRooms(List<Interval> intervals) {
+        //if not valid return 0
+        PriorityQueue<Boundary> pq = new PriorityQueue<>((a, b) -> (a.num == b.num ? a.type - b.type : a.num - b.num));
+        for (Interval interval : intervals) {
+            pq.offer(new Boundary(interval.start, 1));
+            pq.offer(new Boundary(interval.end, -1));
+        }
+        int count = 0, res = 0;
+        while (!pq.isEmpty()) {  
+            
+            count += pq.poll().type;
+            res = Math.max(res, count);
+        }
+        return res;
+    }
+}
+```
+
+
+
+### Way2: Intervals merging and intersection
 
 #### [1288. Remove Covered Intervals](https://leetcode-cn.com/problems/remove-covered-intervals/)
 
 ```java
 class Solution {
     public int removeCoveredIntervals(int[][] intervals) {
-        Arrays.sort(intervals, (a, b)->(a[0] == b[0] ? b[1] - a[1] : a[0] - b[0]));//Note that the ends should be arranged in descending order otherwise repeated intervals as shown in the opening diagram are treated as intersecting errors
+        Arrays.sort(intervals, (a, b)->(a[0] == b[0] ? b[1] - a[1] : a[0] - b[0]));//Note that the ends should be arranged in descending order otherwise repeated intervals as shown in the opening diagram are treated as intersecting errors(as the following picture)
+
         int end = intervals[0][1];
         int cover = 0;
         for (int i = 1; i < intervals.length; i++) {
-            if (intervals[i][0] < end) {
-                if (intervals[i][1] > end) {end = intervals[i][1];}
-                else {cover++;}
+            if (intervals[i][0] < end && intervals[i][1] <= end) {
+                cover++;
             } else {
                 end = intervals[i][1];
             }
@@ -89,27 +120,34 @@ class Solution {
 }
 ```
 
-#### [56. Merge Intervals](https://leetcode-cn.com/problems/merge-intervals/)
+![Image](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/images/Screen%20Shot%202021-06-20%20at%201.16.17%20AM.png)
+
+
+
+**贪心算法**
+
+#### [435. Non-overlapping Intervals](https://leetcode-cn.com/problems/non-overlapping-intervals/)
 
 ```java
 class Solution {
-    public int[][] merge(int[][] intervals) {
-        Arrays.sort(intervals, (a, b)->(a[0] - b[0]));
-        List<int[]> res = new ArrayList<int[]>();
-        res.add(intervals[0]);
+    public int eraseOverlapIntervals(int[][] intervals) {
+        Arrays.sort(intervals, (a, b) -> (a[1] - b[1]));
+        int canWork = 1;
+        int end = intervals[0][1];
         for (int i = 1; i < intervals.length; i++) {
-            if (intervals[i][0] <= res.get(res.size() - 1)[1]) {
-                if (intervals[i][1] > res.get(res.size() - 1)[1]) {
-                    res.get(res.size() - 1)[1] = intervals[i][1];
-                }
-            } else {
-                res.add(intervals[i]);
+            if (end <= intervals[i][0]) {
+                canWork++;
+                end = intervals[i][1];
             }
         }
-        return res.toArray(new int[][]{});
+        return intervals.length - canWork;
     }
 }
 ```
+
+
+
+### Way3: Two Pointers
 
 #### [986. Interval List Intersections](https://leetcode-cn.com/problems/interval-list-intersections/)
 
@@ -130,3 +168,56 @@ class Solution {
         return res.toArray(new int[][]{});
     }
 }
+```
+
+
+
+### Way4: dp/贪心
+
+#### [1024. Video Stitching](https://leetcode-cn.com/problems/video-stitching/)
+
+```java
+
+class Solution {
+    public int videoStitching(int[][] clips, int time) {
+        int[] dp = new int[time + 1];
+        Arrays.fill(dp, Integer.MAX_VALUE - 1);
+        dp[0] = 0;
+        for (int i = 1; i <= time; i++) {
+            for (int[] clip : clips) {
+                if (clip[0] < i && i <= clip[1]) {
+                    dp[i] = Math.min(dp[i], dp[clip[0]] + 1);
+                }
+            }
+        }
+        return dp[time] == Integer.MAX_VALUE - 1 ? -1 : dp[time];
+    }
+}
+```
+
+```java
+
+class Solution {
+    public int videoStitching(int[][] clips, int time) {
+        int[] maxn = new int[time];
+        int last = 0, ret = 0, pre = 0;
+        for (int[] clip : clips) {
+            if (clip[0] < time) {
+                maxn[clip[0]] = Math.max(maxn[clip[0]], clip[1]);
+            }
+        }
+        for (int i = 0; i < time; i++) {
+            last = Math.max(last, maxn[i]);
+            if (i == last) {
+                return -1;
+            }
+            if (i == pre) {
+                ret++;
+                pre = last;
+            }
+        }
+        return ret;
+    }
+}
+```
+

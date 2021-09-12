@@ -9,10 +9,57 @@ Why two pointers: save time(same as hash and stack)
 **How to solve these problem:**
 
 1. initailize two pointers (set the original position)
-
 2. move i first ( Same direction usually use for loop)
+3. Make it valid(by move j) and update result
 
-3. Make it valid(by move j) and update result (or update result each time move j)
+###  Template 1:  求longest or shortest子串的长度
+
+```java
+//1.longest- 第一个合法子区间
+int j = 0;
+for (int i = 0; i < n; i++) {
+	while (不满足条件) {
+		j += 1;
+  }
+	res = Math.max()
+  
+}
+//2.shortest - 最后一个合法子区间
+int j = 0;
+for (int i = 0; i < n; i++) {
+	while (满足条件) {
+  	res = Math.min()
+		j += 1;
+  }
+}
+```
+
+
+
+### Template 2: 求至少/最多包含 k 个不同字符的子串个数
+
+```java
+//1. at least k distinct characters
+int res = 0;
+int left = 0;
+for (int i = 0; i < n; i++) {
+	while (state is vaild) { 
+		left += 1;
+  } // 循环到不满足搭配为止
+	res += left;  //left 前面都是满足的子数组
+}
+
+//2.at most k distinct characters
+int res = 0;
+int left = 0;
+for (int i = 0; i < n; i++) {
+	while (state is not vaild) { 
+		left += 1;
+  } // 循环到满足搭配为止
+	res += i - left + 1; //从 left 到 i 都是满足的子数组
+}
+
+```
 
 
 
@@ -29,7 +76,8 @@ class Solution {
         for (int i = 0, j = 0; i < s.length(); i++) {
             count[s.charAt(i)]++;
             while (count[s.charAt(i)] > 1) {
-                count[s.charAt(j++)]--;
+                count[s.charAt(j)]--;
+              	j++;
             }
             maxLen = Math.max(maxLen, i - j + 1);
         }
@@ -49,7 +97,8 @@ public class Solution {
         for (int i = 0, j = 0; i < s.length(); i++) { //移动左边指针
             count[s.charAt(i) - 'A']++;  //增加 count
             while (!valid(count, s, i, j, k)) {  // 保证 sliding window 里的是 vaild
-                count[s.charAt(j++) - 'A']--;
+                count[s.charAt(j) - 'A']--;
+              	j++;
             }
             maxLen = Math.max(maxLen, i - j + 1); // 用这个 vaild 的长度更新 maxlen
         }
@@ -95,13 +144,15 @@ public class Solution {
 ```java
 class Solution {
     public int lengthOfLongestSubstringKDistinct(String s, int k) {
-        int[] count = new int[256];
+        int[] count = new int[128];
         int total = 0;
         int maxLen = 0;
         for (int i = 0, j = 0; i < s.length(); i++) {
-            if (count[s.charAt(i)]++ == 0) total++;
+            count[s.charAt(i)]++;
+            if (count[s.charAt(i)] - 1 == 0) total++; //total++的条件：第一次增加到窗口
             while (total > k) {
-                if (--count[s.charAt(j)] == 0) total--;
+                count[s.charAt(j)]--;
+                if (count[s.charAt(j)] == 0) total--;//total变化的条件：最后一个也出了窗口
                 j++;
             }
             maxLen = Math.max(maxLen, i - j + 1);
@@ -129,7 +180,8 @@ class Solution {
             if (count[s.charAt(i)]-- > 0) total++;  //注意要判断-之后的 count 是要把--符号写在前面的！  
             while (total == t.length()) {
                 if (i - j + 1 < minLen) {start = j; minLen = i - j + 1;}
-                if (++count[s.charAt(j)] > 0) total--;  
+               	count[s.charAt(j)]++;
+                if (count[s.charAt(j)] > 0) total--;  
                 j++;
             }
         }
@@ -170,9 +222,11 @@ class Solution {
 
 
 
-### Pattern2: Get the number of subarray with the restriction --- at most k or less than k
+### Pattern2: Get the number of subarray with the restriction --- at most k or at least k 
 
-> res += right - left
+> At most : res += right - left
+>
+> At least : res += left
 
 #### [713. Subarray Product Less Than K](https://leetcode-cn.com/problems/subarray-product-less-than-k/)
 
@@ -215,8 +269,43 @@ class Solution {
             while (total > k) {
                 if (--count[nums[j]] == 0) total--;
                 j++;
-            }
+            }//满足后退出
             res += i - j + 1;
+        }
+        return res;
+    }
+}
+```
+
+#### [1375 · Substring With At Least K Distinct Characters](https://www.lintcode.com/problem/1375/)
+
+> Given a string `S` with only lowercase characters.
+>
+> Return the number of substrings that contains at least `k` distinct characters.
+>
+> **Example 1:**
+>
+> ```
+> Input: S = "abcabcabca", k = 4
+> Output: 0
+> Explanation: There are only three distinct characters in the string.
+> ```
+
+```java
+public class Solution {
+    public long kDistinctCharacters(String s, int k) {
+        // Write your code here
+        if (s == null || s.length() == 0 || s.length() < k) return 0;
+        int total = 0;
+        int[] count = new int[128];
+        long res = 0;
+        for (int i = 0, j = 0; i < s.length(); i++) {
+            if (count[s.charAt(i)]++ == 0) total++;
+            while (total >= k) {
+                if (--count[s.charAt(j)] == 0) total--;
+                j++;
+            }//一直到不满足退出
+            res += j * 1L;
         }
         return res;
     }
@@ -355,6 +444,84 @@ class Solution {
             }
         }
         return res;
+    }
+}
+```
+
+
+
+[1879 · Two Sum VII](https://www.lintcode.com/problem/1879/?_from=collection&fromId=178)
+
+```java
+public class Solution {
+    /**
+     * @param nums: the input array
+     * @param target: the target number
+     * @return: return the target pair
+     */
+    public List<List<Integer>> twoSumVII(int[] nums, int target) {
+        // write your code here
+        List<List<Integer>> ans = new ArrayList<>();
+        if (nums.length == 0) return ans;
+        int left = 0, right = 0;
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] > nums[right]) right = i;
+            if (nums[i] < nums[left]) left = i;
+        }
+        while (nums[left] < nums[right]) {
+            if (nums[left] + nums[right] < target) {
+                left = nextleft(left, nums);
+                if (left == -1) break;
+            } else if (nums[left] + nums[right] > target) {
+                right = nextright(right, nums);
+                if (right == -1) break;
+            } else {
+                List<Integer> temp = new ArrayList<>();
+                if (left < right) {
+                    temp.add(left);
+                    temp.add(right);
+                } else {
+                    temp.add(right);
+                    temp.add(left);
+                }
+                ans.add(temp);
+                left = nextleft(left, nums);
+                if (left == -1) break;
+            }
+        }
+        return ans;
+    }
+
+    public int nextleft(int left, int[] nums) {
+        if (nums[left] < 0) {
+            for (int i = left - 1; i >= 0; i--) {
+                if (nums[i] < 0) return i;
+            } 
+            for (int i = 0; i < nums.length; i++) {
+                if (nums[i] >= 0) return i;
+            }
+            
+        }
+        for (int i = left + 1; i < nums.length; i++) {
+            if (nums[i] >= 0) return i;
+        }
+        return -1;
+    }
+
+    public int nextright(int right, int[] nums) {
+        if (nums[right] > 0) {
+            for (int i = right - 1; i >= 0; i--) {
+                if (nums[i] > 0) return i;
+            } 
+            for (int i = 0; i < nums.length; i++) {
+                if (nums[i] <= 0) return i;
+            }
+        }
+        for (int i = right + 1; i < nums.length; i++) {
+            if (nums[i] <= 0) return i;
+        }
+        
+        return -1;
     }
 }
 ```

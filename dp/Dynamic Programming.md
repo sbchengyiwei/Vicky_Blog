@@ -1,26 +1,29 @@
 ## Content
 - [1 What is Dynamic Programming](#1-what-is-dynamic-programming)
 - [2 One dimensional DP](#2-one-dimensional-dp)
+    + [Optimization from Two-dimension to one-dimension](#optimization-from-two-dimension-to-one-dimension)
 - [3 Pattern1：Knapsack](#3-pattern1-knapsack)
   * [3.1 0-1 Knapsack](#31-0-1-knapsack)
   * [3.2 Mutiple Knapsack](#32-mutiple-knapsack)
   * [3.3 Unbounded Knapsack](#33-unbounded-knapsack)
-  * [3.4 Follow up：Print intermediate process](#34-follow-up-print-intermediate-process)
+  * [3.4 Follow up：Print/output intermediate process](#34-follow-up-print-output-intermediate-process)
   * [3.5 Other cases](#35-other-cases)
-- [4 Pattern2：Substring and Subsequence](#4-pattern2-substring-and-subsequence)
+- [4 Pattern2：Prefix -- Substring](#4-pattern2-prefix----substring)
   * [4.1 Word break](#41-word-break)
   * [4.2 Palindrome](#42-palindrome)
-  * [4.3 Subsequece](#43-subsequece)
-  * [4.4 Decode Ways](#44-decode-ways--optimize-two-dimension-to-1-)
-- [5 Pattern3：Grid](#5-pattern3-grid)
-- [6 Pattern4：Matching](#6-pattern4-matching)
+  * [4.4 Decode Ways (optimize two-dimension to 1)](#44-decode-ways--optimize-two-dimension-to-1-)
+- [5 Pattern3：Prefix --Subsequence](#5-pattern3-prefix---subsequence)
+- [6 Pattern4：Prefix --Matching](#6-pattern4-prefix---matching)
   * [6.1 Easy Matching](#61-easy-matching)
   * [6.2 Regular Expression](#62-regular-expression)
   * [6.3 Edit](#63-edit)
-- [7 Series Question](#7-series-question)
-  * [7.1 House Robber](#71-house-robber)
-  * [7.2 Stock](#72-stock)
-  * [7.3 Painting](#73-painting)
+- [7 Pattern5：Grid](#7-pattern5-grid)
+- [8 Pattern6: probability](#8-pattern6--probability)
+- [9 Series Question](#9-series-question)
+  * [9.1 House Robber](#91-house-robber)
+  * [9.2 Stock](#92-stock)
+  * [9.3 Painting](#93-painting)
+- [10 Much more:](#10-much-more-)
 
 
 
@@ -333,7 +336,7 @@ public class Knapsack{
 
 
 
-#### 3.4 Follow up：Print intermediate process
+#### 3.4 Follow up：Print/output intermediate process
 
 > Use string array, pay attention to classification processing
 
@@ -367,6 +370,72 @@ public void BackPack_followup(int N, int[] weight, int[] value, int C) {
   for(String[] p : path) {
     System.out.println(Arrays.toString(p)); //打印
   }
+}
+```
+
+
+
+[1800 · Float Combination Sum](https://www.lintcode.com/problem/1800/description)
+
+> Given an array of `A`, a non-negative integer `target`. Each decimal in `A` needs to be operated by ceil or floor, and finally an integer array is obtained, requiring the sum of all integers that are in the array to be equal to `target`, and requiring adjustments sum of the decimal array is minimum.
+> Such as ceil(1.2),adjustment is 0.8,floor(1.2),adjustment is 0.2. return the integer array.
+>
+> > 1.`1<=A.length<=300`
+> >
+> > 2.`0<=target<=15000`
+> >
+> > 3.`0.0<=A[i]<=100.0`
+> >
+> > 4.Datas guarantees the existence of answers.
+> > There are still something wrong in the c++ and python. We will fix it as soon as possible.
+>
+> **Example 1:**
+>
+> ```
+> Input：A=[1.2,1.3,2.3,4.2],target=9
+> Output：[1,1,3,4]
+> Explanation：1.2->1,1.3->1,2.3->3,4.2->4.
+> ```
+
+```java
+public class Solution {
+    /**
+     * @param A: A float array
+     * @param target: A non-negative integer
+     * @return: Return an integer array which sum equals target
+     */
+    public int[] getArray(double[] A, int target) {
+        int n = A.length;
+        double[][] dp = new double[n + 1][target + 1];
+        int[][] prev = new int[n + 1][target + 1];
+        for (int i = 0; i < n + 1; i++) {
+            for (int j = 0; j < target + 1; j++) {
+                dp[i][j] = 300;
+            }
+        }
+        dp[0][0] = 0;
+        for (int i = 1; i < n + 1; i++) {
+            int ceil = (int)Math.ceil(A[i - 1]);
+            int floor = (int)Math.floor(A[i - 1]);
+            for (int j = 0; j < target + 1; j++) {
+                if (j >= ceil) {
+                    dp[i][j] = dp[i - 1][j - ceil] + ceil - A[i - 1];
+                    prev[i][j] = 1;}
+                if (j >= floor && dp[i - 1][j - floor]  + A[i - 1] - floor < dp[i][j]) {
+                    dp[i][j] = dp[i - 1][j - floor]  + A[i - 1] - floor;
+                    prev[i][j] = 2;
+                }
+            }
+        }
+        int[] res = new int[n];
+        
+        for (int i = n; i > 0; i--) {
+            if (prev[i][target] == 1) res[i - 1] = (int)Math.ceil(A[i - 1]);
+            else res[i - 1] = (int)Math.floor(A[i - 1]);
+            target -= res[i - 1];
+        }
+        return res;
+    }
 }
 ```
 
@@ -538,7 +607,65 @@ class Solution {
 
 
 
-### 4 Pattern2：Substring and Subsequence
+**方案数 = 不做i 项目的方案数 + 做 i 项目的方案数**
+
+> [1607 · Profitable Schemes](https://www.lintcode.com/problem/1607/)
+>
+> There are `G` criminals are going to plan a series of criminal activity.
+> Given two arrays named `groups` and `profit` represent the i-th criminal activity needs `groups[i]` members and it will get a profit `profit[i]`.
+> A member can only participate in one criminal activity at the same time.
+> The purpose of the gang is to get at least p profit. Your task is to calculate how many options are available.
+> You need to return the answer module 10^{9}+7.
+>
+> **Example 1:**
+>
+> ```
+> Input: G = 5, P = 3, group = [2,2], profit = [2,3]
+> Output: 2
+> Explanation: 
+> To make a profit of at least 3, the gang could either commit crimes 0 and 1, or just crime 1.
+> In total, there are 2 schemes.
+> ```
+
+```java
+public class Solution {
+    /**
+     * @param G: The people in a gang.
+     * @param P: A profitable scheme any subset of these crimes that generates at least P profit.
+     * @param group: The i-th crime requires group[i] gang members to participate.
+     * @param profit: The i-th crime generates a profit[i].
+     * @return: Return how many schemes can be chosen.
+     */
+    private int MOD = 1000000007;
+    public int profitableSchemes(int G, int P, int[] group, int[] profit) {
+        // dp[n][G][P] 代表 前 n 个犯罪项目用了 G 个人 获得至少 P 盈利的方案数
+        //前i个方案数 用 dp[i-1][啥也不做] + dp[i-1][减去当前的一些操作]表示
+        int n = group.length;
+        int[][][] dp = new int[2][G + 1][P + 1];
+        dp[0][0][0] = 1;
+        for (int i = 1; i <= n; i++) {
+            for (int j = 0; j <=G; j++) {
+                for (int k = 0; k <= P; k++) {
+                    dp[i % 2][j][k] = dp[(i - 1) % 2][j][k];
+                    if (j >= group[i - 1]) {
+                        int preK = Math.max(k - profit[i - 1], 0);
+                        dp[i % 2][j][k] = (dp[i % 2][j][k] + dp[(i - 1) % 2][j - group[i - 1]][preK]) % MOD;
+                    }
+                }
+            }
+        }
+        int res = 0;
+        for (int g = 0; g <= G; g++) {
+            res = (res + dp[n % 2][g][P]) % MOD;
+        }
+        return res;
+    }
+}
+```
+
+
+
+### 4 Pattern2：Prefix -- Substring 
 
 > Tips：注意条件 --- 矩阵对角一半 j<i
 
@@ -616,41 +743,6 @@ class Solution {
 ```
 
 ![Screen Shot 2021-06-13 at 6.43.18 PM](https://github.com/sbchengyiwei/Vicky_Blog/blob/main/images/Screen%20Shot%202021-06-13%20at%206.43.18%20PM.png)
-
-#### 4.3 Subsequece
-
->[300. Longest Increasing Subsequence](https://leetcode-cn.com/problems/longest-increasing-subsequence/)
->
->Given an integer array `nums`, return the length of the longest strictly increasing subsequence.
->
->A **subsequence** is a sequence that can be derived from an array by deleting some or no elements without changing the order of the remaining elements. For example, `[3,6,2,7]` is a subsequence of the array `[0,3,1,6,2,2,7]`.
->
->**Example 1:**
->
->```
->Input: nums = [10,9,2,5,3,7,101,18]
->Output: 4
->Explanation: The longest increasing subsequence is [2,3,7,101], therefore the length is 4.
->```
-
-```java
-class Solution {
-    public int lengthOfLIS(int[] nums) {
-        int[] dp = new int[nums.length];
-        for (int i = 0; i < nums.length; i++) {
-            dp[i] = 1;
-        }
-        int maxLen = 1;  // 注意不是最后一个一定是最大的 而是中间过程就要判断
-        for (int i = 1; i < nums.length; i++) {
-            for (int j = 0; j < i; j++) {
-                if (nums[j] < nums[i]) dp[i] = Math.max(dp[i], dp[j] + 1);
-            }
-            maxLen = Math.max(maxLen, dp[i]);
-        }
-        return maxLen;
-    }
-}
-```
 
 
 
@@ -748,40 +840,100 @@ class Solution {
 
 
 
-### 5 Pattern3：Grid
+### 5 Pattern3：Prefix --Subsequence
 
-> [62. Unique Paths](https://leetcode-cn.com/problems/unique-paths/)
+> 状态一般是以 i 为结束位置
+
+>[300. Longest Increasing Subsequence](https://leetcode-cn.com/problems/longest-increasing-subsequence/)
 >
-> A robot is located at the top-left corner of a `m x n` grid (marked 'Start' in the diagram below).
+>Given an integer array `nums`, return the length of the longest strictly increasing subsequence.
 >
-> The robot can only move either down or right at any point in time. The robot is trying to reach the bottom-right corner of the grid (marked 'Finish' in the diagram below).
+>A **subsequence** is a sequence that can be derived from an array by deleting some or no elements without changing the order of the remaining elements. For example, `[3,6,2,7]` is a subsequence of the array `[0,3,1,6,2,2,7]`.
 >
-> How many possible unique paths are there?
+>**Example 1:**
+>
+>```
+>Input: nums = [10,9,2,5,3,7,101,18]
+>Output: 4
+>Explanation: The longest increasing subsequence is [2,3,7,101], therefore the length is 4.
+>```
 
 ```java
-
 class Solution {
-    public int uniquePaths(int m, int n) {
-        int[][] dp = new int[m][n];
-        for (int i = 0; i < m; ++i) {
-            dp[i][0] = 1;
+  	//time : o(n)
+    public int lengthOfLIS(int[] nums) {
+        int[] dp = new int[nums.length];
+        for (int i = 0; i < nums.length; i++) {
+            dp[i] = 1;
         }
-        for (int j = 0; j < n; ++j) {
-            dp[0][j] = 1;
-        }
-        for (int i = 1; i < m; ++i) {
-            for (int j = 1; j < n; ++j) {
-                dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+        int maxLen = 1;  // 注意不是最后一个一定是最大的 而是中间过程就要判断
+        for (int i = 1; i < nums.length; i++) {
+            for (int j = 0; j < i; j++) {
+                if (nums[j] < nums[i]) dp[i] = Math.max(dp[i], dp[j] + 1);
             }
+            maxLen = Math.max(maxLen, dp[i]);
         }
-        return dp[m - 1][n - 1];
+        return maxLen;
     }
 }
 ```
 
-> much more : 70、63、64、174、221
 
-### 6 Pattern4：Matching 
+
+> [1702 · Distinct Subsequences II](https://www.lintcode.com/problem/1702/)
+>
+> Given a string `S`, count the number of distinct, non-empty subsequences of `S` .
+>
+> Since the result may be large, return the answer modulo `10^9 + 7`.
+>
+> 1. `S` contains only lowercase letters.
+> 2. `1 <= S.length <= 2000`
+>
+> **Example 1:**
+>
+> ```
+> Input: "abc"
+> Output: 7
+> Explanation: The 7 distinct subsequences are "a", "b", "c", "ab", "ac", "bc", and "abc".
+> ```
+
+```java
+public class Solution {
+    /**
+     * @param S: The string s
+     * @return: The number of distinct, non-empty subsequences of S.
+     */
+    private int MOD = 1000000007;
+    public int distinctSubseqII(String S) {
+       
+        // Write your code here
+        //思路：就是以 i 未结尾的有多少个 但是要去重！去重的原则就是起点选择第一次出现的字符，拼接也不去选择和自己字符相等的前面的字符
+        int len = S.length();
+        int[] dp = new int[len];
+        HashSet<Character> visited = new HashSet<>();
+        for (int i = 0; i < len; i++) {
+            if (visited.add(S.charAt(i))) dp[i] = 1;
+        }
+        for (int i = 0; i < len; i++) {
+            for (int j = i - 1; j >= 0; j--) {
+                dp[i] = (dp[i] + dp[j]) % MOD;
+                if (S.charAt(i) == S.charAt(j)) break;
+            }
+        }
+        int res = 0;
+        for (int i = 0; i < len; i++) {
+            res = (res + dp[i]) % MOD;
+        }
+        return res;
+    }
+}
+```
+
+
+
+
+
+### 6 Pattern4：Prefix --Matching 
 
 #### 6.1 Easy Matching
 
@@ -1107,9 +1259,249 @@ class Solution {
 
 
 
-### 7 Series Question
+### 7 Pattern5：Grid
 
-#### 7.1 House Robber
+> [62. Unique Paths](https://leetcode-cn.com/problems/unique-paths/)
+>
+> A robot is located at the top-left corner of a `m x n` grid (marked 'Start' in the diagram below).
+>
+> The robot can only move either down or right at any point in time. The robot is trying to reach the bottom-right corner of the grid (marked 'Finish' in the diagram below).
+>
+> How many possible unique paths are there?
+
+```java
+class Solution {
+    public int uniquePaths(int m, int n) {
+        int[][] dp = new int[m][n];
+        for (int i = 0; i < m; ++i) {
+            dp[i][0] = 1;
+        }
+        for (int j = 0; j < n; ++j) {
+            dp[0][j] = 1;
+        }
+        for (int i = 1; i < m; ++i) {
+            for (int j = 1; j < n; ++j) {
+                dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+            }
+        }
+        return dp[m - 1][n - 1];
+    }
+}
+```
+
+> [1861 · Rat Jump](https://www.lintcode.com/problem/1861/)
+>
+> There is a mouse jumping from the top of a staircase with height `n`. This mouse can jump 1, 3 or 4 steps in an even number of jumps and 1, 2, or 4 steps in an odd number of times. Some steps have glue,if the mouse jump those steps,it will be directly stuck and cannot continue to jump.You need to solve how many ways the mouse can reach the ground ( level 0 ) from the top of this staircase.It also can be reached if it exceeds the ground. For example, jumping from 1 to -1 is another plan for jumping from 1 to 0.The state of the stairs with or without glue is input from high to low, that is, `arr[0]` is the top of the stairs.
+> `arr[i] == 0` represents that there is no glue on the i-th position, `arr[i] == 1` represents that there is glue on the i-th position.
+>
+> **Example1:**
+>
+> ```
+> Input:
+> [0,0,0]
+> Output:
+> 5
+> Explanation:
+> There are 3 steps.
+> The step 2  is the starting point without glue.
+> Step 1, no glue.
+> Step 0, no glue.
+> The mouse jump plans is:
+> 2--odd(1)-->1--even(1)-->0
+> 2--odd(1)-->1--even(3)-->-2
+> 2--odd(1)-->1--even(4)-->-3
+> 2--odd(2)-->0
+> 2--odd(4)-->-2
+> ```
+
+```java
+public class Solution {
+    /**
+     * @param arr: the steps whether have glue
+     * @return: the sum of the answers
+     */
+    private int MOD = 1000000007; 
+    
+    public int ratJump(int[] arr) {
+        int n = arr.length;
+
+        // state: dp[i][0] 代表从 0 的位置跳偶数步后到 i 的位置的方案数
+        //        dp[i][1] 代表从 0 的位置跳奇数步后到 i 的位置的方案数
+        int[][] dp = new int[n][2]; // 可以令 n = 5 使用滚动数组 这个滚动数组计算的是前面符合条件的方案数的和 并不需要用到自己本来的数 所以算之前把自己清空 ： dp[i % 5][0] =  dp[i % 5][1] = 0;
+        // initialization: 一开始站在 0 的位置, 已经跳过了 0 步(偶数步)
+        dp[0][0] = 1;
+        
+        int[] evenJumps = {1, 3, 4};
+        int[] oddJumps = {1, 2, 4};
+        
+        // function: dp[i][0] = dp[i - 1][1] + dp[i - 3][1] + dp[i - 4][1]
+        //           dp[i][1] = dp[i - 1][0] + dp[i - 2][0] + dp[i - 4][0]
+        for (int i = 1; i < n - 1; i++) {
+            if (arr[i] == 1) {
+                continue;
+            }
+            for (int jump: evenJumps) {
+                if (i - jump >= 0) {
+                    dp[i][0] = (dp[i][0] + dp[i - jump][1]) % MOD;
+                }
+            }
+                
+            for (int jump: oddJumps) {
+                if (i - jump >= 0) {
+                    dp[i][1] = (dp[i][1] + dp[i - jump][0]) % MOD;
+                }
+            }
+        }
+            
+        
+        // answer: 研究跳到地板之前的那一步是从哪儿出发的，跳了多远
+        int plans = 0;
+        for (int jump: evenJumps) {
+            for (int i = Math.max(0, n - jump - 1); i < n - 1; i++) {
+                plans = (plans + dp[i][1]) % MOD;
+            }
+        }
+            
+        for (int jump: oddJumps) {
+            for (int i = Math.max(0, n - jump - 1); i < n - 1; i++) {
+                plans = (plans + dp[i][0]) % MOD;
+            }
+        }
+        return plans;
+    }
+}
+```
+
+
+
+> much more : 70、63、64、174、221
+
+
+
+### 8 Pattern6: probability
+
+> [20 · Dices Sum](https://www.lintcode.com/problem/20)
+>
+> Throw `n` dices, the sum of the dices' faces is `S`. Given `n`, find the all possible value of `S` along with its probability.
+>
+> **Example 1:**
+>
+> Input:
+>
+> ```
+> n = 2
+> ```
+>
+> Output:
+>
+> ```
+> [[2,0.03],[3,0.06],[4,0.08],[5,0.11],[6,0.14],[7,0.17],[8,0.14],[9,0.11],[10,0.08],[11,0.06],[12,0.03]]
+> ```
+
+```java
+public class Solution {
+    /**
+     * @param n an integer
+     * @return a list of Map.Entry<sum, probability>
+     */
+    public List<Map.Entry<Integer, Double>> dicesSum(int n) {
+        // Write your code here
+        // Ps. new AbstractMap.SimpleEntry<Integer, Double>(sum, pro)
+        // to create the pair
+
+        if (n == 0) return new ArrayList<>();
+        double[][] dp = new double[n + 1][6*n + 1];
+        for (int i = 1; i <= 6; i++) {
+            dp[1][i] = 1.0 / 6;
+        }
+        for (int i = 2; i <= n; i++) {
+            for (int j = i; j <= 6 * n; j++) {
+                for (int k = 1; k <= 6; k++) {
+                    if (j > k) {
+                        dp[i][j] += dp[i - 1][j - k] * (1.0 / 6);
+                    }
+                }
+            }
+        }
+        List<Map.Entry<Integer, Double>> list = new ArrayList<>();
+        for (int i = n ; i <= 6 * n ; i++) {
+            list.add(new AbstractMap.SimpleEntry<Integer, Double>(i, dp[n][i]));
+        }
+        return list;
+    }
+}
+```
+
+> [1084 · Knight Probability in Chessboard](https://www.lintcode.com/problem/1084/)
+>
+> On an `N`x`N` chessboard, a knight starts at the `r`-th row and `c`-th column and attempts to make exactly `K` moves. The rows and columns are 0 indexed, so the top-left square is `(0, 0)`, and the bottom-right square is `(N-1, N-1)`.
+>
+> A chess knight has 8 possible moves it can make, as illustrated below. Each move is two squares in a cardinal direction, then one square in an orthogonal direction.
+>
+> ![knight](https://assets.leetcode.com/uploads/2018/10/12/knight.png)
+>
+> Each time the knight is to move, it chooses one of eight possible moves uniformly at random (even if the piece would go off the chessboard) and moves there.
+>
+> The knight continues moving until it has made exactly `K` moves or has moved off the chessboard. Return the probability that the knight remains on the board after it has stopped moving.
+>
+> **Example 1:**
+>
+> ```
+> Input: 3, 2, 0, 0
+> Output: 0.06
+> Explanation: There are two moves (to (1,2), (2,1)) that will keep the knight on the board.
+> From each of those positions, there are also two moves that will keep the knight on the board.
+> The total probability the knight stays on the board is 0.06.
+> ```
+
+```java
+public class Solution {
+    /**
+     * @param N: int
+     * @param K: int
+     * @param r: int
+     * @param c: int
+     * @return: the probability
+     */
+    int[][] dirs = {{1,2},{1,-2},{-1,2},{-1,-2},{2,1},{-2,1},{2,-1},{-2,-1}};
+    public double knightProbability(int N, int K, int r, int c) {
+        // Write your code here.
+        double[][][] dp = new double[K + 1][N][N];
+        dp[0][r][c] = 1;
+        for (int k = 1; k < K + 1; k++) {
+            for (int i = 0; i < N; i++) {
+                for (int j = 0; j < N; j++) {
+                    for (int[] dir : dirs) {
+                        int x = i + dir[0]; 
+                        int y = j + dir[1]; 
+                        if (valid(x, y, N)) {
+                            dp[k][i][j] += dp[k - 1][x][y] * 0.125;
+                        }
+                    }
+                }
+            }
+        }
+        double res = 0;
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                res += dp[K][i][j];
+
+            }
+        }
+        return res;
+    }
+    private boolean valid(int x, int y, int N) {
+        if (x < 0 || y < 0 || x >= N || y >= N) return false;
+        return true;
+    }
+}
+```
+
+
+
+### 9 Series Question
+
+#### 9.1 House Robber
 
 198、213、337
 
@@ -1172,11 +1564,12 @@ class Solution {
 
 
 
-#### 7.2 Stock
+#### 9.2 Stock
 
 188 123  121 122  714 309
 
 ```java
+//188
 class Solution {
     //at most k, the time of transactions can less than k
     public int maxProfit(int k, int[] prices) {
@@ -1278,7 +1671,7 @@ class Solution {
     }
 }
 
-//309 
+//309 不能连续交易
 class Solution {
     public int maxProfit(int[] prices) {
         int day = prices.length;
@@ -1302,14 +1695,116 @@ class Solution {
 
 
 
-#### 7.3 Painting
+#### 9.3 Painting
 
 256、265、276
 
+[515. Paint House](https://www.lintcode.com/problem/515/solution)
+
+```java
+public class Solution {
+    /**
+     * @param costs: n x 3 cost matrix
+     * @return: An integer, the minimum cost to paint all houses
+     */
+    public int minCost(int[][] costs) {
+        if (costs == null || costs.length == 0) return 0;
+        // write your code here
+        int n = costs.length;
+        int[][] dp = new int[2][3];
+        dp[0][0] = costs[0][0];
+        dp[0][1] = costs[0][1];
+        dp[0][2] = costs[0][2];
+        for (int i = 1; i < n; i++) {
+            dp[i % 2][0] = costs[i][0] + Math.min(dp[(i-1) % 2][1], dp[(i-1) % 2][2]);
+            dp[i % 2][1] = costs[i][1] + Math.min(dp[(i-1) % 2][0], dp[(i-1) % 2][2]);
+            dp[i % 2][2] = costs[i][2] + Math.min(dp[(i-1) % 2][1], dp[(i-1) % 2][0]);
+        }
+        return Math.min(dp[(n - 1) % 2][0],  Math.min(dp[(n - 1) % 2][1], dp[(n - 1) % 2][2]));
+    }
+}
+```
 
 
-> much more:
->
+
+### 10 Much more:
+
 > hard ：312、375
 >
 > 96、95、354
+
+
+
+[1869 .Count Square Submatrices with All Ones](https://www.lintcode.com/problem/1869/)
+
+> Given a m * n matrix of ones and zeros, please count and return the number of square submatrix completely composed of 1.
+>
+>  1 <= arr.length <= 300
+>
+>  1 <= arr[0].length <= 300
+>
+> **Example 1:**
+>
+> ```
+> Input: 
+> matrix =
+> [
+>   [0,1,1,1],
+>   [1,1,1,1],
+>   [0,1,1,1]
+> ]
+> Output: 
+> 15
+> Explanation: 
+> There are 10 squares of side 1.
+> There are 4 squares of side 2.
+> There is  1 square of side 3.
+> Total number of squares = 10 + 4 + 1 = 15.
+> ```
+
+```java
+//Tips: 状态：use dp[i][j] to count the size of the square 1 submatrix whose right bottom is matrix[i][j], and the size of submatrix is just the number of square submatrix it contains.
+// 方程 ：dp[i][j] = min(dp[i-1][j-1], up[i-1][j], left[i][j-1]) up 和 left 代表(包括自己)连续上面1 的个数以及左边连续 1 的个数
+// 初始化：可以把左边和上面的边都初始化为 matrix 值（很好理解）
+
+public class Solution {
+    /**
+     * @param matrix: a matrix
+     * @return: return how many square submatrices have all ones
+     */
+    public int countSquares(int[][] matrix) {
+        int row = matrix.length;
+        int col = matrix[0].length;
+        int[][] dp = new int[row][col];
+        int[][] up = new int[row][col];
+        int[][] left = new int[row][col];
+
+        for (int i = 0; i < row; i++) {
+            dp[i][0] = left[i][0] = matrix[i][0];
+        }
+        for (int i = 0; i < col; i++) {
+            dp[0][i] = up[0][i] = matrix[0][i];
+        }
+      
+        for (int i = 1; i < row; i++) { 
+            for (int j = 1; j < col; j++) {
+                if (matrix[i][j] == 0) continue;
+                    left[i][j] = left[i][j - 1] + 1;
+                    up[i][j] = up[i - 1][j] + 1;
+                    dp[i][j] = Math.min(dp[i - 1][j - 1]+1, Math.min(left[i][j], up[i][j]));
+            }
+        }
+        int res = 0;
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                res += dp[i][j];
+            }
+        }
+        return res;
+    }
+}
+```
+
+
+
+区间型动态规划有点太难了 有时间做stone game 系列
