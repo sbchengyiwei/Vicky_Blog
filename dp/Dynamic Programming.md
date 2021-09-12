@@ -1209,6 +1209,10 @@ class Solution {
 }
 ```
 
+same: [940](bilibili.com/video/BV1o3411i7DK?from=search&seid=8362332826507025413), [1987](https://www.bilibili.com/video/BV17A411w7i1?from=search&seid=18329908299931339980)
+
+
+
 
 
 > [7. Interleaving String](https://leetcode-cn.com/problems/interleaving-string/)
