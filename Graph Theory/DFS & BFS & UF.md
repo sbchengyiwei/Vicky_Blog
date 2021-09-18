@@ -744,3 +744,62 @@ public class Solution {
 }
 ```
 
+
+
+## DFS
+
+一般没有固定的模板，思想可以参考 tree
+
+Tips: 一定要明确 dfs 的含义，然后相信一定成功就可以直接用
+
+### 记忆化深度优先搜索
+
+#### [329. Longest Increasing Path in a Matrix](https://leetcode-cn.com/problems/longest-increasing-path-in-a-matrix/)(Facebook)
+
+Given an m x n integers matrix, return the length of the longest increasing path in matrix.
+
+From each cell, you can either move in four directions: left, right, up, or down. You may not move diagonally or move outside the boundary (i.e., wrap-around is not allowed).
+
+```java
+class Solution {
+    int[][] directinos = new int[][]{{0,1}, {1,0},{-1, 0}, {0, -1}};
+    int res = 1;
+    public int longestIncreasingPath(int[][] matrix) {
+        int n = matrix.length;
+        int m = matrix[0].length;
+        int[][] max = new int[n][m];
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (max[i][j] == 0) dfs(matrix, max, i, j);
+            }
+        }
+
+        return res;
+    }
+    // 明确含义：return the longest path from(i, j)
+    private int dfs(int[][] matrix, int[][] max, int i, int j) {
+
+        if (max[i][j] != 0) return max[i][j];
+
+        for (int[] dir : directinos) {
+            int x = i + dir[0];
+            int y = j + dir[1];
+            if (!valid(x, y, matrix) || matrix[x][y] <= matrix[i][j]) continue;
+            max[i][j] = Math.max(max[i][j],dfs(matrix, max,x, y) + 1);  // find the longest in the 4 directions
+        }
+
+        res = Math.max(res, max[i][j]);
+        return max[i][j] == 0 ? 1 : max[i][j];  // meet a dead end return 1
+    }
+
+    
+    private boolean valid(int x, int y, int[][] matrix) {
+        int n = matrix.length;
+        int m = matrix[0].length;
+        if (x >= 0 && y >= 0 && x < n && y < m) return true;
+        return false;
+    }
+}
+```
+
