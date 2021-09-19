@@ -137,6 +137,71 @@ public class Solution {
 }
 ```
 
+Transform:
+
+#### [5862. Minimum Number of Operations to Make Array Continuous](https://leetcode-cn.com/problems/minimum-number-of-operations-to-make-array-continuous/)
+
+You are given an integer array nums. In one operation, you can replace any element in nums with any integer.
+
+nums is considered continuous if both of the following conditions are fulfilled:
+
+All elements in nums are unique.
+The difference between the maximum element and the minimum element in nums equals nums.length - 1.
+For example, nums = [4, 2, 5, 3] is continuous, but nums = [1, 2, 3, 5, 6] is not continuous.
+
+Return the minimum number of operations to make nums continuous.
+
+```java
+class Solution {
+/*
+1. erase the repeated numbers
+2. sort the new array
+3. find the equation
+
+ 1  2 3  5  9
+    |    |
+    L    R   (: the index of the new array without repeated number)
+
+(R-L + 1) : real amount of elements inside the interval
+a[R] - a[L] + 1  :  the expected amount 
+n - (R-L + 1): amount of elements outsides the interval 
+
+inequation: a[R] - a[L] + 1  <= (R-L + 1) + n - (R-L + 1) = n
+a[R] - a[L] <= n-1 
+
+4. sliding window question : find the maximum window fullfill the length smaller or equal to the n - 1
+*/
+
+    public int minOperations(int[] nums) {
+        //去重
+        int n = nums.length;
+        Set<Integer> us = new HashSet<>();
+        for (int x : nums)
+            us.add(x);
+        
+        int an = us.size();
+        int [] a = new int [an];
+        int i = 0;
+        for (int x : us)
+            a[i++] = x;
+        //排序
+        Arrays.sort(a);
+
+        //滑动窗口
+        int len = 0;
+        for (int r = 0, l = 0; r < an; r ++){
+            while (l < an && a[r] - a[l] > n - 1)
+                l++;
+            len = Math.max(len, r - l + 1);
+        }
+
+        return n - len;
+    }
+}
+```
+
+
+
 #### Use total for extra counter
 
 #### [340. Longest Substring with At Most K Distinct Characters](https://leetcode-cn.com/problems/longest-substring-with-at-most-k-distinct-characters/)
