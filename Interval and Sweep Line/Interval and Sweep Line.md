@@ -8,6 +8,8 @@ Way3: Two Pointers：已经给我们排好序了 时间复杂度为 O(n)
 
 Way4: Dp/贪心 （难）
 
+Exclusive
+
 
 
 ### Way1: Meeting Room
@@ -149,6 +151,8 @@ class Solution {
 
 ### Way3: Two Pointers
 
+**Tips: overlap = Math.max(a1, b1), Math.min(a2, b2) (if < 0 not overlap)**
+
 #### [986. Interval List Intersections](https://leetcode-cn.com/problems/interval-list-intersections/)
 
 ```java
@@ -159,7 +163,7 @@ class Solution {
         while (i < firstList.length && j < secondList.length) {
             int a1 =  firstList[i][0], a2 = firstList[i][1];
             int b1 = secondList[j][0], b2 = secondList[j][1];
-            if (a2 >= b1 && a1 <= b2) {
+            if (Math.max(a1, b1) <= Math.min(a2, b2)) {
                 res.add(new int[]{Math.max(a1, b1), Math.min(a2, b2)});
             }
             if (a2 < b2) {i++;}
