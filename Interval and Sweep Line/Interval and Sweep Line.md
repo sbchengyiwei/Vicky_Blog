@@ -266,3 +266,67 @@ class Solution {
 }
 ```
 
+
+
+
+
+### Exclusive part
+
+Tips:  we don't care the intervals length above the cur interval
+
+(don't care part)
+  ---   cur
+-------  stack.peek
+
+#### [636. Exclusive Time of Functions](https://leetcode-cn.com/problems/exclusive-time-of-functions/)
+
+```java
+/*
+question: give us a log and n return each nth funtion's elcusize time
+input : int n (100)and List logs (500) timestamp(10^9) -> linear time
+output is a int[] 
+----
+stack : 1. compare the end with start 
+        2. sustract the last time length : lastend - laststart;
+        3. add ith fuctions time to res[i]
+    !!!!4. sustract ith len from the under interval
+   
+---
+ n = 2, logs = ["0:start:0","1:start:2","1:end:5","0:end:6"]
+
+stack {}
+
+1: last from 2 to 5 
+res[1] += 4
+res[0] -= 4
+
+0: last from 0 to 6
+res[0] += 7
+
+!!!!sustract cur's len from the under interval!!!!
+
+*/
+
+
+class Solution {
+    public int[] exclusiveTime(int n, List<String> logs) {
+        int[] res = new int[n];
+        Stack<String[]> stack = new Stack<>();
+ 
+        for (String log : logs) {
+            String[] s = log.split(":");
+            if (s[1].equals("start"))stack.push(s);
+            else {
+                String[] cur = stack.pop();
+                int wholeLen=  Integer.parseInt(s[2]) - Integer.parseInt(cur[2]) + 1;
+                res[Integer.parseInt(s[0])] += wholeLen;
+                if (!stack.isEmpty()) res[Integer.parseInt(stack.peek()[0])] -= wholeLen;
+            }
+        }
+        return res;
+    }
+}
+```
+
+
+
