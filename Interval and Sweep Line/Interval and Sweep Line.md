@@ -172,6 +172,51 @@ class Solution {
 
 
 
+```java
+class Solution {
+
+  public int[] meetingPlanner(int[][] slotsA, int[][] slotsB, int dur) {
+    int indexp  = 0;
+    int indexq = 0;
+    int[] p,q;
+    while (indexp< slotsA.length && indexq < slotsB.length) {
+        q = slotsB[indexq];
+        p = slotsA[indexp];
+        if (overlap(p, q) >= dur) {      // The key is how to calculate the overlap quickly.
+          int start = Math.max(p[0],q[0]);
+          return new int[]{start, start+ dur};
+        }
+        if (p[1] > q[1]) {
+          indexq++;
+        } else {        
+          indexp++;
+        }
+    }
+    return new int[]{};
+  }
+  
+  
+  ----
+    ----
+---
+    ---
+  ----
+----
+    // no mater which situation : overlap = min_end - max_start (if <=0: no overlap)
+  private int overlap (int[] p, int[] q) {
+    int start = Math.max(p[0], q[0]);
+    int end = Math.min(p[1], q[1]);
+    return end - start;
+  }
+
+
+}
+```
+
+
+
+
+
 ### Way4: dp/贪心
 
 #### [1024. Video Stitching](https://leetcode-cn.com/problems/video-stitching/)
