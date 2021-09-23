@@ -22,12 +22,11 @@
 
 ## What is Backtracking
 
-Backtracking is an algorithmic-technique for solving problems recursively by trying to build a solution incrementally, one piece at a time, removing those solutions that fail to satisfy the constraints of the problem at any point of time (by time, here, is referred to the time elapsed till reaching any level of the search tree). 
+Backtracking is an algorithmic-technique for solving problems recursively by trying to build a solution incrementally, one piece at a time, removing those solutions that fail to satisfy the **constraints** of the problem at any point of time (by time, here, is referred to the time elapsed till reaching any level of the search tree). 
 
 According to the wiki definition, 
 
-> **Backtracking** can be defined as a general algorithmic technique that considers searching every possible combination in order to solve a computational problem. 
->  
+> **Backtracking** can be defined as a general algorithmic technique that considers **searching every possible combination** in order to solve a computational problem. 
 
 **Time complexity** calculation is based on the number of enumerations, that is, by looking at the mathematical formula. (unlike DFS, Backtracking does not walk the entire tree, but prunes as needed.) 
 
@@ -45,11 +44,38 @@ According to the wiki definition,
 4. 记得 return
 
 ```java
+/*
+return all the subset 
+eg: [1,2,3] : [] [1,2,3] [1,3] [1,2] [1] [2,3] [2] [3]
+
+range of the input :   0<=arr.length  < 10
+can the input be null? no
+-------
+
+backtracking 
+index   0 1 2
+        1 2 3
+      /  \ \. 
+     2.  3. 3
+    /
+    3
+helper(index, list)
+
+                     heler(0,[])  
+              /          \                \
+     helper(1,[1])     helper( 2, [2])      helper(3, [3])
+     /            \                   \
+ helper(2,[1,2])  helper(3, [1,3])       helper(3, [2, 3])
+/
+helper(3,[1,2,3])
+
+
+*/
+
 class Solution {
    //time : O(n * 2^n)  space : O(n)
     public List<List<Integer>> subsets(int[] nums) {
         List<List<Integer>> res = new ArrayList<>();
-        if(nums == null || nums.length == 0) return res;
         helper(nums, res, new ArrayList<>(), 0);
         return res;
     }
@@ -110,7 +136,52 @@ class Solution {
 }
 ```
 
+- 多加一个判断
 
+  #### [1032 · Letter Case Permutation](https://www.lintcode.com/problem/1032/solution?_from=collection&fromId=29)
+
+  **Description**:
+
+  Given a string S, we can transform every letter individually to be lowercase or uppercase to create another string. Return a list of all possible strings we could create.
+
+  **Example 1:**
+
+  ```
+  Input: S = "a1b2"
+  Output: ["a1b2", "a1B2", "A1b2", "A1B2"]
+  ```
+
+  ```java
+  public List<String> letterCasePermutation(String S) {
+          List<String> res = new ArrayList<>();
+          if (S.length() == 0) {
+              res.add("");
+              return res;
+          }
+          helper(S, 0, res);
+          return res;
+  }
+  
+  private void helper(String S, int startIndex, List<String> res) {
+          res.add(S);
+          for (int i = startIndex; i < S.length(); i++) {
+              if (Character.isDigit(S.charAt(i))) {
+                  continue;
+              }
+              if (S.charAt(i) - 'a' >= 0) {
+                  //lowercase
+                  //can be turned to uppercase
+                  helper(S.substring(0, i) + (char)(S.charAt(i) - 'a' + 'A') + S.substring(i + 1), i + 1, res);
+              } else {
+                  //uppercase
+                  //can be turned to lowercase
+                  helper(S.substring(0, i) + (char)(S.charAt(i) - 'A' + 'a') + S.substring(i + 1), i + 1, res);
+              }
+          }
+  }
+  ```
+
+  
 
 ### Pattern2: Conbiantion
 
@@ -288,7 +359,57 @@ class Solution {
 }
 ```
 
+- valid permutation (优化)
 
+  #### [526. Beautiful Arrangement](https://leetcode-cn.com/problems/beautiful-arrangement/)
+
+  ```java
+  class Solution {
+      List<Integer>[] match;
+      boolean[] vis;
+      int num;
+  
+      public int countArrangement(int n) {
+          vis = new boolean[n + 1];
+          match = new List[n + 1];
+          for (int i = 0; i <= n; i++) {
+              match[i] = new ArrayList<Integer>();
+          }
+          for (int i = 1; i <= n; i++) {
+              for (int j = 1; j <= n; j++) {
+                  if (i % j == 0 || j % i == 0) {
+                      match[i].add(j);
+                  }
+              }
+          }
+          backtrack(1, n);
+          return num;
+      }
+  
+      public void backtrack(int index, int n) {
+          if (index == n + 1) {
+              num++;
+              return;
+          }
+          for (int x : match[index]) {
+              if (!vis[x]) {
+                  vis[x] = true;
+                  backtrack(index + 1, n);
+                  vis[x] = false;
+              }
+          }
+      }
+  }
+  
+  ```
+
+  
+
+- ```java
+  
+  ```
+
+  
 
 - **字符匹配**
 
