@@ -136,6 +136,39 @@ class Solution {
 }
 ```
 
+- 如果是数数量：直接用中心扩展法
+
+  ```java
+  class Solution {
+      public int countSubstrings(String s) {
+          int count = 0;
+          //中心扩展法： 注意可以以一个为中心 也可以以两个为中心
+          for (int i = 0; i < s.length(); i++) {
+              //nums[i] 中心
+              count++;
+              int start = i - 1; 
+              int end = i + 1;
+              while(start >= 0 && end < s.length() && s.charAt(start) == s.charAt(end)) { 
+                  count++;
+                  start--;
+                  end++;
+              }
+              // nums[i]和 nums[i + 1] 中间为中心
+              start = i;
+              end = i + 1;
+              while(start >= 0 && end < s.length() && s.charAt(start) == s.charAt(end)) { 
+                  count++;
+                  start--;
+                  end++;
+              }
+          }
+          return count; 
+      }
+  }
+  ```
+
+  
+
 - 多加一个判断
 
   #### [1032 · Letter Case Permutation](https://www.lintcode.com/problem/1032/solution?_from=collection&fromId=29)

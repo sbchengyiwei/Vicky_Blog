@@ -1,4 +1,4 @@
-### BASIC
+BASIC
 
 > Two pointers make up a sliding window
 
@@ -466,69 +466,132 @@ cc and cc
 >
 > for 多用 hash 优化， 有序用 pointers 继续优化
 
-- LeetCode 167 Two Sum II - Input array is sorted
+#### LeetCode 167 Two Sum II - Input array is sorted
 
-  ```java
-  class Solution {
-      public int[] twoSum(int[] numbers, int target) {
-          //two pointers:one from left, one from right
-          if (numbers == null || numbers.length < 2) {
-              return new int[]{-1, -1};
-          }
-          int left = 0;
-          int right = numbers.length -1;
-          while(left < right) {
-              int sum = numbers[left] + numbers[right];
-              if (target == sum) {
-                  return new int[]{left + 1, right +1};
-              } else if (sum < target) {
-                  left++;
-              } else {
-                  right--;
-              }
-          }
-          return new int[]{-1, -1};
-      }
-      
+```java
+class Solution {
+    public int[] twoSum(int[] numbers, int target) {
+        //two pointers:one from left, one from right
+        if (numbers == null || numbers.length < 2) {
+            return new int[]{-1, -1};
+        }
+        int left = 0;
+        int right = numbers.length -1;
+        while(left < right) {
+            int sum = numbers[left] + numbers[right];
+            if (target == sum) {
+                return new int[]{left + 1, right +1};
+            } else if (sum < target) {
+                left++;
+            } else {
+                right--;
+            }
+        }
+        return new int[]{-1, -1};
+    }
+    
+}
+```
+
+
+
+#### LeetCode 15 3Sum
+
+> 1. Two sum `降维` :  `int sum = 0 - nums[i];  if (nums[low] + nums[high] == sum) `
+> 2. 注意：`去重` : ` if (i > 0 && nums[i] == nums[i - 1]) continue;`   `while (low < high && nums[low] == nums[low + 1]) low++; while (low < high && nums[high] == nums[high - 1]) high--;`
+> 3. `↑` while (low < high && nums[low] == nums[low + 1]) 记得判断`low < high`
+
+```java
+class Solution {
+    public List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> res = new ArrayList<>();
+        if (nums == null || nums.length < 3) return new ArrayList<>(res);
+        Arrays.sort(nums);
+        for (int i = 0; i < nums.length - 2; i++) {
+            if (i > 0 && nums[i] == nums[i - 1]) continue;
+            int low = i + 1;
+            int high = nums.length - 1;
+            while(low < high) {
+                if (nums[i] + nums[low] + nums[high] == 0) {
+                    res.add(Arrays.asList(nums[i], nums[low], nums[high]));
+                    while (low < high && nums[low] == nums[low + 1]) low++;
+                    while (low < high && nums[high] == nums[high - 1]) high--;
+                    low++;
+                    high--;
+                } else if (nums[i] + nums[low] + nums[high] < 0) {
+                    low++;         
+                } else {  
+                    high--; 
+                }
+            }
+        }
+        return res;
+    }
+}
+```
+
+if we can not change the original arr:
+
+```java
+class Solution {
+    public List<List<Integer>> threeSum(int[] nums) {
+        Set<List<Integer>> res = new HashSet<>(); // 如果不排序怎么避免重复的办法
+       // List<List<Integer>> res = new ArrayList<>();
+        if (nums.length < 3) return new ArrayList(res);;
+        for (int i  = 0; i < nums.length - 2; i++) {
+            if (i >= 1 && nums[i] == nums[i - 1]) continue;
+            int sum = 0 - nums[i];
+            HashSet<Integer> set = new HashSet<>();
+            for (int j = i + 1; j < nums.length; j++) {
+                
+                int value = nums[j];
+                List<Integer> triplet = Arrays.asList(nums[i], sum - value, value);
+                Collections.sort(triplet);
+                if (set.contains(sum - value)) res.add(triplet);
+                set.add(value);
+            }
+        }
+        return new ArrayList(res);
+    }
+}
+```
+
+
+
+#### Two minus:
+
+Given an array `arr` of distinct integers and a nonnegative integer `k`, write a function `findPairsWithGivenDifference` that returns an array of all pairs `[x,y]` in `arr`, such that `x - y = k`. If no such pairs exist, return an empty array.
+
+**Note:** the order of the pairs in the output array should maintain the order of the `y` element in the original array.
+
+**Examples:**
+
+```pramp
+input:  arr = [0, -1, -2, 2, 1], k = 1
+output: [[1, 0], [0, -1], [-1, -2], [2, 1]]
+```
+
+```java
+class Solution {
+
+  static int[][] findPairsWithGivenDifference(int[] arr, int k) {
+   
+    //Because we need output in y's order, the first method is we can store all the index into map, and output follow the index; the other way is to just store the y's value which is much easier, and we just traverse the arr again and see whether the element is a valid y (so it is also in y's order).   ...a little bit like count[] and output by original order.
+     // HashMap  : for each x calculate a possible y  
+    HashMap<Integer, Integer> map = new HashMap<>();
+    List<int[]> list = new ArrayList<>(); // store the result
+    for (int x : arr) {
+      map.put(x - k, x);
+    }
+    for (int y : arr) {
+      if (map.containsKey(y)) list.add(new int[]{map.get(y), y});
+    }
+    return list.toArray(new int[][]{});
   }
-  ```
+}
+```
 
-- LeetCode 15 3Sum
 
-  > 1. Two sum `降维` :  `int sum = 0 - nums[i];  if (nums[low] + nums[high] == sum) `
-  > 2. 注意：`去重` : ` if (i > 0 && nums[i] == nums[i - 1]) continue;`   `while (low < high && nums[low] == nums[low + 1]) low++; while (low < high && nums[high] == nums[high - 1]) high--;`
-  > 3. `↑` while (low < high && nums[low] == nums[low + 1]) 记得判断`low < high`
-
-  ```java
-  class Solution {
-      public List<List<Integer>> threeSum(int[] nums) {
-          List<List<Integer>> res = new ArrayList<>();
-          if (nums == null || nums.length < 3) return new ArrayList<>(res);
-          Arrays.sort(nums);
-          for (int i = 0; i < nums.length - 2; i++) {
-              if (i > 0 && nums[i] == nums[i - 1]) continue;
-              int low = i + 1;
-              int high = nums.length - 1;
-              while(low < high) {
-                  if (nums[i] + nums[low] + nums[high] == 0) {
-                      res.add(Arrays.asList(nums[i], nums[low], nums[high]));
-                      while (low < high && nums[low] == nums[low + 1]) low++;
-                      while (low < high && nums[high] == nums[high - 1]) high--;
-                      low++;
-                      high--;
-                  } else if (nums[i] + nums[low] + nums[high] < 0) {
-                      low++;         
-                  } else {  
-                      high--; 
-                  }
-              }
-          }
-          return res;
-      }
-  }
-  ```
-
-  
 
 #### [18. 4Sum](https://leetcode-cn.com/problems/4sum/)
 
@@ -726,4 +789,6 @@ class Solution {
     }
 }
 ```
+
+
 
