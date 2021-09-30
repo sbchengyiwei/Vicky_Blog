@@ -432,3 +432,14 @@
 
   
 
+follow up :  如果 a b 可能不存在的 那么在原函数加一个都空返回空 还需要一个函数 
+
+slu  = lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q)  
+
+if sul ==  p / q//说明 pq 直接隶属
+
+​		return lowestCommonAncestor(slu, q, q) == null ? Null : sol
+
+/ 	return lowestCommonAncestor(slu,p, p) == null ? Null : sole
+
+else return slu
