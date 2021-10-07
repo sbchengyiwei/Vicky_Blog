@@ -14,7 +14,7 @@ Exclusive
 
 ### Way1: Meeting Room
 
-#### [56. Merge Intervals](https://leetcode-cn.com/problems/merge-intervals/)
+#### [56. Merge Intervals](https://leetcode-cn.com/problems/merge-intervals/) update start and end
 
 ```java
 class Boundary {
@@ -51,7 +51,7 @@ public class Solution {
 
 
 
-#### [253. Meeting Rooms II](https://leetcode-cn.com/problems/meeting-rooms-ii/)
+#### [253. Meeting Rooms II](https://leetcode-cn.com/problems/meeting-rooms-ii/) use priorityqueue
 
 ```java
 //sweep line
@@ -101,7 +101,7 @@ public class Solution {
 
 ### Way2: Intervals merging and intersection
 
-#### [1288. Remove Covered Intervals](https://leetcode-cn.com/problems/remove-covered-intervals/)
+#### [1288. Remove Covered Intervals](https://leetcode-cn.com/problems/remove-covered-intervals/) 更新 end(记得 end也要排序)
 
 ```java
 class Solution {
