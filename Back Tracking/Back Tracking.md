@@ -12,9 +12,11 @@
     + [17. Letter Combinations of a Phone Number](https://leetcode-cn.com/problems/letter-combinations-of-a-phone-number/)
   * [Pattern3: Conbiantion Sum](#pattern3--conbiantion-sum)
     + [39. Combination Sum](https://leetcode-cn.com/problems/combination-sum/)
+    + [Combination Sum II (can't reuse same element)](https://leetcode.com/problems/combination-sum-ii/)
     + [216. Combination Sum III](https://leetcode-cn.com/problems/combination-sum-iii/)
   * [Pattern4: Permutation](#pattern4--permutation)
     + [46. Permutations](https://leetcode-cn.com/problems/permutations/)
+    + [Permutations II (contains duplicates)](https://leetcode.com/problems/permutations-ii/)
     + [22. Generate Parentheses](https://leetcode-cn.com/problems/generate-parentheses/)
     + [95. Unique Binary Search Trees II](https://leetcode-cn.com/problems/unique-binary-search-trees-ii/)（不推荐做）
 
@@ -320,7 +322,30 @@ class Solution {
 }
 ```
 
+#### [Combination Sum II (can't reuse same element)](https://leetcode.com/problems/combination-sum-ii/)
 
+```java
+public List<List<Integer>> combinationSum2(int[] nums, int target) {
+    List<List<Integer>> list = new ArrayList<>();
+    Arrays.sort(nums);
+    backtrack(list, new ArrayList<>(), nums, target, 0);
+    return list;
+    
+}
+
+private void backtrack(List<List<Integer>> list, List<Integer> tempList, int [] nums, int remain, int start){
+    if(remain < 0) return;
+    else if(remain == 0) list.add(new ArrayList<>(tempList));
+    else{
+        for(int i = start; i < nums.length; i++){
+            if(i > start && nums[i] == nums[i-1]) continue; // skip duplicates
+            tempList.add(nums[i]);
+            backtrack(list, tempList, nums, remain - nums[i], i + 1);
+            tempList.remove(tempList.size() - 1); 
+        }
+    }
+}
+```
 
 #### [216. Combination Sum III](https://leetcode-cn.com/problems/combination-sum-iii/)
 
@@ -387,6 +412,32 @@ class Solution {
                 helper(nums, res, list);
                 list.remove(list.size() - 1);
             }
+        }
+    }
+}
+```
+
+#### [Permutations II (contains duplicates)](https://leetcode.com/problems/permutations-ii/)
+
+```java
+public List<List<Integer>> permuteUnique(int[] nums) {
+    List<List<Integer>> list = new ArrayList<>();
+    Arrays.sort(nums);
+    backtrack(list, new ArrayList<>(), nums, new boolean[nums.length]);
+    return list;
+}
+
+private void backtrack(List<List<Integer>> list, List<Integer> tempList, int [] nums, boolean [] used){
+    if(tempList.size() == nums.length){
+        list.add(new ArrayList<>(tempList));
+    } else{
+        for(int i = 0; i < nums.length; i++){
+            if(used[i] || i > 0 && nums[i] == nums[i-1] && !used[i - 1]) continue;
+            used[i] = true; 
+            tempList.add(nums[i]);
+            backtrack(list, tempList, nums, used);
+            used[i] = false; 
+            tempList.remove(tempList.size() - 1);
         }
     }
 }
