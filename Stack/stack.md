@@ -14,6 +14,45 @@ PS:灵活一点 其实 stack 可以用很多种形式来实现 根据实际来�
 
 #### Pattern1: 平衡符号 
 
+#### [678.Valid Parenthesis String](https://leetcode.com/problems/valid-parenthesis-string/)
+
+```java
+//greedy
+class Solution {
+    public boolean checkValidString(String s) {
+       int lo = 0, hi = 0;
+       for (char c: s.toCharArray()) {
+           lo += c == '(' ? 1 : -1;
+           hi += c == ')' ? -1 : 1;
+           if (hi < 0) break;
+           lo = Math.max(lo, 0);
+       }
+       return lo == 0;
+    }
+}
+//stack
+class Solution {
+    public boolean checkValidString(String s) {
+        int opening = 0;
+        int star = 0;
+        for (char c: s.toCharArray()) {
+            if (c == '(') opening += 1;
+            else if (c == ')' && opening > 0) opening -= 1;
+            else if (c == ')' && star > 0) star--;
+            else if (c == ')') return false;
+            else {
+                star++;
+                if (opening > 0) {
+                    opening--;
+                    star++;
+                }
+            }
+        }
+        return opening == 0 ? true: false;
+    }
+}
+```
+
 #### [32. Longest Valid Parentheses](https://leetcode-cn.com/problems/longest-valid-parentheses/)
 
 ```java
