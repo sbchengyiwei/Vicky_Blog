@@ -61,6 +61,34 @@ for (int i = 0; i < n; i++) {
 
 ```
 
+### Template 3： 重新排序数组 可以找到两边比中间大的规律的
+
+[977. Squares of a Sorted Array](https://leetcode.com/problems/squares-of-a-sorted-array/)
+
+```java
+class Solution {
+    public int[] sortedSquares(int[] nums) {
+        int n = nums.length;
+        int[] result = new int[n];
+        int left = 0;
+        int right = n - 1;
+
+        for (int i = n - 1; i >= 0; i--) {
+            int square;
+            if (Math.abs(nums[left]) < Math.abs(nums[right])) {
+                square = nums[right];
+                right--;
+            } else {
+                square = nums[left];
+                left++;
+            }
+            result[i] = square * square;
+        }
+        return result;
+    }
+}
+```
+
 
 
 ### Pattern1: find the longest or mininum area
