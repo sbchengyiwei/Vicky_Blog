@@ -1,4 +1,47 @@
-[215. Kth Largest Element in an Array](https://leetcode.com/problems/kth-largest-element-in-an-array/)
+- [DP](#dp)
+  * Longest Palindromic Subsequence
+  * Maximum Profit in Job Scheduling(+bs)
+  * Paint House
+- [Dfs Bfs Pointers PQ](#dfs-bfs-pointers-pq)
+  *  Factor Combinations
+  * Pow(x, n)
+  *  Nested List Weight Sum
+  *  Nested List Weight Sum II 
+  *  Flatten Nested List **Iterator**
+  * Word Ladder
+  *  Shortest Word Distance
+  *  Shortest Word Distance III
+  *  Shortest Word Distance II
+  *  Maximum Subarray
+  *  Find K Pairs with Smallest Sums
+- [Design](#design)
+  * Design HashMap
+  *  Design a HashSet
+  * Insert Delete GetRandom O(1)
+  * Max Stack
+  *  LRU Cache
+  * All O`one Data Structure
+  * Random Pick with Weight
+- [Tree](#tree)
+  * Find Leaves of Binary Tree
+  * Binary Tree Upside Down
+  * Serialize and Deserialize Binary Tree
+  * Closest Binary Search Tree Value II
+  * Kth Largest Element in an Array
+  * Lowest Common Ancestor of a Binary Tree III 
+  * Second Minimum Node In a Binary Tree
+
+- [Map](#map)
+  * Isomorphic Strings
+  * Max Points on a Line
+- [Set](#set)
+  - Longest Consecutive Sequence
+
+
+
+### Quick Selection
+
+####  [215. Kth Largest Element in an Array](https://leetcode.com/problems/kth-largest-element-in-an-array/)
 
 ```java
 class Solution {
@@ -37,39 +80,9 @@ class Solution {
 
 
 
-Factor Combinations (5 times): https://leetcode.com/problems/factor-combinations/
+### DP
 
-```java
-class Solution {
-    // O(n!)
-    List<List<Integer>> res = new ArrayList<>();
-    List<Integer> list = new ArrayList<>();
-    public List<List<Integer>> getFactors(int n) {
-        
-        if (n <= 3) return res;
-        helper(n, 2, 1);
-        return res;
-    }
-    void helper(int n, int start, int prod) {
-        if(prod > n) return;
-        if (prod == n) {
-            res.add(new ArrayList(list));
-            return;
-        }
-        for (int i = start; i <= n / prod; i++) {  //  i <= n / prod 缩小范围否则会超时
-            if (n % i == 0 && i != n) { //since pro could be 1
-            list.add(i);
-            helper(n, i , prod * i);
-            list.remove(list.size()-1);
-            }
-        }
-    }
-}
-```
-
-
-
-Longest Palindromic Subsequence (7 times): https://leetcode.com/problems/longest-palindromic-subsequence/ 
+#### [Longest Palindromic Subsequence (7 times)](https://leetcode.com/problems/longest-palindromic-subsequence/)
 
 ```java
 class Solution {
@@ -89,41 +102,9 @@ class Solution {
 }
 ```
 
-Find K Pairs with Smallest Sums (7 times): https://leetcode.com/problems/find-k-pairs-with-smallest-sums/ 
 
-```java
-class Solution {
-  // time (2k*logk)
-    public List<List<Integer>> kSmallestPairs(int[] nums1, int[] nums2, int k) {
-        List<List<Integer>> res = new ArrayList<>();
-        PriorityQueue<int[]> pq = new PriorityQueue<>((a,b) -> (
-            nums1[a[0]] + nums2[a[1]] - nums1[b[0]] - nums2[b[1]]));
-        for (int i = 0; i < nums1.length; i++) { // it is more convient if we put k pairs or len1 pairs in the pq
-            pq.offer(new int[]{i, 0});
-            if (pq.size() == k) break;
-        }
-        while(res.size() < k && !pq.isEmpty()) {   // can less than k pairs
-            int[] cur = pq.poll();
-            res.add(Arrays.asList(nums1[cur[0]], nums2[cur[1]]));
-            if (cur[1] + 1 < nums2.length) {
-                pq.offer(new int[]{cur[0], cur[1] + 1});
-            }
-        }
-        return res;
-    }
-}
 
-// index1, index2
-// 0       0 (1)
-// 1,      0 (4)
-// 2,      0 (6)
-
-// 0,      1 (2)
-// 0,      2 (3)
-// 1,      1 (5)
-```
-
-Maximum Profit in Job Scheduling (6 times): https://leetcode.com/problems/maximum-profit-in-job-scheduling/
+#### [Maximum Profit in Job Scheduling (6 times)](https://leetcode.com/problems/maximum-profit-in-job-scheduling/)
 
 ```java
 class Job {
@@ -168,7 +149,9 @@ class Solution {
 
 ```
 
-Paint House (9 times): https://leetcode.com/problems/paint-house/
+
+
+#### [Paint House (9 times)](https://leetcode.com/problems/paint-house/)
 
 ```java
 class Solution {
@@ -188,161 +171,137 @@ class Solution {
 
 ```
 
- Max Points on a Line (9 times): https://leetcode.com/problems/max-points-on-a-line/
+
+
+#### [361. Bomb Enemy](https://leetcode.com/problems/bomb-enemy/)
 
 ```java
-class Solution {
-    public int maxPoints(int[][] points) {
-        int n = points.length;
-        int res = 1;
-        for (int i = 0; i < n; i++) {
-            Map<String, Integer> map = new HashMap<>();// 经过 ith point的不同斜率都有多少个  
-            for(int j = i + 1; j < n; j++) {     // 从 i + 1 开始就可以 最多的那条线以谁为起点都可以 都能找到 
-                int x1 = points[i][0], x2 = points[j][0], y1 = points[i][1], y2 = points[j][1];
-                int a = x1 - x2, b = y1 - y2;
-                int gcd = gcd(a, b);
-                String slope = Integer.toString(a/gcd) + "/" + Integer.toString(b/gcd);
-                map.put(slope, map.getOrDefault(slope, 0) + 1);
-                res = Math.max(res,  map.get(slope) + 1);
-            }
-        }
-        return res;
-    }
-    
-    int gcd(int a, int b) {
-        return b == 0 ? a : gcd(b, a % b);
-    }
-}
-```
+/* 
+when begin from the row/col or just after a wall  we can calculate this cell
+else we just reuse the result before it 
 
-[243. Shortest Word Distance](https://leetcode.com/problems/shortest-word-distance/)
+rowHits---->
+grid[i] =   iteration and calcultate (if  grid[i] is from a beginning or a wall)
+            grid[i - 1] (if grid[i] is empty'0)
+            0 (if grid is not empty'0)
 
-```java
+first we traverse the cols
+then we traverse the rows
+add all the calculation to the final result;
+*/
 class Solution {
-    public int shortestDistance(String[] wordsDict, String word1, String word2) {
-        int idx = -1;
-        int res = wordsDict.length;
-        for (int i = 0; i < wordsDict.length; i++) {
-            if (wordsDict[i].equals(word1) || wordsDict[i].equals(word2)) {
-                if(idx != -1 && !wordsDict[i].equals(wordsDict[idx] )) {
-                    res = Math.min(res, i - idx);
+    public int maxKilledEnemies(char[][] grid) {
+        if (grid.length == 0)
+            return 0;
+
+        int rows = grid.length;
+        int cols = grid[0].length;
+
+        int maxCount = 0, rowHits = 0;
+        int[] colHits = new int[cols];
+
+        for (int row = 0; row < rows; ++row) {
+            for (int col = 0; col < cols; ++col) {
+
+                // reset the hits on the row, if necessary.
+                if (col == 0 || grid[row][col - 1] == 'W') {
+                    rowHits = 0;
+                    for (int k = col; k < cols; ++k) {
+                        if (grid[row][k] == 'W')
+                            // stop the scan when we hit the wall.
+                            break;
+                        else if (grid[row][k] == 'E')
+                            rowHits += 1;
+                    }
                 }
-                idx = i;
+
+                // reset the hits on the column, if necessary.
+                if (row == 0 || grid[row - 1][col] == 'W') {
+                    colHits[col] = 0;
+                    for (int k = row; k < rows; ++k) {
+                        if (grid[k][col] == 'W')
+                            break;
+                        else if (grid[k][col] == 'E')
+                            colHits[col] += 1;
+                    }
+                }
+
+                // run the calculation for the empty cell.
+                if (grid[row][col] == '0') {
+                    maxCount = Math.max(maxCount, rowHits + colHits[col]);
+                }
             }
         }
-        return res;
+
+        return maxCount;
     }
 }
 ```
 
-[245. Shortest Word Distance III](https://leetcode.com/problems/shortest-word-distance-iii/)
 
-> only add a || word1.equals(word2)
+
+### Dfs Bfs Pointers PQ
+
+#### [Factor Combinations (5 times)](https://leetcode.com/problems/factor-combinations/)
 
 ```java
 class Solution {
-    public int shortestWordDistance(String[] wordsDict, String word1, String word2) {
-        int idx = -1;
-        int res = wordsDict.length;
-        for (int i = 0; i < wordsDict.length; i++) {
-            if (wordsDict[i].equals(word1) || wordsDict[i].equals(word2)) {
-                if(idx != -1 && (!wordsDict[i].equals(wordsDict[idx] )|| word1.equals(word2))) {
-                    res = Math.min(res, i - idx);
-                }
-                idx = i;
+    // O(n!)
+    List<List<Integer>> res = new ArrayList<>();
+    List<Integer> list = new ArrayList<>();
+    public List<List<Integer>> getFactors(int n) {
+        
+        if (n <= 3) return res;
+        helper(n, 2, 1);
+        return res;
+    }
+    void helper(int n, int start, int prod) {
+        if(prod > n) return;
+        if (prod == n) {
+            res.add(new ArrayList(list));
+            return;
+        }
+        for (int i = start; i <= n / prod; i++) {  //  i <= n / prod 缩小范围否则会超时
+            if (n % i == 0 && i != n) { //since pro could be 1
+            list.add(i);
+            helper(n, i , prod * i);
+            list.remove(list.size()-1);
             }
         }
-        return res;
     }
 }
 ```
 
+#### [50. Pow(x, n)](https://leetcode.com/problems/powx-n/)
 
-
-[244. Shortest Word Distance II](https://leetcode.com/problems/shortest-word-distance-ii/submissions/)
-
-> notice there may repeated words, so we need to resturn the minmum one
+> 注意就是 n 小于 0 把x 变 1/x 把 n 变-n 其他正常算
 >
-> and use 2 pointers is great for this problem  
-
-```java
-class WordDistance {
-    HashMap<String, List<Integer>> word2index;
-    public WordDistance(String[] wordsDict) {
-        word2index = new HashMap<>();
-        int index = 0;
-        for (String word : wordsDict) {
-            word2index.computeIfAbsent(word, k -> new ArrayList<>()).add(index); // already sorted by this way
-            index++;
-        }
-    }
-    
-    public int shortest(String word1, String word2) {
-        List<Integer> index1 = word2index.get(word1);
-        List<Integer> index2 = word2index.get(word2);
-        
-        int p = 0, q = 0;
-        int res = Integer.MAX_VALUE;
-        while(p < index1.size() && q < index2.size()) {
-            res = Math.min(res, Math.abs(index1.get(p) - index2.get(q)));
-            if (index1.get(p) > index2.get(q))  q++;
-            else p++;
-        }
-        return res;
-    }
-}
-
-/**
- * Your WordDistance object will be instantiated and called as such:
- * WordDistance obj = new WordDistance(wordsDict);
- * int param_1 = obj.shortest(word1,word2);
- */
-```
-
-[53. Maximum Subarray](https://leetcode.com/problems/maximum-subarray/)
+> 注意  n 变-n 可能会越界 要用 long N 
+>
+> 0 的 0次方这里规定等于 1
 
 ```java
 class Solution {
-    public int maxSubArray(int[] nums) {
-        if(nums.length == 0) return -1;
-        int sum = 0;
-        int min = 0;//nothing put in 
-        int res = Integer.MIN_VALUE;//res could be negative;
-        for (int n : nums) {
-            sum += n;
-            res = Math.max(res, sum - min);
-            min = Math.min(min, sum);
+    public double myPow(double x, int n) {
+        long N = n;
+        if (N < 0) {
+            x = 1 / x;
+            N = -N;
         }
-        return res;
+        return Power(x, N);
+    }
+    double Power(double x, long n) {
+        if (n == 0) return 1;
+        double half = Power(x, n / 2); 
+        if (n % 2 == 1) return  half * half * x;
+        else return half* half;
     }
 }
 ```
 
-Way2: Dynamic Programming, Kadane's Algorithm
 
-> We need a general way to figure out when a part of the array is **worth** keeping. Whenever the sum of the array is negative, we know the entire array is not worth keeping, so we'll reset it back to an empty array.
 
-```java
-class Solution {
-    public int maxSubArray(int[] nums) {
-        // Initialize our variables using the first element.
-        int currentSubarray = nums[0];
-        int maxSubarray = nums[0];
-        
-        // Start with the 2nd element since we already used the first one.
-        for (int i = 1; i < nums.length; i++) {
-            int num = nums[i];
-            // If current_subarray is negative, throw it away. Otherwise, keep adding to it.
-            currentSubarray = Math.max(num, currentSubarray + num);
-            maxSubarray = Math.max(maxSubarray, currentSubarray);
-        }
-        
-        return maxSubarray;
-    }
-}
-```
-
-[339. Nested List Weight Sum](https://leetcode.com/problems/nested-list-weight-sum/)
+#### [339. Nested List Weight Sum](https://leetcode.com/problems/nested-list-weight-sum/)
 
 ```java
 //DFS
@@ -396,11 +355,341 @@ class Solution {
 }
 ```
 
+#### [364. Nested List Weight Sum II](https://leetcode.com/problems/nested-list-weight-sum-ii/)
+
+The idea is to deduct number depth - level times.
+For example, 1x + 2y + 3z = (3 + 1) * (x + y + z) - (3x + 2y + z);
+So we can convert this problem to Nested List Weight Sum I and just record max depth and flat sum at the same time.
+
+```java
+class Solution {
+		int depthSum = 0;
+  	int flatSum = 0;
+  	int max = 1;
+    public int depthSumInverse(List<NestedInteger> nestedList) {
+        dfs(nestedList, 1);
+        return flatSum * (max + 1) - depthSum;
+    }
+
+    private void dfs(List<NestedInteger> nestedList, int depth) {
+        for (NestedInteger nest : nestedList) {
+            if (nest.isInteger()) {
+                max= Math.max(max, depth);
+                depthSum+= nest.getInteger() * depth;
+                flatSum += nest.getInteger();
+            }
+            else {
+                 depthSum(nest.getList(), depth + 1);
+            }
+        } 
+    }
+}
+```
+
+#### [341. Flatten Nested List Iterator](https://leetcode.com/problems/flatten-nested-list-iterator/)
+
+```java
+stack = a new Stack
+push all items in nestedList onto stack, in reverse order
+
+define function getNextInteger():
+    if hasNext:
+            RETURN nestedInteger.getInteger()
+    else throw new NoSuchElementException();
+
+define funtion hasNext():
+	 makeStackTopAnInteger();
+	 return !stack.isEmpty();
+
+define function makeStackTopAnInteger():
+    while stack is not empty AND the nestedInteger at top of stack is a list:
+        nestedInteger = pop top off stack
+        list = nestedInteger.getList()
+        push all items in list onto stack, in reverse order
+```
+
+```java
+import java.util.NoSuchElementException;
+
+public class NestedIterator implements Iterator<Integer> {
+
+    // In Java, the Stack class is considered deprecated. Best practice is to use
+    // a Deque instead. We'll use addFirst() for push, and removeFirst() for pop.
+    private Deque<NestedInteger> stack;
+    
+    public NestedIterator(List<NestedInteger> nestedList) {
+        // The constructor puts them on in the order we require. No need to reverse.
+        stack = new ArrayDeque(nestedList);
+    }
+        
+    
+    @Override
+    public Integer next() {
+        // As per java specs, throw an exception if there's no elements left.
+        if (!hasNext()) throw new NoSuchElementException();
+        // hasNext ensures the stack top is now an integer. Pop and return
+        // this integer.
+        return stack.removeFirst().getInteger();
+    }
+
+    
+    @Override
+    public boolean hasNext() {
+        // Check if there are integers left by getting one onto the top of stack.
+        makeStackTopAnInteger();
+        // If there are any integers remaining, one will be on the top of the stack,
+        // and therefore the stack can't possibly be empty.
+        return !stack.isEmpty();
+    }
+
+
+    private void makeStackTopAnInteger() {
+        // While there are items remaining on the stack and the front of 
+        // stack is a list (i.e. not integer), keep unpacking.
+        while (!stack.isEmpty() && !stack.peekFirst().isInteger()) {
+            // Put the NestedIntegers onto the stack in reverse order.
+            List<NestedInteger> nestedList = stack.removeFirst().getList();
+            for (int i = nestedList.size() - 1; i >= 0; i--) {
+                stack.addFirst(nestedList.get(i));
+            }
+        }
+    }
+}
+```
+
+
+
+#### [127. Word Ladder](https://leetcode-cn.com/problems/word-ladder/)
+
+```java
+class Solution {
+     public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+        //1.build the graph
+        int n = beginWord.length();
+        Set<String> set = new HashSet<>(wordList);
+        Map<String, LinkedList<String>> map = new HashMap<>();
+
+        //1.1begin
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < 26; j++) {
+                String cur = beginWord.substring(0, i) + (char) (j + 'a') + beginWord.substring(i + 1);
+                if (set.contains(cur)) {
+                    map.computeIfAbsent(beginWord, k -> new LinkedList<>()).add(cur);
+                    map.computeIfAbsent(cur, k -> new LinkedList<>()).add(beginWord);
+                }
+            }
+        }
+        
+        //1.2 others
+        for (String s : wordList) {
+        
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < 26; j++) {
+                    String cur = s.substring(0, i) + (char) (j + 'a') + s.substring(i + 1);
+                    if (set.contains(cur)) {
+                        map.computeIfAbsent(s, k -> new LinkedList<>()).add(cur);
+                        map.computeIfAbsent(cur, k -> new LinkedList<>()).add(s);
+                    }
+                }
+            }
+
+        }
+        
+        //2.bfs
+        Queue<String> queue = new ArrayDeque<>();
+        Map<String, Integer> dist = new HashMap<>();
+        queue.offer(beginWord);
+        dist.put(beginWord, 1);
+        while (!queue.isEmpty()) {
+            String cur = queue.poll();
+            if (!map.containsKey(cur)) continue;  // map.get之前要先确定有没有！！！！
+            for (String s : map.get(cur)) {
+                if (dist.containsKey(s)) continue;
+                queue.offer(s);
+                dist.put(s, dist.get(cur) + 1);
+                if (s.equals(endWord)) return dist.get(endWord);
+            }
+        }
+        return 0;
+
+    }
+}
+```
+
+
+
+#### [243. Shortest Word Distance](https://leetcode.com/problems/shortest-word-distance/)
+
+```java
+class Solution {
+    public int shortestDistance(String[] wordsDict, String word1, String word2) {
+        int idx = -1;
+        int res = wordsDict.length;
+        for (int i = 0; i < wordsDict.length; i++) {
+            if (wordsDict[i].equals(word1) || wordsDict[i].equals(word2)) {
+                if(idx != -1 && !wordsDict[i].equals(wordsDict[idx] )) {
+                    res = Math.min(res, i - idx);
+                }
+                idx = i;
+            }
+        }
+        return res;
+    }
+}
+```
+
+
+
+#### [245. Shortest Word Distance III](https://leetcode.com/problems/shortest-word-distance-iii/)
+
+> only add a || word1.equals(word2)
+
+```java
+class Solution {
+    public int shortestWordDistance(String[] wordsDict, String word1, String word2) {
+        int idx = -1;
+        int res = wordsDict.length;
+        for (int i = 0; i < wordsDict.length; i++) {
+            if (wordsDict[i].equals(word1) || wordsDict[i].equals(word2)) {
+                if(idx != -1 && (!wordsDict[i].equals(wordsDict[idx] )|| word1.equals(word2))) {
+                    res = Math.min(res, i - idx);
+                }
+                idx = i;
+            }
+        }
+        return res;
+    }
+}
+```
+
+
+
+#### [244. Shortest Word Distance II](https://leetcode.com/problems/shortest-word-distance-ii/submissions/)
+
+> notice there may repeated words, so we need to resturn the minmum one
+>
+> and use 2 pointers is great for this problem  
+
+```java
+class WordDistance {
+    HashMap<String, List<Integer>> word2index;
+    public WordDistance(String[] wordsDict) {
+        word2index = new HashMap<>();
+        int index = 0;
+        for (String word : wordsDict) {
+            word2index.computeIfAbsent(word, k -> new ArrayList<>()).add(index); // already sorted by this way
+            index++;
+        }
+    }
+    
+    public int shortest(String word1, String word2) {
+        List<Integer> index1 = word2index.get(word1);
+        List<Integer> index2 = word2index.get(word2);
+        
+        int p = 0, q = 0;
+        int res = Integer.MAX_VALUE;
+        while(p < index1.size() && q < index2.size()) {
+            res = Math.min(res, Math.abs(index1.get(p) - index2.get(q)));
+            if (index1.get(p) > index2.get(q))  q++;
+            else p++;
+        }
+        return res;
+    }
+}
+
+/**
+ * Your WordDistance object will be instantiated and called as such:
+ * WordDistance obj = new WordDistance(wordsDict);
+ * int param_1 = obj.shortest(word1,word2);
+ */
+```
+
+
+
+#### [53. Maximum Subarray](https://leetcode.com/problems/maximum-subarray/)
+
+```java
+class Solution {
+    public int maxSubArray(int[] nums) {
+        if(nums.length == 0) return -1;
+        int sum = 0;
+        int min = 0;//nothing put in 
+        int res = Integer.MIN_VALUE;//res could be negative;
+        for (int n : nums) {
+            sum += n;
+            res = Math.max(res, sum - min);
+            min = Math.min(min, sum);
+        }
+        return res;
+    }
+}
+```
+
+Way2: Dynamic Programming, Kadane's Algorithm
+
+> We need a general way to figure out when a part of the array is **worth** keeping. Whenever the sum of the array is negative, we know the entire array is not worth keeping, so we'll reset it back to an empty array.
+
+```java
+class Solution {
+    public int maxSubArray(int[] nums) {
+        // Initialize our variables using the first element.
+        int currentSubarray = nums[0];
+        int maxSubarray = nums[0];
+        
+        // Start with the 2nd element since we already used the first one.
+        for (int i = 1; i < nums.length; i++) {
+            int num = nums[i];
+            // If current_subarray is negative, throw it away. Otherwise, keep adding to it.
+            currentSubarray = Math.max(num, currentSubarray + num);
+            maxSubarray = Math.max(maxSubarray, currentSubarray);
+        }
+        
+        return maxSubarray;
+    }
+}
+```
+
+
+
+#### [Find K Pairs with Smallest Sums (7 times)](https://leetcode.com/problems/find-k-pairs-with-smallest-sums/)
+
+```java
+class Solution {
+  // time (2k*logk)
+    public List<List<Integer>> kSmallestPairs(int[] nums1, int[] nums2, int k) {
+        List<List<Integer>> res = new ArrayList<>();
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a,b) -> (
+            nums1[a[0]] + nums2[a[1]] - nums1[b[0]] - nums2[b[1]]));
+        for (int i = 0; i < nums1.length; i++) { // it is more convient if we put k pairs or len1 pairs in the pq
+            pq.offer(new int[]{i, 0});
+            if (pq.size() == k) break;
+        }
+        while(res.size() < k && !pq.isEmpty()) {   // can less than k pairs
+            int[] cur = pq.poll();
+            res.add(Arrays.asList(nums1[cur[0]], nums2[cur[1]]));
+            if (cur[1] + 1 < nums2.length) {
+                pq.offer(new int[]{cur[0], cur[1] + 1});
+            }
+        }
+        return res;
+    }
+}
+
+// index1, index2
+// 0       0 (1)
+// 1,      0 (4)
+// 2,      0 (6)
+
+// 0,      1 (2)
+// 0,      2 (3)
+// 1,      1 (5)
+```
+
 
 
 ### Design
 
-[706. Design HashMap](https://leetcode.com/problems/design-hashmap/)
+#### [706. Design HashMap](https://leetcode.com/problems/design-hashmap/)
 
 > There are two main issues that we should tackle, in order to design an *efficient* hashmap data structure: *1). hash function design* and *2). collision handling*.
 >
@@ -504,7 +793,9 @@ class MyHashMap {
  */
 ```
 
-[705. Design a HashSet](https://leetcode.com/problems/design-hashset/)
+
+
+#### [705. Design a HashSet](https://leetcode.com/problems/design-hashset/)
 
 ```java
 class MyHashSet {
@@ -567,7 +858,7 @@ class MyHashSet {
 
 
 
-[380. Insert Delete GetRandom O(1)](https://leetcode.com/problems/insert-delete-getrandom-o1/)
+#### [380. Insert Delete GetRandom O(1)](https://leetcode.com/problems/insert-delete-getrandom-o1/)
 
 ```java
 class RandomizedSet {
@@ -610,7 +901,9 @@ class RandomizedSet {
 }
 ```
 
-[Max Stack](https://leetcode.com/problems/max-stack/)
+
+
+#### [Max Stack](https://leetcode.com/problems/max-stack/)
 
 ```java
 class MaxStack {
@@ -653,7 +946,9 @@ class MaxStack {
 }
 ```
 
-[146. LRU Cache](https://leetcode.com/problems/lru-cache/)
+
+
+#### [146. LRU Cache](https://leetcode.com/problems/lru-cache/)
 
 ```java
 public class LRUCache {
@@ -761,7 +1056,9 @@ public class LRUCache {
 }
 ```
 
-[432. All O`one Data Structure](https://leetcode.com/problems/all-oone-data-structure/)
+
+
+#### [432. All O`one Data Structure](https://leetcode.com/problems/all-oone-data-structure/)
 
 > 把 map连接下的事情都干完了再改变/删除这个 map的连接
 
@@ -888,11 +1185,49 @@ DLinkedList<Node> -> Node (int val, HashSet<String> set)
 
 ```
 
+#### [528. Random Pick with Weight](https://leetcode.com/problems/random-pick-with-weight/)
+
+> Presum + Binary Search
+
+```java
+class Solution {
+    private int[] prefixSums;
+    private int totalSum;
+
+    public Solution(int[] w) {
+        this.prefixSums = new int[w.length];
+
+        int prefixSum = 0;
+        for (int i = 0; i < w.length; ++i) {
+            prefixSum += w[i];
+            this.prefixSums[i] = prefixSum;
+        }
+        this.totalSum = prefixSum;
+    }
+
+    public int pickIndex() {
+        double target = this.totalSum * Math.random();
+
+        // run a binary search to find the target zone
+        int low = 0, high = this.prefixSums.length;
+        while (low < high) {
+            // better to avoid the overflow
+            int mid = low + (high - low) / 2;
+            if (target > this.prefixSums[mid])
+                low = mid + 1;
+            else
+                high = mid;
+        }
+        return low;
+    }
+}
+```
+
 
 
 ### Tree
 
-[366. Find Leaves of Binary Tree](https://leetcode.com/problems/find-leaves-of-binary-tree/)
+#### [366. Find Leaves of Binary Tree](https://leetcode.com/problems/find-leaves-of-binary-tree/)
 
 ```java
     public List<List<Integer>> findLeaves(TreeNode root) {
@@ -915,7 +1250,9 @@ DLinkedList<Node> -> Node (int val, HashSet<String> set)
 }
 ```
 
-[156. Binary Tree Upside Down](https://leetcode.com/problems/binary-tree-upside-down/)
+
+
+#### [156. Binary Tree Upside Down](https://leetcode.com/problems/binary-tree-upside-down/)
 
 ```java
 class Solution {
@@ -957,7 +1294,9 @@ class Solution {
 }
 ```
 
-[297. Serialize and Deserialize Binary Tree](https://leetcode.com/problems/serialize-and-deserialize-binary-tree/)
+
+
+#### [297. Serialize and Deserialize Binary Tree](https://leetcode.com/problems/serialize-and-deserialize-binary-tree/)
 
 ```java
 public class Codec {
@@ -1011,7 +1350,7 @@ public class Codec {
 
 
 
-Closest Binary Search Tree Value II (6 times): https://leetcode.com/problems/closest-binary-search-tree-value-ii/
+#### [Closest Binary Search Tree Value II (6 times)](https://leetcode.com/problems/closest-binary-search-tree-value-ii/)
 
 ```java
 // 1. not serialize to an array: use pq  ->  T:nlogk Space:k
@@ -1036,8 +1375,8 @@ class Solution {
         inorder(r.right, k);
     }  
 }
-2.serialize : quick selection   ->  Time: avg: O(n) worst: O(n^2) Space:n
 
+//2.serialize : quick selection   ->  Time: avg: O(n) worst: O(n^2) Space:n
 class Solution {
     List<Integer> nums;
     public List<Integer> closestKValues(TreeNode root, double target, int k) {
@@ -1125,7 +1464,9 @@ class Solution {
 }
 ```
 
-Lowest Common Ancestor of a Binary Tree III (5 times): https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree-iii/
+
+
+#### [Lowest Common Ancestor of a Binary Tree III (5 times)](https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree-iii/)
 
 ```java
 //Same to the 'Find the overlap of two LinkedList'
@@ -1164,6 +1505,127 @@ class Solution {
         if (root == null) return false;
         if (root == target) return true;
         return hasNode(root.left, target) || hasNode(root.right, target);
+    }
+}
+```
+
+
+
+#### [671. Second Minimum Node In a Binary Tree](https://leetcode.com/problems/second-minimum-node-in-a-binary-tree/)
+
+```java
+class Solution {
+    Integer res = null;
+    public int findSecondMinimumValue(TreeNode root) {
+        dfs(root); 
+        return res == null ? -1 : res;
+        
+    }
+    // 找到一个大的就可能是结果 就和 res 比就完事了
+    void dfs(TreeNode root) {
+        if (root == null || root.left == null) return;
+        if (root.left.val > root.val) {
+            if (res == null) res = root.left.val;
+            else res = Math.min(res, root.left.val);
+        }
+        if (root.right.val > root.val) {
+            if (res == null) res = root.right.val;
+            else res = Math.min(res, root.right.val);
+        }
+        dfs(root.left);
+        dfs(root.right);    
+    } 
+}
+```
+
+
+
+### Map
+
+#### [205. Isomorphic Strings](https://leetcode.com/problems/isomorphic-strings/)
+
+```java
+class Solution {
+    public boolean isIsomorphic(String s, String t) {
+        Map<Character, Character> map1 = new HashMap<>();
+        Map<Character, Character> map2 = new HashMap<>(); // cause two characters can not map same character, wo we also need a map to store the which char has already mapped the t.charAt(i)
+        int n = s.length(), m = t.length();
+        if (n != m) return false;
+        for (int i = 0 ; i <  n;i++) {
+            if (map1.containsKey(s.charAt(i))) {
+                if (t.charAt(i) != map1.get(s.charAt(i))) return false;
+            } 
+            if (map2.containsKey(t.charAt(i))){
+                if (s.charAt(i) != map2.get(t.charAt(i))) return false; 
+            }
+            map1.put(s.charAt(i), t.charAt(i));
+            map2.put(t.charAt(i), s.charAt(i));
+        }
+        return true;
+    }
+}
+```
+
+
+
+#### [Max Points on a Line (9 times)](https://leetcode.com/problems/max-points-on-a-line/)
+
+```java
+class Solution {
+    public int maxPoints(int[][] points) {
+        int n = points.length;
+        int res = 1;
+        for (int i = 0; i < n; i++) {
+            Map<String, Integer> map = new HashMap<>();// 经过 ith point的不同斜率都有多少个  
+            for(int j = i + 1; j < n; j++) {     // 从 i + 1 开始就可以 最多的那条线以谁为起点都可以 都能找到 
+                int x1 = points[i][0], x2 = points[j][0], y1 = points[i][1], y2 = points[j][1];
+                int a = x1 - x2, b = y1 - y2;
+                int gcd = gcd(a, b);
+                String slope = Integer.toString(a/gcd) + "/" + Integer.toString(b/gcd);
+                map.put(slope, map.getOrDefault(slope, 0) + 1);
+                res = Math.max(res,  map.get(slope) + 1);
+            }
+        }
+        return res;
+    }
+    
+    int gcd(int a, int b) {
+        return b == 0 ? a : gcd(b, a % b);
+    }
+}
+```
+
+
+
+### Set
+
+#### [128. Longest Consecutive Sequence](https://leetcode.com/problems/longest-consecutive-sequence/)
+
+> 不仅用 hashset存 还要从最小的开始构造
+
+```java
+class Solution {
+    public int longestConsecutive(int[] nums) {
+        Set<Integer> set = new HashSet<Integer>();
+        for (int num : nums) {
+            set.add(num);
+        }
+      
+        int max = 0;
+        for (int num: set) {
+            if (!set.contains(num - 1)) {
+                int cur = num;
+                int longestStreak = 1;
+            
+                while(set.contains(cur + 1)) {
+                    cur += 1;
+                    longestStreak += 1;
+                }
+                max = Math.max(max, longestStreak);
+                
+            }
+        }
+        return max;
     }
 }
 ```
