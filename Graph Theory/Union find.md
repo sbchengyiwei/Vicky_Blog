@@ -64,7 +64,7 @@ path compression               N            <5     <5
   ```java
   class WeightedQuickUnionPathCompressionUF {
       private int[] id;
-    	private int[] sz;
+    	private int[] sz; //合并成大岛屿那道题会用到 sz
       private int count;
       
       public UnionFind(int n) {
