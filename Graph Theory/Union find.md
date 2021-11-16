@@ -169,7 +169,7 @@ path compression               N            <5     <5
 
 ## 3 Use cases
 
-### 3-1 Check cycle
+### 3-1 Check cycle(iterate through edges!)
 
 > Check whether a given (undirected) graph contains a cycle or not: Union nodes by edges, if we find two nodes already connected without the given edge, then there is a cycle in this graph.
 
