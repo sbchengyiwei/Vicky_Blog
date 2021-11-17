@@ -43,17 +43,14 @@ public int[] nextGreaterElement(int[] nums) {
     int[] res = new int[nums.length];
     for (int i = 0; i < nums.length; i++){
       // Maintain a monotone stack by only adding a element when it is smaller than the top elements of stack.
-        if(stack.isEmpty() || nums[stack.peek()] > nums[i]){
-            stack.push(i);
-        }
-        else{
-          	//If find a greater element, calculate and pop the smaller numbers in the stack one by one:)
-            while (!stack.isEmpty() && nums[stack.peek()] < nums[i]){
-                res[stack.peek()] = i;
-                stack.pop();
-            }
-            stack.push(i); // still monotonic
-        }
+    
+      //If find a greater element, calculate and pop the smaller numbers in the stack one by one:)
+      while (!stack.isEmpty() && nums[stack.peek()] < nums[i]){
+        res[stack.peek()] = i;
+        stack.pop();
+      }
+      stack.push(i); // still monotonic
+        
     }
     return res;
 }

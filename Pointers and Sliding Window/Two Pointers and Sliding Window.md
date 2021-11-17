@@ -158,7 +158,7 @@ public class Solution {
             if (i - j + 1 > maxCount + k) { // 只要 maxCount 没有更新那么 i++ j就要++
                 count[s.charAt(j++) - 'A']--; 
             }
-            maxLen = Math.max(maxLen, i - j + 1); // not update  untill the maxCount is updated
+            maxLen = Math.max(maxLen, i - j + 1); // not update  untill the maxCount is updated 因为 i 往前走一个 j 也往前走一个
         }
         return maxLen;
     }
